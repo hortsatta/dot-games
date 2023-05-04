@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { mainFont } from '#/lib/config/fonts.config';
+import CoreHtml from '#/components/core/core-html.component';
 
 import './globals.css';
 
@@ -9,11 +10,11 @@ type Props = {
 };
 
 const RootLayout = ({ children }: Props) => (
-  <html lang='en' className={`${mainFont.variable}`}>
-    <body className='min-h-screen'>
+  <CoreHtml lang='en' className={mainFont.variable}>
+    <body className='min-h-screen bg-white dark:bg-black'>
       <main>{children}</main>
     </body>
-  </html>
+  </CoreHtml>
 );
 
 export default RootLayout;

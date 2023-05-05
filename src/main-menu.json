@@ -1,0 +1,7 @@
+[
+  { "label": "Home", "to": "/", "icon": "game-controller" },
+  { "label": "User Account", "to": "/account", "icon": "skull" },
+  { "label": "Wish List", "to": "/wish-list", "icon": "brain" },
+  { "label": "Cart", "to": "/cart", "icon": "flying-saucer" },
+  { "label": "Search", "to": "/search", "icon": "magnifying-glass" }
+]

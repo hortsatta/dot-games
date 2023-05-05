@@ -1,9 +1,10 @@
-import type { ReactNode } from 'react';
-
-import { mainFont } from '#/lib/config/fonts.config';
+import { mainFont } from '#/config/fonts.config';
 import CoreHtml from '#/components/core/core-html.component';
-
+import CoreHeader from '#/components/core/core-header.component';
+import CoreSupabaseProvider from '#/components/core/core-supabase-provider';
 import './globals.css';
+
+import type { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
@@ -11,8 +12,11 @@ type Props = {
 
 const RootLayout = ({ children }: Props) => (
   <CoreHtml lang='en' className={mainFont.variable}>
-    <body className='min-h-screen bg-white dark:bg-black'>
-      <main>{children}</main>
+    <body className='min-h-screen bg-white dark:bg-backdrop'>
+      <CoreSupabaseProvider>
+        <CoreHeader />
+        <main>{children}</main>
+      </CoreSupabaseProvider>
     </body>
   </CoreHtml>
 );

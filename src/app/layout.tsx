@@ -1,6 +1,7 @@
 import { mainFont } from '#/config/fonts.config';
 import CoreHtml from '#/components/core/core-html.component';
 import CoreHeader from '#/components/core/core-header.component';
+import CoreNav from '#/components/core/core-nav.component';
 import CoreSupabaseProvider from '#/components/core/core-supabase-provider';
 import './globals.css';
 
@@ -12,9 +13,11 @@ type Props = {
 
 const RootLayout = ({ children }: Props) => (
   <CoreHtml lang='en' className={mainFont.variable}>
-    <body className='min-h-screen bg-white dark:bg-backdrop'>
+    <body className='min-h-screen bg-white dark:bg-backdrop dark:text-current-dark'>
       <CoreSupabaseProvider>
-        <CoreHeader />
+        <CoreHeader>
+          <CoreNav />
+        </CoreHeader>
         <main>{children}</main>
       </CoreSupabaseProvider>
     </body>

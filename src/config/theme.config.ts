@@ -6,8 +6,14 @@ export const theme = {
       sans: ['var(--font-main)', ...defaultTheme.fontFamily.sans],
     },
     colors: {
-      backdrop: '#181818',
+      current: {
+        dark: 'rgba(255,255,255,0.8)',
+        DEFAULT: 'rgba(0,0,0,0.8)',
+      },
       primary: '#ff0000',
+      backdrop: '#181818',
+      surface: 'rgba(255,0,0,0.12)',
+      border: 'rgba(255,0,0,0.2)',
     },
     maxWidth: {
       main: '1440px',

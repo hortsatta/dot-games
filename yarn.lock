@@ -1455,8 +1455,10 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     react-hook-form: ^7.43.9
+    react-hot-toast: ^2.4.1
     tailwindcss: 3.3.2
     typescript: 5.0.4
+    usehooks-ts: ^2.9.1
     zod: ^3.21.4
     zustand: ^4.3.8
   languageName: unknown
@@ -2337,6 +2339,15 @@ __metadata:
     merge2: ^1.4.1
     slash: ^4.0.0
   checksum: e8bc13879972082d590cd1b0e27080d90d2e12fff7eeb2cee9329c29115ace14cc5b9f899e3d6beb136ba826307a727016658919a6f383e1511d698acee81741
+  languageName: node
+  linkType: hard
+
+"goober@npm:^2.1.10":
+  version: 2.1.13
+  resolution: "goober@npm:2.1.13"
+  peerDependencies:
+    csstype: ^3.0.10
+  checksum: 0c00b90d26d1a2fad432e311fd4f47bc9fef1eee2a733158d9e2c72a89cf76d414090d063a8d20fe378f2b2b8087df0a83b0f00a3244d1466b97a0d3b14344a7
   languageName: node
   linkType: hard
 
@@ -3856,6 +3867,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hot-toast@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "react-hot-toast@npm:2.4.1"
+  dependencies:
+    goober: ^2.1.10
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 3e337816db574782454bf09c63a8aca546bf9c5be3f83d0494d24bdcfd97ca2db64d4c151c4ab0184d2342d7a7226403e6812e70caf03c8b55a07787bb4ad0f2
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -4663,6 +4686,16 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: 5c639e0f8da3521d605f59ce5be9e094ca772bd44a4ce7322b055a6f58eeed8dda3c94cabd90c7a41fb6fa852210092008afe48f7038792fd47501f33299116a
+  languageName: node
+  linkType: hard
+
+"usehooks-ts@npm:^2.9.1":
+  version: 2.9.1
+  resolution: "usehooks-ts@npm:2.9.1"
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
+  checksum: 36f1e4142ce23bc019b81d2e93aefd7f2c350abcf255598c21627114a69a2f2f116b35dc3a353375f09c6e4c9b704a04f104e3d10e98280545c097feca66c30a
   languageName: node
   linkType: hard
 

@@ -3,6 +3,7 @@ import CoreHtml from '#/components/core/core-html.component';
 import CoreHeader from '#/components/core/core-header.component';
 import CoreNav from '#/components/core/core-nav.component';
 import CoreSupabaseProvider from '#/components/core/core-supabase-provider';
+import CoreToaster from '#/components/core/core-toaster.component';
 import './globals.css';
 
 import type { ReactNode } from 'react';
@@ -20,6 +21,7 @@ const RootLayout = ({ children }: Props) => (
         </CoreHeader>
         <main>{children}</main>
       </CoreSupabaseProvider>
+      <CoreToaster />
     </body>
   </CoreHtml>
 );

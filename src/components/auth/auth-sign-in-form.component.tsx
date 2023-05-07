@@ -5,14 +5,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { cx } from 'classix';
+import { toast } from 'react-hot-toast';
 
+import { useAuth } from '#/hooks/useAuth.hook';
+import { useTimeout } from '#/hooks/useTimeout.hook';
 import BaseSurface from '../base/base-surface.component';
 import BaseInput from '../base/base-input.component';
 import BaseButton from '../base/base-button.component';
+import BaseIconButton from '../base/base-icon-button.component';
 
 import type { ComponentProps } from 'react';
 import type { AuthCredentials } from '#/types/auth.type';
-import BaseIcon from '../base/base-icon.component';
 
 type Props = ComponentProps<'div'> & {
   onSubmit?: () => void;
@@ -39,13 +42,14 @@ const AuthSignInForm = memo(function AuthSignInForm({
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
-    reset,
   } = useForm({
     shouldFocusError: false,
     defaultValues,
     resolver: zodResolver(schema),
   });
 
+  const { signIn } = useAuth();
+  const { timeoutFn: delayedSignIn } = useTimeout(signIn, 1500);
   const [isPasswordReveal, setIsPasswordReveal] = useState(false);
 
   const toggleIsPasswordReveal = useCallback(() => {
@@ -55,15 +59,18 @@ const AuthSignInForm = memo(function AuthSignInForm({
   const submitForm = useCallback(
     async (data: AuthCredentials) => {
       try {
-        console.log(data);
-        onSubmit && onSubmit();
-        // handleCloseForm();
-        // toast.success('Video reported!');
+        const result = await delayedSignIn(data);
+
+        if (result) {
+          onSubmit && onSubmit();
+        } else {
+          toast.error('Sign in failed. Email or password is incorrect.');
+        }
       } catch (error) {
-        // toast.error('An error occured. Please try again later.');
+        toast.error('Sign in failed. Please try again later');
       }
     },
-    [onSubmit],
+    [onSubmit, delayedSignIn],
   );
 
   return (
@@ -89,22 +96,16 @@ const AuthSignInForm = memo(function AuthSignInForm({
               fullWidth
             />
             <div className='absolute right-0 top-0 h-11'>
-              <BaseButton
-                className='p-2 h-full'
-                variant='icon'
+              <BaseIconButton
+                className='p-2 h-full max-h-none'
+                name={isPasswordReveal ? 'hand-eye' : 'hand-fist'}
+                variant='text'
                 onClick={toggleIsPasswordReveal}
-              >
-                <BaseIcon
-                  name={isPasswordReveal ? 'hand-eye' : 'hand-fist'}
-                  className='fill-current-dark'
-                  width={24}
-                  height={24}
-                />
-              </BaseButton>
+              />
             </div>
           </div>
         </div>
-        <BaseButton type='submit' size='lg' fullWidth>
+        <BaseButton type='submit' size='lg' fullWidth loading={isSubmitting}>
           Sign In
         </BaseButton>
       </form>

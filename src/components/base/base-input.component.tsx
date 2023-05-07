@@ -61,7 +61,7 @@ const BaseInput = memo(
       >
         <div className='relative'>
           {!!iconName && (
-            <div className='absolute pr-1.5 left-2.5 top-1/2 translate-y-[-50%] flex items-center justify-center border-r border-current/20 dark:border-current-dark/20'>
+            <div className='absolute pr-1.5 left-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center border-r border-current/20 dark:border-current-dark/20'>
               <BaseIcon
                 name={iconName}
                 className='dark:fill-current-dark/60'

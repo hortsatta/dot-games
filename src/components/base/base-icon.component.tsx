@@ -5,6 +5,7 @@ import {
   At,
   Brain,
   CheckCircle,
+  DoorOpen,
   FlyingSaucer,
   GameController,
   HandEye,
@@ -24,6 +25,7 @@ export type IconName =
   | 'at'
   | 'brain'
   | 'check-circle'
+  | 'door-open'
   | 'flying-saucer'
   | 'game-controller'
   | 'hand-eye'
@@ -49,6 +51,8 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return Brain;
       case 'check-circle':
         return CheckCircle;
+      case 'door-open':
+        return DoorOpen;
       case 'flying-saucer':
         return FlyingSaucer;
       case 'game-controller':

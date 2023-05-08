@@ -1,3 +1,5 @@
+'use client';
+
 import { cx } from 'classix';
 import type { ComponentProps } from 'react';
 

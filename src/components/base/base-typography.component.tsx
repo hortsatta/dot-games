@@ -1,3 +1,5 @@
+'use client';
+
 import { memo } from 'react';
 import { Typography } from '@material-tailwind/react';
 import { cx } from 'classix';

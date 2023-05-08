@@ -26,10 +26,10 @@ const BaseIconButton = memo(function BaseIconButton({
   return (
     <IconButton
       className={cx(
-        'relative !shadow-lg',
+        'relative ',
         color === 'red' && '!shadow-red-500/40 hover:!shadow-red-500/60',
         color === 'red' && variant === 'filled' && 'bg-primary',
-        variant === 'text' && '!shadow-none',
+        variant !== 'text' && variant !== 'outlined' && '!shadow-lg',
         loading && '!cursor-not-allowed !pointer-events-none',
         className,
       )}

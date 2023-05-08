@@ -4,6 +4,7 @@ import { memo, useMemo } from 'react';
 import {
   At,
   Brain,
+  CheckCircle,
   FlyingSaucer,
   GameController,
   HandEye,
@@ -22,6 +23,7 @@ import { type Icon, type IconProps } from '@phosphor-icons/react';
 export type IconName =
   | 'at'
   | 'brain'
+  | 'check-circle'
   | 'flying-saucer'
   | 'game-controller'
   | 'hand-eye'
@@ -45,6 +47,8 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return At;
       case 'brain':
         return Brain;
+      case 'check-circle':
+        return CheckCircle;
       case 'flying-saucer':
         return FlyingSaucer;
       case 'game-controller':

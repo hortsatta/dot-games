@@ -73,9 +73,10 @@ const BaseInput = memo(
           <Input
             ref={ref}
             className={cx(
-              'dark:text-current-dark dark:placeholder:!text-current-dark/50 dark:placeholder:focus:!text-blue-500',
+              'dark:text-current-dark dark:placeholder:!text-current-dark/50 dark:placeholder:focus:!text-blue-500 dark:disabled:bg-current-dark/10',
+              !!iconName && 'pl-11',
               (!!iconName || !!placeholder) &&
-                'pl-11 !border-t-blue-gray-200 focus:!border-t-blue-500',
+                '!border-t-blue-gray-200 focus:!border-t-blue-500',
               (!!iconName || !!placeholder) &&
                 !!errorMessage &&
                 '!border-t-red-500 focus:!border-t-red-500 dark:placeholder:!text-red-500 dark:placeholder:focus:!text-red-500',

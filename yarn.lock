@@ -128,6 +128,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/react@npm:^2.0.17":
+  version: 2.0.17
+  resolution: "@heroicons/react@npm:2.0.17"
+  peerDependencies:
+    react: ">= 16"
+  checksum: 31677c9b95de4ea92efa205c7a803c33003d3203b0cebf9ca74522485e5351caff7070cbd898885bf050f181682cab8d4815cbef0e7624c56d3312cdf50d2cb9
+  languageName: node
+  linkType: hard
+
 "@hookform/resolvers@npm:^3.1.0":
   version: 3.1.0
   resolution: "@hookform/resolvers@npm:3.1.0"
@@ -211,9 +220,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@material-tailwind/react@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@material-tailwind/react@npm:1.4.2"
+"@material-tailwind/react@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@material-tailwind/react@npm:2.0.0"
   dependencies:
     "@floating-ui/react": ^0.19.0
     classnames: ^2.3.2
@@ -227,7 +236,7 @@ __metadata:
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: 7be59804d9232e7c49e95319424c5ec8110250aafb83613e56eac2216440ffca2d1bcfab744dcad6b00d8470bb20c33ab2a19b5b9d72e079d3caa3f088cfd188
+  checksum: f98737d0a3313c097e56db46eb7846707bd533aee2112af0e35e58391b119f4d444606bd4a4b0c2496df117ec0d3aca22f65e797cd0cc4926227654ff99850f7
   languageName: node
   linkType: hard
 
@@ -1437,8 +1446,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dot-games@workspace:."
   dependencies:
+    "@heroicons/react": ^2.0.17
     "@hookform/resolvers": ^3.1.0
-    "@material-tailwind/react": ^1.4.2
+    "@material-tailwind/react": ^2.0.0
     "@phosphor-icons/react": ^2.0.9
     "@supabase/auth-helpers-nextjs": ^0.6.1
     "@supabase/supabase-js": ^2.21.0

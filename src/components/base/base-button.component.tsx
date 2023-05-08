@@ -25,12 +25,15 @@ const BaseButton = memo(function BaseButton({
   return (
     <Button
       className={cx(
-        'relative !shadow-lg !font-medium',
+        'relative !font-medium',
         color === 'red' && '!shadow-red-500/40 hover:!shadow-red-500/60',
         color === 'red' && variant === 'filled' && 'bg-primary',
-        variant === 'text' && '!shadow-none',
+        variant !== 'text' &&
+          variant !== 'outlined' &&
+          variant !== 'icon' &&
+          '!shadow-lg',
         variant === 'icon' &&
-          'group !shadow-none opacity-80 hover:!bg-transparent hover:opacity-100',
+          'group  opacity-80 hover:!bg-transparent hover:opacity-100',
         size === 'sm' && 'min-w-[32px] min-h-[32px]',
         size === 'md' && 'min-w-[40px] min-h-[40px]',
         size === 'lg' && 'min-w-[48px] min-h-[48px]',

@@ -4,7 +4,7 @@ export type UserAccountDb = {
     created_at: string;
     is_active: boolean;
     user_id: string;
-    avatar_type: string | null;
+    avatar_type: number | null;
     avatar_image_url: string | null;
     display_name: string | null;
     full_name: string;
@@ -14,7 +14,7 @@ export type UserAccountDb = {
     created_at?: string;
     is_active?: boolean;
     user_id: string;
-    avatar_type?: string | null;
+    avatar_type?: number | null;
     avatar_image_url?: string | null;
     display_name?: string | null;
     full_name: string;
@@ -24,7 +24,7 @@ export type UserAccountDb = {
     created_at?: string;
     is_active?: boolean;
     user_id?: string;
-    avatar_type?: string | null;
+    avatar_type?: number | null;
     avatar_image_url?: string | null;
     display_name?: string | null;
     full_name?: string;

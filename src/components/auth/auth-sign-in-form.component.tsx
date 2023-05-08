@@ -18,7 +18,7 @@ import type { ComponentProps } from 'react';
 import type { AuthCredentials } from '#/types/auth.type';
 
 type Props = ComponentProps<'div'> & {
-  onSubmit?: () => void;
+  onComplete?: () => void;
   onToggleSignUp?: () => void;
 };
 
@@ -34,7 +34,7 @@ const defaultValues: AuthCredentials = {
 
 const AuthSignInForm = memo(function AuthSignInForm({
   className,
-  onSubmit,
+  onComplete,
   onToggleSignUp = () => null,
   ...moreProps
 }: Props) {
@@ -59,18 +59,18 @@ const AuthSignInForm = memo(function AuthSignInForm({
   const submitForm = useCallback(
     async (data: AuthCredentials) => {
       try {
+        // Sign in and invoke callbox onSubmit if sign-in success
         const result = await delayedSignIn(data);
-
         if (result) {
-          onSubmit && onSubmit();
+          onComplete && onComplete();
         } else {
-          toast.error('Sign in failed. Email or password is incorrect.');
+          toast.error('Sign in failed. Email or password is incorrect');
         }
       } catch (error) {
         toast.error('Sign in failed. Please try again later');
       }
     },
-    [onSubmit, delayedSignIn],
+    [onComplete, delayedSignIn],
   );
 
   return (
@@ -84,6 +84,7 @@ const AuthSignInForm = memo(function AuthSignInForm({
             iconName='at'
             errorMessage={errors['email']?.message}
             fullWidth
+            autoFocus
           />
           <div className='relative'>
             <BaseInput

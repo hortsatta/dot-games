@@ -28,8 +28,8 @@ const CoreSupabaseProvider = ({ children }: Props) => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      router.refresh();
+    } = supabase.auth.onAuthStateChange((event) => {
+      event !== 'SIGNED_IN' && router.refresh();
     });
 
     return () => {

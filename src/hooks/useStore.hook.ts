@@ -3,6 +3,9 @@ import { devtools, persist } from 'zustand/middleware';
 
 type State = {
   isDarkMode: boolean;
+  currentUserId?: string | null;
+  setIsDarkMode: (by: boolean) => void;
+  setCurrentUserId: (by: string | null) => void;
 };
 
 export const useStore = create<State>()(
@@ -10,10 +13,13 @@ export const useStore = create<State>()(
     persist(
       (set) => ({
         isDarkMode: true,
-        setIsDarkMode: (by: boolean) => set(() => ({ isDarkMode: by })),
+        currentUserId: undefined,
+        setIsDarkMode: (by: boolean) => set({ isDarkMode: by }),
+        setCurrentUserId: (by: string | null) => set({ currentUserId: by }),
       }),
       {
         name: 'main-storage',
+        partialize: (state) => ({ isDarkMode: state.isDarkMode }),
       },
     ),
   ),

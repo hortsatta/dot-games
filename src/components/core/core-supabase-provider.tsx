@@ -4,6 +4,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 
+import { useStore } from '#/hooks/useStore.hook';
+
 import type { ReactNode } from 'react';
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '#/types/database/database.type';
@@ -18,6 +20,7 @@ const Context = createContext<
 
 const CoreSupabaseProvider = ({ children }: Props) => {
   const router = useRouter();
+  const setCurrentUserId = useStore((state) => state.setCurrentUserId);
   const [supabase] = useState(() =>
     createBrowserSupabaseClient({
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -28,14 +31,16 @@ const CoreSupabaseProvider = ({ children }: Props) => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event) => {
-      event !== 'SIGNED_IN' && router.refresh();
+    } = supabase.auth.onAuthStateChange((_, session) => {
+      const currentUserId = session?.user.id || null;
+      setCurrentUserId(currentUserId);
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [router, supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <Context.Provider value={{ supabase }}>{children}</Context.Provider>;
 };

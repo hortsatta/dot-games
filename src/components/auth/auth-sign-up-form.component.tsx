@@ -46,7 +46,8 @@ const schema = z
     fullName: z.string().min(4, 'Name should be more than of 3 characters'),
     displayName: z
       .string()
-      .min(4, 'Display name should be more than of 3 characters'),
+      .min(4, 'Display name should be more than of 3 characters')
+      .max(64, 'Display name is too long'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Password does not match',

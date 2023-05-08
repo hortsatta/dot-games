@@ -1,7 +1,11 @@
+'use client';
+
 import { memo } from 'react';
 import { cx } from 'classix';
 
-import AuthSignDialog from '../auth/auth-sign-dialog.componen';
+import { useUserAccount } from '#/hooks/useUserAccount.hook';
+import AuthSignDialog from '../auth/auth-sign-dialog.component';
+import UserAccountProfileAvatar from '../user-account/user-account-profile-avatar.component';
 import CoreLogo from './core-logo.component';
 
 import type { ComponentProps } from 'react';
@@ -11,6 +15,8 @@ const CoreHeader = memo(function CoreHeader({
   children,
   ...moreProps
 }: ComponentProps<'header'>) {
+  const { currentUserAccount } = useUserAccount();
+
   return (
     <>
       <header
@@ -20,13 +26,21 @@ const CoreHeader = memo(function CoreHeader({
         )}
         {...moreProps}
       >
-        <div className='max-w-[250px] w-full'>
-          <AuthSignDialog />
-        </div>
-        {children}
-        <div className='flex justify-end max-w-[250px] w-full'>
-          <CoreLogo href='/' />
-        </div>
+        {currentUserAccount !== undefined && (
+          <>
+            <div className='max-w-[250px] w-full'>
+              {currentUserAccount == null ? (
+                <AuthSignDialog />
+              ) : (
+                <UserAccountProfileAvatar userAccount={currentUserAccount} />
+              )}
+            </div>
+            {children}
+            <div className='flex justify-end max-w-[250px] w-full'>
+              <CoreLogo href='/' />
+            </div>
+          </>
+        )}
       </header>
     </>
   );

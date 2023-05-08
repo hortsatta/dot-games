@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import { useIsomorphicLayoutEffect } from 'usehooks-ts';
 
 type Result = {
-  timeoutFn: (params: any) => Promise<boolean>;
+  timeoutFn: (params?: any) => Promise<boolean>;
 };
 
 export const useTimeout = (
@@ -17,7 +17,7 @@ export const useTimeout = (
   }, [callback]);
 
   const timeoutFn = useCallback(
-    (params: any) =>
+    (params?: any) =>
       new Promise<boolean>((resolve) => {
         const id = setTimeout(async () => {
           const result =

@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
 
 import { useStore } from '#/hooks/useStore.hook';
 
@@ -19,7 +18,6 @@ const Context = createContext<
 >(undefined);
 
 const CoreSupabaseProvider = ({ children }: Props) => {
-  const router = useRouter();
   const setCurrentUserId = useStore((state) => state.setCurrentUserId);
   const [supabase] = useState(() =>
     createBrowserSupabaseClient({

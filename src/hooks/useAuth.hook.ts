@@ -7,7 +7,7 @@ import type { FormData as SignUpFormdata } from '#/components/auth/auth-sign-up-
 type Result = {
   signIn: (authCredentials: AuthCredentials) => Promise<boolean>;
   signUp: (formData: SignUpFormdata) => Promise<boolean>;
-  signOut: () => void;
+  signOut: () => Promise<boolean>;
 };
 
 export const useAuth = (): Result => {
@@ -65,7 +65,8 @@ export const useAuth = (): Result => {
 
   const signOut = useCallback(async () => {
     try {
-      await supabase.auth.signOut();
+      const { error } = await supabase.auth.signOut();
+      return !error;
     } catch (error) {
       throw error;
     }

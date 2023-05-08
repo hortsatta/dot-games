@@ -12,7 +12,7 @@ export const theme = {
       },
       primary: '#ff0000',
       backdrop: '#181818',
-      surface: 'rgba(255,0,0,0.12)',
+      surface: '#242424',
       border: 'rgba(255,0,0,0.2)',
     },
     maxWidth: {

@@ -1,4 +1,4 @@
-import type { JsonDb } from './json-db.type';
+import { BaseJsonDb } from './base.type';
 
 export type OrderDb = {
   Row: {
@@ -8,9 +8,9 @@ export type OrderDb = {
     payment_intent: string | null;
     date: string | null;
     shipping_fee: number | null;
-    address: JsonDb | null;
+    address: BaseJsonDb | null;
     total_price: number | null;
-    order_items: JsonDb | null;
+    order_items: BaseJsonDb | null;
   };
   Insert: {
     id?: number;
@@ -19,9 +19,9 @@ export type OrderDb = {
     payment_intent?: string | null;
     date?: string | null;
     shipping_fee?: number | null;
-    address?: JsonDb | null;
+    address?: BaseJsonDb | null;
     total_price?: number | null;
-    order_items?: JsonDb | null;
+    order_items?: BaseJsonDb | null;
   };
   Update: {
     id?: number;
@@ -30,8 +30,8 @@ export type OrderDb = {
     payment_intent?: string | null;
     date?: string | null;
     shipping_fee?: number | null;
-    address?: JsonDb | null;
+    address?: BaseJsonDb | null;
     total_price?: number | null;
-    order_items?: JsonDb | null;
+    order_items?: BaseJsonDb | null;
   };
 };

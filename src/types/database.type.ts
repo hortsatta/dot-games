@@ -1,12 +1,12 @@
-import type { AddressDb } from './address-db.type';
-import type { CarouselDb } from './carousel-db.type';
-import type { CartDb } from './cart-db.type';
-import type { FavoriteDb } from './favorite-db.type';
-import type { GameDb } from './game-db.type';
-import type { GameProductDb } from './game-product-db.type';
-import type { GenreDb } from './genre-db.type';
-import type { OrderDb } from './order-db.type';
-import type { UserAccountDb } from './user-account-db.type';
+import type { AddressDb } from './address.type';
+import type { CarouselDb } from './carousel.type';
+import type { CartDb } from './cart.type';
+import type { FavoriteDb } from './favorite.type';
+import type { GameDb } from './game.type';
+import type { GameProductDb } from './game-product.type';
+import type { GenreDb } from './genre.type';
+import type { OrderDb } from './order.type';
+import type { UserAccountDb } from './user-account.type';
 
 export type Database = {
   public: {

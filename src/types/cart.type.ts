@@ -1,4 +1,4 @@
-import { BaseJsonDb } from './base.type';
+import type { BaseJsonDb } from './base.type';
 
 export type CartDb = {
   Row: {

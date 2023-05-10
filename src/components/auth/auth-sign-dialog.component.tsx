@@ -12,7 +12,7 @@ import BaseIcon from '../base/base-icon.component';
 import AuthSignInForm from './auth-sign-in-form.component';
 import AuthSignUpForm from './auth-sign-up-form.component';
 
-import logoSrc from '#/assets/images/logo.png';
+import logoPng from '#/assets/images/logo.png';
 
 import type { DialogProps } from '@material-tailwind/react';
 
@@ -96,7 +96,7 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
                 {...formAnimate}
               >
                 <Image
-                  src={logoSrc}
+                  src={logoPng}
                   alt='logo'
                   className='mb-4 mr-4 self-end'
                   width={176}
@@ -117,7 +117,7 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
                 {...formAnimate}
               >
                 <Image
-                  src={logoSrc}
+                  src={logoPng}
                   alt='logo'
                   className='mb-4 ml-4 self-start'
                   width={176}

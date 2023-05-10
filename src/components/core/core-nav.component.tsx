@@ -9,8 +9,8 @@ import { cx } from 'classix';
 import BaseButton from '../base/base-button.component';
 import BaseIcon from '../base/base-icon.component';
 
-import navIndicatorLineSrc from '#/assets/images/nav-indicator-line.png';
-import navIndicatorPulseSrc from '#/assets/images/nav-indicator-pulse.png';
+import navIndicatorLinePng from '#/assets/images/nav-indicator-line.png';
+import navIndicatorPulsePng from '#/assets/images/nav-indicator-pulse.png';
 import mainMenuJson from '#/main-menu.json';
 
 import type { ComponentProps } from 'react';
@@ -110,7 +110,7 @@ const NavIndicator = memo(function NavIndicator() {
           {...lineAnimate}
         >
           <Image
-            src={navIndicatorLineSrc}
+            src={navIndicatorLinePng}
             alt='indicator'
             width={99}
             height={2}
@@ -154,7 +154,7 @@ const NavItem = memo(function NavItem({ to, ...moreProps }: NavItemProps) {
             >
               <Image
                 className='animate-pulse'
-                src={navIndicatorPulseSrc}
+                src={navIndicatorPulsePng}
                 alt='indicator'
                 width={54}
                 height={32}

@@ -3,11 +3,11 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
-import { useStore } from '#/hooks/useStore.hook';
+import { useStore } from '#/hooks/use-store.hook';
 
 import type { ReactNode } from 'react';
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
-import type { Database } from '#/types/database/database.type';
+import type { Database } from '#/types/database.type';
 
 type Props = {
   children: ReactNode;

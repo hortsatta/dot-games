@@ -6,8 +6,8 @@ import { Avatar, Menu, MenuHandler } from '@material-tailwind/react';
 import { cx } from 'classix';
 import { toast } from 'react-hot-toast';
 
-import { useAuth } from '#/hooks/useAuth.hook';
-import { useTimeout } from '#/hooks/useTimeout.hook';
+import { useAuth } from '#/hooks/use-auth.hook';
+import { useTimeout } from '#/hooks/use-timeout.hook';
 import BaseTypography from '../base/base-typography.component';
 import BaseButton from '../base/base-button.component';
 import BaseMenuList from '../base/base-menu-list.component';

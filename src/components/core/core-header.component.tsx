@@ -3,7 +3,7 @@
 import { memo } from 'react';
 import { cx } from 'classix';
 
-import { useUserAccount } from '#/hooks/useUserAccount.hook';
+import { useCurrentUserAccount } from '#/hooks/use-current-user-account.hook';
 import AuthSignDialog from '../auth/auth-sign-dialog.component';
 import UserAccountProfileAvatar from '../user-account/user-account-profile-avatar.component';
 import CoreLogo from './core-logo.component';
@@ -15,7 +15,7 @@ const CoreHeader = memo(function CoreHeader({
   children,
   ...moreProps
 }: ComponentProps<'header'>) {
-  const { currentUserAccount } = useUserAccount();
+  const { currentUserAccount } = useCurrentUserAccount();
 
   return (
     <>

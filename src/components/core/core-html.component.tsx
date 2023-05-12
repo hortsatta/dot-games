@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from '@material-tailwind/react';
 import { cx } from 'classix';
-import { useStore } from '#/hooks/useStore.hook';
+import { useStore } from '#/hooks/use-store.hook';
 
 import type { ComponentProps } from 'react';
 

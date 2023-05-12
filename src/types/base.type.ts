@@ -4,10 +4,9 @@ export type BaseColumns = {
   isActive: boolean;
 };
 
-export type BaseJsonDb =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: BaseJsonDb }
-  | BaseJsonDb[];
+export type BaseOrderBy<T> = {
+  columnName: keyof T;
+  ascending?: boolean;
+};
+
+export type BaseJsonDb = { [key: string]: any };

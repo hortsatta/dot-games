@@ -13,24 +13,24 @@ export type GameProductDb = {
     id: number;
     created_at: string;
     is_active: boolean;
-    game_id: number[];
-    price: number | null;
-    discount: number | null;
+    game_ids: number[];
+    price: number;
+    discount: number;
   };
   Insert: {
     id?: number;
     created_at?: string;
     is_active?: boolean;
-    game_id: number[];
-    price?: number | null;
-    discount?: number | null;
+    game_ids: number[];
+    price?: number;
+    discount?: number;
   };
   Update: {
     id?: number;
     created_at?: string;
     is_active?: boolean;
-    game_id?: number[];
-    price?: number | null;
-    discount?: number | null;
+    game_ids?: number[];
+    price?: number;
+    discount?: number;
   };
 };

@@ -1,4 +1,4 @@
-import type { BaseJsonDb } from './base.type';
+import type { BaseColumns, BaseJsonDb } from './base.type';
 import type { GameProduct } from './game-product.type';
 
 export type CarouseImage = {
@@ -7,7 +7,7 @@ export type CarouseImage = {
 };
 
 export type CarouselGameProduct = GameProduct & {
-  imageUrl: string;
+  carouselImageUrl: string;
 };
 
 export type CarouselImageContent = {
@@ -22,9 +22,9 @@ export type CarouselGameProductContent = {
   excerpt?: string;
 };
 
-export type CarouselItem = {
+export type CarouselItem = BaseColumns & {
   content: CarouselImageContent | CarouselGameProductContent;
-  index?: number;
+  index: number;
 };
 
 export type CarouselDb = {

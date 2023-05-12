@@ -4,13 +4,17 @@ import { memo } from 'react';
 import { Typography } from '@material-tailwind/react';
 import { cx } from 'classix';
 
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
+
+type Props = Omit<ComponentProps<typeof Typography>, 'children'> & {
+  children?: ReactNode;
+};
 
 const BaseTypography = memo(function BaseTypography({
   className,
   color,
   ...moreProps
-}: ComponentProps<typeof Typography>) {
+}: Props) {
   return (
     <Typography
       className={cx(!color && 'dark:text-current-dark', className)}

@@ -33,7 +33,10 @@ const BaseIconButton = memo(
         className={cx(
           'relative ',
           color === 'red' && '!shadow-red-500/40 hover:!shadow-red-500/60',
+          color === 'deep-purple' &&
+            '!shadow-deep-purple-500/40 hover:!shadow-deep-purple-500/60',
           color === 'red' && variant === 'filled' && 'bg-primary',
+          color === 'deep-purple' && variant === 'filled' && 'bg-secondary',
           variant !== 'text' && variant !== 'outlined' && '!shadow-lg',
           loading && '!cursor-not-allowed !pointer-events-none',
           className,

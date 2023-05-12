@@ -31,11 +31,11 @@ const CarouselGameProductPrice = memo(function CarouselGameProductPrice({
         </div>
       )}
       <div className='flex justify-center items-end w-full font-semibold text-white'>
-        <span className='self-start pt-1 mr-1 text-2xl'>$</span>
-        <span className='mr-1 h-[67px] text-7xl leading-none -tracking-[3px]'>
+        <span className='self-start pt-1 text-2xl'>$</span>
+        <span className='mr-1 h-[57px] text-6xl leading-none -tracking-[2px]'>
           {whole}
         </span>
-        <span className='mt-5 text-4xl'>{fraction}</span>
+        <span className='mt-5 text-3xl'>{fraction}</span>
       </div>
     </div>
   );

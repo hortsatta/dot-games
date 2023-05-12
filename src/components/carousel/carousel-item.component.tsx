@@ -116,7 +116,7 @@ const Content = memo(function Content({
           </div>
           <div className='relative flex flex-col items-end shrink-0'>
             <CarouselGameProductPrice
-              className='mb-3 w-full'
+              className='mb-1.5 w-full'
               price={price}
               finalPrice={finalPrice}
               discount={discount}
@@ -185,8 +185,8 @@ const CarouselItem = memo(
       <div
         ref={ref}
         className={cx(
-          'relative shrink-0 mx-[45px] w-full rounded-3xl shadow-[0_4px_8px_rgba(0,0,0,0.4)] saturate-50' +
-            ' overflow-hidden transition-[filter] aspect-[16/10]',
+          'relative shrink-0 mx-[45px] w-full rounded-3xl shadow-[0_4px_8px_rgba(0,0,0,0.4)] opacity-70' +
+            ' overflow-hidden transition-all duration-500 aspect-[16/10]',
           className,
         )}
         {...moreProps}

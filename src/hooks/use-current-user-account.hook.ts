@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import camelcaseKeys from 'camelcase-keys';
 
 import { useSupabase } from '#/components/core/core-supabase-provider';
-import { useStore } from './useStore.hook';
+import { useStore } from './use-store.hook';
 
 import type { UserAccount } from '#/types/user-account.type';
 
@@ -10,7 +10,7 @@ type Result = {
   currentUserAccount: UserAccount | null | undefined;
 };
 
-export const useUserAccount = (): Result => {
+export const useCurrentUserAccount = (): Result => {
   const { supabase } = useSupabase();
   const currentUserId = useStore((state) => state.currentUserId);
   const [currentUserAccount, setCurrentUserAccount] = useState<
@@ -36,7 +36,7 @@ export const useUserAccount = (): Result => {
           return;
         }
 
-        setCurrentUserAccount(camelcaseKeys(data));
+        setCurrentUserAccount(camelcaseKeys(data) as UserAccount);
       } catch (error) {
         setCurrentUserAccount(null);
       }

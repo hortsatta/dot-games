@@ -1,11 +1,15 @@
 'use client';
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useStopwatch } from 'react-timer-hook';
 import { cx } from 'classix';
 
+import CarouselImageBackdrop from './carousel-image-backdrop.component';
 import CarouselControl from './carousel-control.component';
 import CarouselItem from './carousel-item.component';
+
+import carouselEndGradientPng from '#/assets/images/carousel-end-gradient.png';
 
 import type { ComponentProps } from 'react';
 import type { CarouselItem as CarouselItemType } from '#/types/carousel.type';
@@ -200,7 +204,14 @@ const Carousel = memo(function Carousel({
   );
 
   return (
-    <div className={cx('mx-auto w-full', className)} {...moreProps}>
+    <div
+      className={cx('relative pt-[72px] mx-auto w-full', className)}
+      {...moreProps}
+    >
+      <CarouselImageBackdrop
+        currentIndex={currentIndex}
+        items={carouselItems}
+      />
       <CarouselControl
         items={items}
         currentIndex={currentIndex}
@@ -208,11 +219,14 @@ const Carousel = memo(function Carousel({
         autoplayTimeMs={autoplaySeconds * 1000}
         onThumbnailSelect={handleThumbnailSelect}
       />
-      <div ref={ref} className='relative pt-2.5 pb-8 w-full overflow-hidden'>
+      <div
+        ref={ref}
+        className='relative pt-2.5 pb-8 mx-auto w-full overflow-hidden'
+      >
         <div
           style={itemWrapperStyle}
           className={cx(
-            'relative flex items-center transition-transform',
+            'relative flex items-center transition-transform duration-1000',
             !hasTransition && '!transition-none',
           )}
         >
@@ -222,8 +236,8 @@ const Carousel = memo(function Carousel({
               key={item.index}
               className={cx(
                 item.index === currentIndex
-                  ? '!saturate-100 !brightness-100'
-                  : 'cursor-pointer hover:!brightness-100',
+                  ? '!saturate-100 !opacity-100'
+                  : 'cursor-pointer hover:!opacity-100',
                 itemClassName,
               )}
               item={item}
@@ -234,6 +248,20 @@ const Carousel = memo(function Carousel({
               onClick={() => goToSlide(item.index)}
             />
           ))}
+        </div>
+        <div className='absolute pt-2.5 pb-8 left-0 top-0 w-32 h-full z-10 overflow-hidden'>
+          <Image
+            src={carouselEndGradientPng}
+            alt=''
+            className='w-full h-full'
+          />
+        </div>
+        <div className='absolute pt-2.5 pb-8 right-0 top-0 w-32 h-full z-10 overflow-hidden'>
+          <Image
+            src={carouselEndGradientPng}
+            alt=''
+            className='w-full h-full -scale-100'
+          />
         </div>
       </div>
     </div>

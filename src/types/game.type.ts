@@ -1,4 +1,5 @@
-import { BaseColumns } from './base.type';
+import type { BaseColumns } from './base.type';
+import type { Genre } from './genre.type';
 
 type Platform = {
   slug: string;
@@ -15,11 +16,6 @@ type Publisher = {
   name: string;
 };
 
-type Genre = {
-  slug: string;
-  name: string;
-};
-
 type EsrbRating = {
   slug: string;
   name: string;
@@ -27,7 +23,6 @@ type EsrbRating = {
 
 export type Game = BaseColumns & {
   slug: string;
-  customSlug: string;
   name: string;
   description: string;
   metaScore: number;
@@ -40,10 +35,11 @@ export type Game = BaseColumns & {
   developers: Developer[];
   publishers: Publisher[];
   genres: Genre[];
-  esrbRating: EsrbRating;
+  esrbRating: EsrbRating | null;
   metacriticUrl?: string;
   bgImageAdditional?: string;
-  bgImageOffsetPosX?: number;
+  bgImageOffsetPosX?: number | null;
+  bgImageOffsetPosY?: number | null;
   backdropOpacity?: number;
 };
 
@@ -53,18 +49,18 @@ export type GameDb = {
     created_at: string;
     is_active: boolean;
     slug: string;
-    customSlug: string | null;
+    custom_slug: string | null;
     bg_image_offset_posx: number | null;
     bg_image_offset_posy: number | null;
-    backdrop_opacity: number | null;
-    genres: number[] | null;
+    backdrop_opacity: number;
+    genres: number[];
   };
   Insert: {
     id?: number;
     created_at?: string;
     is_active?: boolean;
     slug: string;
-    customSlug: string | null;
+    custom_slug: string | null;
     bg_image_offset_posx?: number | null;
     bg_image_offset_posy?: number | null;
     backdrop_opacity?: number | null;
@@ -75,7 +71,7 @@ export type GameDb = {
     created_at?: string;
     is_active?: boolean;
     slug?: string;
-    customSlug?: string | null;
+    custom_slug?: string | null;
     bg_image_offset_posx?: number | null;
     bg_image_offset_posy?: number | null;
     backdrop_opacity?: number | null;

@@ -1,3 +1,10 @@
+import type { BaseColumns } from './base.type';
+
+export type Genre = BaseColumns & {
+  slug: string;
+  name: string | null;
+};
+
 export type GenreDb = {
   Row: {
     id: number;

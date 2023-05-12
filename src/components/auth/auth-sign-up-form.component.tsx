@@ -8,8 +8,8 @@ import { cx } from 'classix';
 import { toast } from 'react-hot-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useAuth } from '#/hooks/useAuth.hook';
-import { useTimeout } from '#/hooks/useTimeout.hook';
+import { useAuth } from '#/hooks/use-auth.hook';
+import { useTimeout } from '#/hooks/use-timeout.hook';
 import BaseSurface from '../base/base-surface.component';
 import BaseInput from '../base/base-input.component';
 import BaseButton from '../base/base-button.component';

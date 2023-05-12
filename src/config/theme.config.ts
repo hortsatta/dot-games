@@ -20,6 +20,9 @@ export const theme = {
       main: '1440px',
       full: '1920px',
     },
+    backgroundImage: {
+      'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+    },
     keyframes: {
       glitter: {
         '0%, 100%': {

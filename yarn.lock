@@ -1486,6 +1486,8 @@ __metadata:
     react-dom: 18.2.0
     react-hook-form: ^7.43.9
     react-hot-toast: ^2.4.1
+    react-timer-hook: ^3.0.5
+    striptags: ^3.2.0
     tailwindcss: 3.3.2
     typescript: 5.0.4
     usehooks-ts: ^2.9.1
@@ -3930,6 +3932,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-timer-hook@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "react-timer-hook@npm:3.0.5"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 4464f10c21df41ae0c97ebadcc52bffcef9177f3d298b5726f041f509c05f985898cafdea766f9cc0f4d64a7a0c711e9c78256fba5992ee8826d8efd18f363ed
+  languageName: node
+  linkType: hard
+
 "react@npm:18.2.0, react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
@@ -4360,6 +4372,13 @@ __metadata:
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
+  languageName: node
+  linkType: hard
+
+"striptags@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "striptags@npm:3.2.0"
+  checksum: 1b1f127ab46394665bd4f4dc3dc10f5f98c012cbdea93a68b10d78693671e98efc9ae7609f546af997ae0a02b81a5c9b7b916fa119482c31741406cdabaebf3b
   languageName: node
   linkType: hard
 

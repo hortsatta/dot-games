@@ -11,12 +11,14 @@ export const theme = {
         DEFAULT: 'rgba(0,0,0,0.8)',
       },
       primary: '#ff0000',
+      secondary: '#9750dd',
       backdrop: '#181818',
       surface: '#242424',
       border: 'rgba(255,0,0,0.2)',
     },
     maxWidth: {
       main: '1440px',
+      full: '1920px',
     },
     keyframes: {
       glitter: {
@@ -41,10 +43,5 @@ export const theme = {
     animation: {
       glitter: 'glitter 0.6s ease-in-out infinite',
     },
-    // backgroundImage: {
-    //   'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-    //   'gradient-conic':
-    //     'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-    // },
   },
 };

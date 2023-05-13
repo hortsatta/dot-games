@@ -38,11 +38,9 @@ const Carousel = memo(function Carousel({
   onAddToFavorites,
   ...moreProps
 }: Props) {
-  const {
-    seconds: autoplaySeconds,
-    isRunning: isAutoplayRunning,
-    ...autoplayActions
-  } = useStopwatch({ autoStart: false });
+  const { seconds: autoplaySeconds, ...autoplayActions } = useStopwatch({
+    autoStart: false,
+  });
 
   const ref = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
@@ -167,22 +165,22 @@ const Carousel = memo(function Carousel({
 
   const handleItemMouseEnter = useCallback(
     (index?: number) => {
-      if (!autoplay || !isAutoplayRunning || index !== currentIndex) {
+      if (!autoplay || index !== currentIndex) {
         return;
       }
       autoplayActions.pause();
     },
-    [autoplay, isAutoplayRunning, autoplayActions, currentIndex],
+    [autoplay, autoplayActions, currentIndex],
   );
 
   const handleItemMouseLeave = useCallback(
     (index?: number) => {
-      if (!autoplay || !isAutoplayRunning || index !== currentIndex) {
+      if (!autoplay || index !== currentIndex) {
         return;
       }
       autoplayActions.start();
     },
-    [autoplay, isAutoplayRunning, autoplayActions, currentIndex],
+    [autoplay, autoplayActions, currentIndex],
   );
 
   const handleAddToCart = useCallback(

@@ -4,12 +4,13 @@ import { getAllGenres } from './genre.api';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '#/types/database.type';
 import type { Game, GameDb } from '#/types/game.type';
-import type { GameProduct } from '#/types/game-product.type';
+import type { GameProduct, GameProductDb } from '#/types/game-product.type';
 import type { Genre } from '#/types/genre.type';
+import type { BaseOrderBy } from '#/types/base.type';
 
 async function getRawgGamesByGames(
-  data: GameDb['Row'][],
   supabase: SupabaseClient<Database>,
+  data: GameDb['Row'][],
 ): Promise<Game[]> {
   const allGenres = await getAllGenres(supabase);
 
@@ -87,8 +88,8 @@ async function getRawgGamesByGames(
 }
 
 export async function getGameProductsByIds(
-  ids: number[],
   supabase: SupabaseClient<Database>,
+  ids: number[],
 ): Promise<GameProduct[]> {
   try {
     const { data: gameProductData } = await supabase
@@ -107,7 +108,7 @@ export async function getGameProductsByIds(
       .is('is_active', true)
       .in('id', gameIds);
 
-    const rawgGames = await getRawgGamesByGames(gameData || [], supabase);
+    const rawgGames = await getRawgGamesByGames(supabase, gameData || []);
 
     const gameProducts = gameProductData?.map(({ game_ids, ...moreGp }) => {
       const discount =
@@ -134,6 +135,80 @@ export async function getGameProductsByIds(
     return gameProducts || [];
   } catch (error) {
     console.log(error);
+    return [];
+  }
+}
+
+const defaultOptions = {
+  limit: 10,
+};
+
+export async function getLatestReleasedGameProducts(
+  supabase: SupabaseClient<Database>,
+  options = defaultOptions,
+): Promise<GameProduct[]> {
+  const today = new Date();
+  const { limit } = options;
+
+  try {
+    const { data: gameProductData } = await supabase
+      .from('game_product')
+      .select()
+      .is('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    const gameIds = [
+      ...new Set(gameProductData?.map(({ game_ids }) => game_ids).flat()),
+    ];
+
+    const { data: gameData } = await supabase
+      .from('game')
+      .select()
+      .is('is_active', true)
+      .in('id', gameIds);
+
+    const rawgGames = await getRawgGamesByGames(supabase, gameData || []);
+    const latestRawgGames = rawgGames
+      .filter((g) => new Date(g.createdAt) <= new Date(today))
+      .sort(
+        (aGame, bGame) =>
+          +new Date(bGame.createdAt) - +new Date(aGame.createdAt),
+      )
+      .slice(0, limit - 1);
+
+    let latestGpData: GameProductDb['Row'][] = [];
+    latestRawgGames.forEach((rawgGame) => {
+      const target = gameProductData?.find(
+        (gp) => !!gp.game_ids.find((g) => g === rawgGame.id),
+      );
+      !!target && latestGpData.push(target);
+    });
+
+    const gameProducts = latestGpData.map(({ game_ids, ...moreGp }) => {
+      const discount =
+        moreGp.discount > 0 ? Math.min(Math.max(moreGp.discount, 0), 100) : 0;
+
+      const finalPrice = Number(
+        !!discount
+          ? (moreGp.price * ((100 - discount) / 100)).toFixed(2)
+          : moreGp.price.toFixed(2),
+      );
+
+      const games = game_ids
+        .map((id: number) => rawgGames.find((g: any) => g.id === id))
+        .filter((g) => !!g) as Game[];
+
+      return camelcaseKeys({
+        ...moreGp,
+        discount,
+        finalPrice,
+        games,
+      });
+    });
+
+    return gameProducts;
+  } catch (error) {
     return [];
   }
 }

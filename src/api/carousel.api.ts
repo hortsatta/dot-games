@@ -35,7 +35,7 @@ export async function getCarouselItems(
         ?.filter(({ content }) => !!content && content.type === 'game')
         .map(({ content }) => !!content && content.game_product_id) || [];
 
-    const gameProducts = await getGameProductsByIds(gameProductIds, supabase);
+    const gameProducts = await getGameProductsByIds(supabase, gameProductIds);
 
     const carouselItems = carouselData?.map(
       ({ content, ...moreItem }, index: number) => {

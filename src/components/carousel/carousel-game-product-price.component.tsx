@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import BaseTag from '../base/base-tag.component';
 import type { ComponentProps } from 'react';
 
 type Props = ComponentProps<'div'> & {
@@ -25,10 +26,10 @@ const CarouselGameProductPrice = memo(function CarouselGameProductPrice({
   return (
     <div {...moreProps}>
       {!!discount && (
-        <div className='flex justify-around items-center mx-auto mb-1 px-2 pb-1 pt-1.5 w-4/5 bg-green-500 text-sm leading-none rounded-lg uppercase'>
-          <span className='mr-2 line-through'>{price}</span>
-          <span className='font-bold'>{`${discount}% off`}</span>
-        </div>
+        <BaseTag className='flex justify-around items-center mx-auto mb-1 w-4/5'>
+          <span className='mr-2 font-normal line-through'>{price}</span>
+          <span>{discount}% off</span>
+        </BaseTag>
       )}
       <div className='flex justify-center items-end w-full font-semibold text-white'>
         <span className='self-start pt-1 text-2xl'>$</span>

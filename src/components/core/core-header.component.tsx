@@ -21,7 +21,7 @@ const CoreHeader = memo(function CoreHeader({
     <>
       <header
         className={cx(
-          'fixed left-0 top-0 flex justify-between items-center w-full h-[72px] bg-primary/10 border-b-2 border-primary/[.2] z-[9999]',
+          'fixed left-0 top-0 flex justify-between items-center w-full h-[72px] bg-primary/10 border-b-2 border-border backdrop-blur-lg z-[9999]',
           className,
         )}
         {...moreProps}

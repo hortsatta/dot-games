@@ -13,6 +13,9 @@ import type { IconName } from './base-icon.component';
 type Props = Omit<ComponentProps<typeof IconButton>, 'children'> & {
   name: IconName;
   loading?: boolean;
+  iconProps?: Omit<ComponentProps<typeof BaseIcon>, 'name'> & {
+    name?: IconName;
+  };
 };
 
 const BaseIconButton = memo(
@@ -23,10 +26,13 @@ const BaseIconButton = memo(
       variant = 'filled',
       color = 'red',
       loading,
+      iconProps,
       ...moreProps
     }: Props,
     ref,
   ) {
+    const { className: iconClassName, ...moreIconProps } = iconProps || {};
+
     return (
       <IconButton
         ref={ref}
@@ -50,9 +56,10 @@ const BaseIconButton = memo(
         ) : (
           <BaseIcon
             name={name}
-            className='fill-current-dark'
+            className={cx('fill-current-dark', iconClassName)}
             width={24}
             height={24}
+            {...moreIconProps}
           />
         )}
       </IconButton>

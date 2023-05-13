@@ -7,7 +7,7 @@ export const theme = {
     },
     colors: {
       current: {
-        dark: 'rgba(255,255,255,0.8)',
+        dark: 'rgba(255,255,255,0.9)',
         DEFAULT: 'rgba(0,0,0,0.8)',
       },
       primary: '#ff0000',
@@ -22,6 +22,7 @@ export const theme = {
     },
     backgroundImage: {
       'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      'line-pattern': "url('/images/line-pattern.svg')",
     },
     keyframes: {
       glitter: {

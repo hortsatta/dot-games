@@ -147,7 +147,10 @@ export async function getLatestReleasedGameProducts(
   supabase: SupabaseClient<Database>,
   options = defaultOptions,
 ): Promise<GameProduct[]> {
-  const today = new Date();
+  // Get current date and set time to 0
+  const currentDate = new Date();
+  currentDate.setHours(0, 0, 0, 0);
+
   const { limit } = options;
 
   try {
@@ -170,10 +173,9 @@ export async function getLatestReleasedGameProducts(
 
     const rawgGames = await getRawgGamesByGames(supabase, gameData || []);
     const latestRawgGames = rawgGames
-      .filter((g) => new Date(g.createdAt) <= new Date(today))
+      .filter((g) => new Date(g.released) <= currentDate)
       .sort(
-        (aGame, bGame) =>
-          +new Date(bGame.createdAt) - +new Date(aGame.createdAt),
+        (aGame, bGame) => +new Date(bGame.released) - +new Date(aGame.released),
       )
       .slice(0, limit - 1);
 

@@ -4,6 +4,8 @@ import CoreHeader from '#/components/core/core-header.component';
 import CoreNav from '#/components/core/core-nav.component';
 import CoreSupabaseProvider from '#/components/core/core-supabase-provider';
 import CoreToaster from '#/components/core/core-toaster.component';
+
+import 'simplebar-react/dist/simplebar.min.css';
 import './globals.css';
 
 import type { ReactNode } from 'react';

@@ -1,7 +1,7 @@
 import type { AddressDb } from './address.type';
 import type { CarouselDb } from './carousel.type';
 import type { CartDb } from './cart.type';
-import type { FavoriteDb } from './favorite.type';
+import type { WishListDb } from './wish-list.type';
 import type { GameDb } from './game.type';
 import type { GameProductDb } from './game-product.type';
 import type { GenreDb } from './genre.type';
@@ -14,7 +14,7 @@ export type Database = {
       address: AddressDb;
       carousel: CarouselDb;
       cart: CartDb;
-      favorite: FavoriteDb;
+      wish_list: WishListDb;
       game: GameDb;
       game_product: GameProductDb;
       genre: GenreDb;

@@ -1,4 +1,4 @@
-export type FavoriteDb = {
+export type WishListDb = {
   Row: {
     id: number;
     created_at: string;

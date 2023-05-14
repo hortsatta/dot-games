@@ -22,7 +22,7 @@ type Props = ComponentProps<'div'> & {
   autoplaySpeed?: number;
   itemClassName?: string;
   onAddToCart?: (gameProduct: GameProduct) => void;
-  onAddToFavorites?: (gameProduct: GameProduct) => void;
+  onAddToWishList?: (gameProduct: GameProduct) => void;
 };
 
 const getNumber = (value: string) => Number(value.replace(/[^0-9.]/g, ''));
@@ -35,7 +35,7 @@ const Carousel = memo(function Carousel({
   autoplaySpeed = 6000,
   itemClassName,
   onAddToCart,
-  onAddToFavorites,
+  onAddToWishList,
   ...moreProps
 }: Props) {
   const { seconds: autoplaySeconds, ...autoplayActions } = useStopwatch({
@@ -192,18 +192,21 @@ const Carousel = memo(function Carousel({
     [onAddToCart],
   );
 
-  const handleAddToFavorites = useCallback(
+  const handleAddToWishList = useCallback(
     (item: CarouselItemType) => {
       item.content.type === 'game' &&
-        onAddToFavorites &&
-        onAddToFavorites(item.content.gameProduct);
+        onAddToWishList &&
+        onAddToWishList(item.content.gameProduct);
     },
-    [onAddToFavorites],
+    [onAddToWishList],
   );
 
   return (
     <div
-      className={cx('relative pt-[72px] mx-auto w-full', className)}
+      className={cx(
+        'relative pt-[72px] mx-auto w-full overflow-hidden',
+        className,
+      )}
       {...moreProps}
     >
       <CarouselImageBackdrop
@@ -240,7 +243,7 @@ const Carousel = memo(function Carousel({
               )}
               item={item}
               onAddToCart={() => handleAddToCart(item)}
-              onAddToFavorites={() => handleAddToFavorites(item)}
+              onAddToWishList={() => handleAddToWishList(item)}
               onMouseEnter={() => handleItemMouseEnter(item.index)}
               onMouseLeave={() => handleItemMouseLeave(item.index)}
               onClick={() => goToSlide(item.index)}

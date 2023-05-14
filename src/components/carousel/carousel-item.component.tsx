@@ -18,21 +18,21 @@ type Props = ComponentProps<'div'> & {
   item: CarouselItemType;
   loading?: boolean;
   onAddToCart?: () => void;
-  onAddToFavorites?: () => void;
+  onAddToWishList?: () => void;
 };
 
 type ContentProps = {
   content: CarouselItemType['content'];
   loading?: boolean;
   onAddToCart?: () => void;
-  onAddToFavorites?: () => void;
+  onAddToWishList?: () => void;
 };
 
 const Content = memo(function Content({
   content,
   loading,
   onAddToCart,
-  onAddToFavorites,
+  onAddToWishList,
 }: ContentProps) {
   const isImageType = useMemo(() => content.type === 'image', [content]);
 
@@ -138,7 +138,7 @@ const Content = memo(function Content({
                 Buy Now
               </BaseButton>
               <BaseIconButton
-                aria-label='add to favorites'
+                aria-label='add to wish list'
                 name='brain'
                 className='shrink-0 rounded-l-none'
                 color='deep-purple'
@@ -159,7 +159,7 @@ const CarouselItem = memo(
       item: { content },
       loading,
       onAddToCart,
-      onAddToFavorites,
+      onAddToWishList,
       ...moreProps
     },
     ref,
@@ -199,7 +199,7 @@ const CarouselItem = memo(
             content={content}
             loading={loading}
             onAddToCart={onAddToCart}
-            onAddToFavorites={onAddToFavorites}
+            onAddToWishList={onAddToWishList}
           />
         </div>
       </div>

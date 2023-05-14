@@ -1,4 +1,5 @@
 import { memo, useMemo } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { cx } from 'classix';
 
@@ -13,13 +14,15 @@ import type { GameProduct } from '#/types/game-product.type';
 type Props = ComponentProps<'article'> & {
   gameProduct: GameProduct;
   loading?: boolean;
-  onAddToCart?: (gameProduct: GameProduct) => void;
-  onAddToFavorites?: (gameProduct: GameProduct) => void;
+  onAddToCart?: () => void;
+  onAddToWishList?: () => void;
 };
 
 const GameProductCard = memo(function GameProductCard({
   className,
   gameProduct,
+  onAddToCart,
+  onAddToWishList,
 }: Props) {
   const backdropSrc = useMemo(
     () => gameProduct.games[0].bgImage,
@@ -27,6 +30,11 @@ const GameProductCard = memo(function GameProductCard({
   );
 
   const name = useMemo(() => gameProduct.games[0].name, [gameProduct]);
+
+  const href = useMemo(
+    () => `/games/${gameProduct.games[0].slug}`,
+    [gameProduct],
+  );
 
   const developer = useMemo(
     () => gameProduct.games[0].publishers[0].name,
@@ -36,6 +44,16 @@ const GameProductCard = memo(function GameProductCard({
   const publisher = useMemo(
     () => gameProduct.games[0].developers[0].name,
     [gameProduct],
+  );
+
+  const backdropStyle = useMemo(
+    () => ({
+      backgroundImage: `url('${backdropSrc}')`,
+      backgroundPositionX: !!gameProduct.games[0].bgImageOffsetPosX
+        ? `${gameProduct.games[0].bgImageOffsetPosX}%`
+        : '50%',
+    }),
+    [gameProduct, backdropSrc],
   );
 
   return (
@@ -48,9 +66,11 @@ const GameProductCard = memo(function GameProductCard({
       >
         <div className='relative flex flex-col justify-end w-full h-full z-10'>
           <div className='px-5 pb-2'>
-            <BaseTypography className='leading-none' variant='h4'>
-              {name}
-            </BaseTypography>
+            <Link href={href} className='hover:underline'>
+              <BaseTypography className='leading-none' variant='h4'>
+                {name}
+              </BaseTypography>
+            </Link>
             <div className='h-0 group-hover:!h-6 overflow-hidden transition-[height] duration-300 delay-500'>
               <span className='text-xs leading-none'>
                 {publisher}
@@ -59,17 +79,19 @@ const GameProductCard = memo(function GameProductCard({
               </span>
             </div>
           </div>
-          <GameProductCardInfo gameProduct={gameProduct} />
+          <GameProductCardInfo
+            gameProduct={gameProduct}
+            onAddToCart={onAddToCart}
+            onAddToWishList={onAddToWishList}
+          />
         </div>
         <div className='absolute top-0 left-0 w-full h-full bg-backdrop'>
-          <Image
-            src={backdropSrc}
-            alt={name}
+          <div
+            style={backdropStyle}
             className={
-              'object-cover opacity-100 scale-100 transition-all ease-linear duration-200 group-hover:!scale-125' +
-              ' group-hover:!opacity-70 group-hover:!duration-[20000ms]'
+              'w-full h-full bg-cover bg-no-repeat opacity-100 scale-100 translate-y-0 transition-all ease-linear duration-[20000ms]' +
+              ' group-hover:!scale-125 group-hover:!opacity-70 group-hover:!-translate-y-8'
             }
-            fill
           />
           <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/80 to-transparent to-60% z-[1]' />
         </div>

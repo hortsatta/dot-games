@@ -19,20 +19,20 @@ type Props = ComponentProps<'div'> & {
   gameProduct: GameProduct;
   loading?: boolean;
   onAddToCart?: () => void;
-  onAddToFavorites?: () => void;
+  onAddToWishList?: () => void;
 };
 
 const ROW_CLASSNAME = 'flex justify-between items-end min-h-[26px]';
 const ROW_TITLE_CLASSNAME =
   '!text-red-300/70 text-xs font-medium uppercase leading-none';
 const ROW_VALUE_CLASSNAME = 'text-sm leading-none';
-const addToFavoritesIconProps = { className: 'fill-deep-purple-400' };
+const addWishListIconProps = { className: 'fill-deep-purple-400' };
 
 const GameProductCardInfo = memo(function GameProductCardInfo({
   className,
   gameProduct,
   onAddToCart,
-  onAddToFavorites,
+  onAddToWishList,
 }: Props) {
   const platforms = useMemo(
     () =>
@@ -91,7 +91,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
       <div className='relative px-5 py-2 z-10'>
         <div className='flex justify-between items-center'>
           <div>
-            <div className='mb-2.5 flex items-center'>
+            <div className='mb-2.5 flex items-center h-4'>
               {platforms.map((p, index) => (
                 <div key={p} className='flex items-center'>
                   <Image
@@ -139,17 +139,19 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
             </div>
           </div>
           <div className='flex flex-col justify-between items-end font-medium'>
-            <BaseTag className='mb-1.5 !pt-1.5 !pb-0.5 text-xs'>
-              {discount}% off
-            </BaseTag>
+            {!!discount && (
+              <BaseTag className='mb-1.5 !pt-1.5 !pb-0.5 text-xs'>
+                {discount}% off
+              </BaseTag>
+            )}
             <span className='flex items-start text-[26px] leading-none'>
               <span className='text-sm'>$</span>
               {finalPrice}
             </span>
           </div>
         </div>
-        <BaseDivider className='!my-2 opacity-50' />
         <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+          <BaseDivider className='!my-2 opacity-50' />
           <div className={ROW_CLASSNAME}>
             <BaseTypography className={ROW_TITLE_CLASSNAME} variant='h5'>
               Genres
@@ -193,11 +195,11 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
               />
               <BaseIconButton
                 name='brain'
-                className='max-w-none w-14 border-2'
+                className='max-w-none w-14'
                 variant='outlined'
                 color='deep-purple'
-                iconProps={addToFavoritesIconProps}
-                onClick={onAddToFavorites}
+                iconProps={addWishListIconProps}
+                onClick={onAddToWishList}
               />
             </div>
             {!!esrbRating && (

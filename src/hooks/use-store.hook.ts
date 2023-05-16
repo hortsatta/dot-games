@@ -1,25 +1,25 @@
 import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { devtools, persist, subscribeWithSelector } from 'zustand/middleware';
 
-type State = {
-  isDarkMode: boolean;
-  currentUserId?: string | null;
-  setIsDarkMode: (by: boolean) => void;
-  setCurrentUserId: (by: string | null) => void;
-};
+import { createCartSlice } from '#/store/cart.store';
+import { createCoreSlice } from '#/store/core.store';
 
-export const useStore = create<State>()(
+import type { CartSlice } from '#/store/cart.store';
+import type { CoreSlice } from '#/store/core.store';
+
+export const useBoundStore = create<CoreSlice & CartSlice>()(
   devtools(
     persist(
-      (set) => ({
-        isDarkMode: true,
-        currentUserId: undefined,
-        setIsDarkMode: (by: boolean) => set({ isDarkMode: by }),
-        setCurrentUserId: (by: string | null) => set({ currentUserId: by }),
-      }),
+      subscribeWithSelector((...a) => ({
+        ...createCoreSlice(...a),
+        ...createCartSlice(...a),
+      })),
       {
-        name: 'main-storage',
-        partialize: (state) => ({ isDarkMode: state.isDarkMode }),
+        name: 'main-store',
+        partialize: (state) => ({
+          isDarkMode: state.isDarkMode,
+          cart: state.cart,
+        }),
       },
     ),
   ),

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 type Result = {
-  debounce: (delay: number) => Promise<boolean>;
+  debounce: (delay?: number) => Promise<boolean>;
 };
 
 export const useDebounce = (): Result => {

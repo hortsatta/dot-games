@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import camelcaseKeys from 'camelcase-keys';
 
 import { useSupabase } from '#/components/core/core-supabase-provider';
-import { useStore } from './use-store.hook';
+import { useBoundStore } from './use-store.hook';
 
 import type { UserAccount } from '#/types/user-account.type';
 
@@ -12,7 +12,7 @@ type Result = {
 
 export const useCurrentUserAccount = (): Result => {
   const { supabase } = useSupabase();
-  const currentUserId = useStore((state) => state.currentUserId);
+  const currentUserId = useBoundStore((state) => state.currentUserId);
   const [currentUserAccount, setCurrentUserAccount] = useState<
     UserAccount | null | undefined
   >(undefined);

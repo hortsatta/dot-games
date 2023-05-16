@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from '@material-tailwind/react';
 import { cx } from 'classix';
-import { useStore } from '#/hooks/use-store.hook';
+import { useBoundStore } from '#/hooks/use-store.hook';
 
 import type { ComponentProps } from 'react';
 
@@ -11,7 +11,7 @@ const CoreHtml = ({
   children,
   ...moreProps
 }: ComponentProps<'html'>) => {
-  const isDarkMode = useStore((state) => state.isDarkMode);
+  const isDarkMode = useBoundStore((state) => state.isDarkMode);
 
   return (
     <html className={cx(className, isDarkMode && 'dark')} {...moreProps}>

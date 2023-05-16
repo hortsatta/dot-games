@@ -1,5 +1,12 @@
 import { useCallback } from 'react';
 import { useSupabase } from '#/components/core/core-supabase-provider';
+import { useBoundStore } from './use-store.hook';
+
+import {
+  signIn as authSignIn,
+  signUp as authSignUp,
+  signOut as authSignOut,
+} from '#/api/auth.api';
 
 import type { AuthCredentials } from '#/types/auth.type';
 import type { FormData as SignUpFormdata } from '#/components/auth/auth-sign-up-form.component';
@@ -12,65 +19,36 @@ type Result = {
 
 export const useAuth = (): Result => {
   const { supabase } = useSupabase();
+  const setCart = useBoundStore((state) => state.setCart);
 
   const signIn = useCallback(
-    async ({ email, password }: AuthCredentials) => {
-      try {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        return !error;
-      } catch (error) {
-        throw error;
-      }
-    },
-    [supabase],
+    async ({ email, password }: AuthCredentials) =>
+      authSignIn(supabase, { email, password }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authSignIn],
   );
 
   const signUp = useCallback(
-    async ({
+    ({
       email,
       password,
-      fullName: full_name,
-      displayName: display_name,
-    }: SignUpFormdata) => {
-      try {
-        const { data: authData, error: authError } = await supabase.auth.signUp(
-          {
-            email,
-            password,
-          },
-        );
-
-        // Check if there is an error or user is null,
-        // otherwise get user id and insert into user_account table
-        if (!!authError || !authData.user) {
-          return false;
-        }
-
-        const user_id = authData.user.id;
-        const { error } = await supabase
-          .from('user_account')
-          .insert({ user_id, display_name, full_name, avatar_type: 1 });
-
-        return !error;
-      } catch (error) {
-        throw error;
-      }
-    },
-    [supabase],
+      fullName,
+      displayName,
+    }: Omit<SignUpFormdata, 'confirmPassword'>) =>
+      authSignUp(supabase, { email, password, fullName, displayName }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authSignUp],
   );
 
-  const signOut = useCallback(async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      return !error;
-    } catch (error) {
-      throw error;
-    }
-  }, [supabase]);
+  const signOut = useCallback(
+    async () => {
+      await authSignOut(supabase);
+      setCart();
+      return true;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [authSignOut],
+  );
 
   return {
     signIn,

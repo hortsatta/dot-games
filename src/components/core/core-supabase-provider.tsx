@@ -3,7 +3,8 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
-import { useStore } from '#/hooks/use-store.hook';
+import { getCartByUserId } from '#/api/cart.api';
+import { useBoundStore } from '#/hooks/use-store.hook';
 
 import type { ReactNode } from 'react';
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
@@ -18,7 +19,8 @@ const Context = createContext<
 >(undefined);
 
 const CoreSupabaseProvider = ({ children }: Props) => {
-  const setCurrentUserId = useStore((state) => state.setCurrentUserId);
+  const setCurrentUserId = useBoundStore((state) => state.setCurrentUserId);
+  const setCart = useBoundStore((state) => state.setCart);
   const [supabase] = useState(() =>
     createBrowserSupabaseClient({
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -29,9 +31,20 @@ const CoreSupabaseProvider = ({ children }: Props) => {
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_, session) => {
+    } = supabase.auth.onAuthStateChange(async (_, session) => {
       const currentUserId = session?.user.id || null;
       setCurrentUserId(currentUserId);
+
+      if (!!currentUserId) {
+        const cart = await getCartByUserId(supabase, currentUserId);
+        setCart(
+          cart
+            ? {
+                cartItems: cart.cartItems,
+              }
+            : undefined,
+        );
+      }
     });
 
     return () => {

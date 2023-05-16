@@ -4,7 +4,6 @@ import { memo, useMemo } from 'react';
 import {
   At,
   Brain,
-  CaretCircleRight,
   CaretLeft,
   CaretRight,
   CheckCircle,
@@ -15,7 +14,9 @@ import {
   HandFist,
   Keyhole,
   MagnifyingGlass,
+  NumberCircleOne,
   Password,
+  Plus,
   Radioactive,
   Skull,
   UserFocus,
@@ -37,7 +38,9 @@ export type IconName =
   | 'hand-fist'
   | 'keyhole'
   | 'magnifying-glass'
+  | 'number-circle-one'
   | 'password'
+  | 'plus'
   | 'radioactive'
   | 'skull'
   | 'user-focus'
@@ -74,8 +77,12 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return Keyhole;
       case 'magnifying-glass':
         return MagnifyingGlass;
+      case 'number-circle-one':
+        return NumberCircleOne;
       case 'password':
         return Password;
+      case 'plus':
+        return Plus;
       case 'radioactive':
         return Radioactive;
       case 'skull':

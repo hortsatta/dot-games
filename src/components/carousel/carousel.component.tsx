@@ -13,6 +13,7 @@ import carouselEndGradientPng from '#/assets/images/carousel-end-gradient.png';
 
 import type { ComponentProps } from 'react';
 import type { CarouselItem as CarouselItemType } from '#/types/carousel.type';
+import type { CartItem } from '#/types/cart.type';
 import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'div'> & {
@@ -21,7 +22,8 @@ type Props = ComponentProps<'div'> & {
   autoplay?: boolean;
   autoplaySpeed?: number;
   itemClassName?: string;
-  onAddToCart?: (gameProduct: GameProduct) => void;
+  disabled?: boolean;
+  onAddToCart?: (cartItem: CartItem) => Promise<boolean>;
   onAddToWishList?: (gameProduct: GameProduct) => void;
 };
 
@@ -34,6 +36,7 @@ const Carousel = memo(function Carousel({
   autoplay = true,
   autoplaySpeed = 6000,
   itemClassName,
+  disabled,
   onAddToCart,
   onAddToWishList,
   ...moreProps
@@ -183,24 +186,6 @@ const Carousel = memo(function Carousel({
     [autoplay, autoplayActions, currentIndex],
   );
 
-  const handleAddToCart = useCallback(
-    (item: CarouselItemType) => {
-      item.content.type === 'game' &&
-        onAddToCart &&
-        onAddToCart(item.content.gameProduct);
-    },
-    [onAddToCart],
-  );
-
-  const handleAddToWishList = useCallback(
-    (item: CarouselItemType) => {
-      item.content.type === 'game' &&
-        onAddToWishList &&
-        onAddToWishList(item.content.gameProduct);
-    },
-    [onAddToWishList],
-  );
-
   return (
     <div
       className={cx(
@@ -242,8 +227,9 @@ const Carousel = memo(function Carousel({
                 itemClassName,
               )}
               item={item}
-              onAddToCart={() => handleAddToCart(item)}
-              onAddToWishList={() => handleAddToWishList(item)}
+              disabled={disabled}
+              onAddToCart={onAddToCart}
+              // onAddToWishList={() => handleAddToWishList(item)}
               onMouseEnter={() => handleItemMouseEnter(item.index)}
               onMouseLeave={() => handleItemMouseLeave(item.index)}
               onClick={() => goToSlide(item.index)}

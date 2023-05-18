@@ -27,7 +27,7 @@ const CarouselGameProductPrice = memo(function CarouselGameProductPrice({
     <div {...moreProps}>
       {!!discount && (
         <BaseTag className='flex justify-around items-center mx-auto mb-1 w-4/5'>
-          <span className='mr-2 font-normal line-through'>{price}</span>
+          <span className='mr-2 font-normal line-through'>${price}</span>
           <span>{discount}% off</span>
         </BaseTag>
       )}

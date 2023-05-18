@@ -9,7 +9,7 @@ const BaseTag = memo(function BaseTag({
   return (
     <div
       className={cx(
-        'px-2 pb-1 pt-1.5 bg-green-500 text-sm font-semibold leading-none rounded-full uppercase',
+        'px-2 pb-1 pt-1.5 w-fit bg-green-500 text-sm font-semibold leading-none rounded-full uppercase',
         className,
       )}
     >

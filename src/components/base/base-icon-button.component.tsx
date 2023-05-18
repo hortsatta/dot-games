@@ -46,6 +46,7 @@ const BaseIconButton = memo(
             '!shadow-deep-purple-500/40 hover:!shadow-deep-purple-500/60',
           color === 'red' && variant === 'filled' && 'bg-primary',
           color === 'deep-purple' && variant === 'filled' && 'bg-secondary',
+          color === 'red' && variant === 'outlined' && 'border-primary/50',
           color === 'white' &&
             variant === 'outlined' &&
             'border-current-dark/60',

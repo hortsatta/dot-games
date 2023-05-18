@@ -13,10 +13,10 @@ import type { CartItem } from '#/types/cart.type';
 
 type Props = Omit<ComponentProps<typeof BaseNavItem>, 'children'>;
 
-const CoreWishListNav = memo(function CoreCartNav({ to }: Props) {
+const CoreWishListNav = memo(function CoreCartNav({ to, ...moreProps }: Props) {
   return (
-    <div className='relative'>
-      <BaseNavItem to={to}>
+    <div className='relative h-full'>
+      <BaseNavItem to={to} {...moreProps}>
         <BaseIcon
           name='brain'
           className='dark:fill-current-dark/100'

@@ -39,7 +39,7 @@ const plusOneAnimate = {
   },
 };
 
-const CoreCartNav = memo(function CoreCartNav({ to }: Props) {
+const CoreCartNav = memo(function CoreCartNav({ to, ...moreProps }: Props) {
   const [newItems, setNewItems] = useState<string[]>([]);
   const unsub = useBoundStore.subscribe(
     (state) => state.cart?.cartItems,
@@ -61,11 +61,13 @@ const CoreCartNav = memo(function CoreCartNav({ to }: Props) {
       // Only do animation if item is added to cart
       const itemCount =
         cartItems?.reduce((total, current) => total + current.quantity, 0) || 0;
+
       const prevItemCount =
         previouseCartItems?.reduce(
           (total, current) => total + current.quantity,
           0,
         ) || 0;
+
       if (itemCount <= prevItemCount) {
         return;
       }
@@ -75,7 +77,7 @@ const CoreCartNav = memo(function CoreCartNav({ to }: Props) {
     [newItems],
   );
 
-  const handleAnimationComplete = useCallback(
+  const removeAnimation = useCallback(
     (key: string) => {
       setNewItems(newItems.filter((item) => item !== key));
     },
@@ -83,8 +85,8 @@ const CoreCartNav = memo(function CoreCartNav({ to }: Props) {
   );
 
   return (
-    <div className='relative'>
-      <BaseNavItem to={to}>
+    <div className='relative h-full'>
+      <BaseNavItem to={to} {...moreProps}>
         <BaseIcon
           name='flying-saucer'
           className='dark:fill-current-dark/100'
@@ -96,24 +98,35 @@ const CoreCartNav = memo(function CoreCartNav({ to }: Props) {
         {newItems.map((key) => (
           <motion.div
             key={key}
-            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-            onAnimationComplete={() => handleAnimationComplete(key)}
+            className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10'
+            onAnimationComplete={() => removeAnimation(key)}
+            onClick={() => removeAnimation(key)}
             {...plusOneWrapperAnimate}
           >
-            <BaseIcon
-              name='flying-saucer'
-              className='fill-primary'
-              width={28}
-              height={28}
-              weight='fill'
-            />
+            <div className='relative'>
+              <div className='absolute top-0 left-0'>
+                <BaseIcon
+                  name='flying-saucer'
+                  className='fill-current-dark/70'
+                  width={28}
+                  height={28}
+                />
+              </div>
+              <BaseIcon
+                name='flying-saucer'
+                className='fill-primary'
+                width={28}
+                height={28}
+                weight='fill'
+              />
+            </div>
             <motion.div
               className='flex items-center absolute left-1/2 top-1/2 z-10'
               {...plusOneAnimate}
             >
               <BaseIcon
                 name='plus'
-                className='fill-current-dark'
+                className='fill-current-dark/70'
                 width={12}
                 height={12}
               />

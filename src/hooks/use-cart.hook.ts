@@ -9,9 +9,10 @@ import type { CartItem } from '#/types/cart.type';
 
 type Result = {
   loading: boolean;
-  addCartItem: (cartItem: CartItem) => Promise<boolean>;
-  subtractCartItem: (cartItem: CartItem) => Promise<boolean>;
+  addCartItem: (cartItem: CartItem) => Promise<number>;
+  subtractCartItem: (cartItem: CartItem) => Promise<number>;
   removeCartItem: (gameProductId: number) => Promise<boolean>;
+  emptyCartItems: () => Promise<boolean>;
 };
 
 export const useCart = (): Result => {
@@ -19,10 +20,6 @@ export const useCart = (): Result => {
   const currentUserId = useBoundStore((state) => state.currentUserId);
   const cart = useBoundStore((state) => state.cart);
   const setCart = useBoundStore((state) => state.setCart);
-  const subtractCartItemStore = useBoundStore(
-    (state) => state.subtractCartItem,
-  );
-  const removeCartItemStore = useBoundStore((state) => state.removeCartItem);
   const { timeoutFn: delayedSetCart } = useTimeout(setCart);
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +36,7 @@ export const useCart = (): Result => {
           }
 
           await delayedSetCart({ cartItems: [cartItem] });
-          return true;
+          return cartItem.quantity;
         }
 
         // Else add gameproduct to existing cart
@@ -47,6 +44,7 @@ export const useCart = (): Result => {
           ({ gameProductId }) => cartItem.gameProductId === gameProductId,
         );
 
+        let targetItemQuantity = 0;
         let newCartItems: CartItem[] = [];
         if (!targetItem) {
           newCartItems = [...(cart?.cartItems || []), cartItem];
@@ -57,7 +55,9 @@ export const useCart = (): Result => {
                 return item;
               }
 
-              return { ...item, quantity: item.quantity + cartItem.quantity };
+              targetItemQuantity = item.quantity + cartItem.quantity;
+
+              return { ...item, quantity: targetItemQuantity };
             }) || [];
         }
 
@@ -66,6 +66,72 @@ export const useCart = (): Result => {
         }
 
         await delayedSetCart({ ...cart, cartItems: newCartItems });
+
+        return targetItemQuantity;
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cart, currentUserId],
+  );
+
+  const subtractCartItem = useCallback(
+    async (cartItem: CartItem) => {
+      try {
+        setLoading(true);
+
+        let targetItemQuantity = 0;
+        const filteredCartItems: CartItem[] =
+          cart?.cartItems
+            .map((item) => {
+              if (item.gameProductId !== cartItem.gameProductId) {
+                return item;
+              }
+
+              targetItemQuantity = Math.max(
+                0,
+                item.quantity - cartItem.quantity,
+              );
+
+              return { ...item, quantity: targetItemQuantity };
+            })
+            .filter((item) => !!item.quantity) || [];
+
+        if (!!currentUserId) {
+          await updateCartItems(supabase, currentUserId, filteredCartItems);
+        }
+
+        await delayedSetCart({ ...cart, cartItems: filteredCartItems });
+
+        return targetItemQuantity;
+      } catch (error) {
+        throw error;
+      } finally {
+        setLoading(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cart, currentUserId],
+  );
+
+  const removeCartItem = useCallback(
+    async (gameProductId: number) => {
+      try {
+        setLoading(true);
+
+        const filteredCartItems: CartItem[] =
+          cart?.cartItems.filter(
+            (item) => item.gameProductId !== gameProductId,
+          ) || [];
+
+        if (!!currentUserId) {
+          await updateCartItems(supabase, currentUserId, filteredCartItems);
+        }
+
+        await delayedSetCart({ ...cart, cartItems: filteredCartItems });
 
         return true;
       } catch (error) {
@@ -78,28 +144,30 @@ export const useCart = (): Result => {
     [cart, currentUserId],
   );
 
-  const subtractCartItem = async (cartItem: CartItem) => {
+  const emptyCartItems = useCallback(async () => {
     try {
-      subtractCartItemStore(cartItem);
-      return true;
-    } catch (error) {
-      throw error;
-    }
-  };
+      setLoading(true);
 
-  const removeCartItem = async (gameProductId: number) => {
-    try {
-      removeCartItemStore(gameProductId);
+      if (!!currentUserId) {
+        await updateCartItems(supabase, currentUserId, []);
+      }
+
+      await delayedSetCart({ ...cart, cartItems: [] });
+
       return true;
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart, currentUserId]);
 
   return {
     loading,
     addCartItem,
     subtractCartItem,
     removeCartItem,
+    emptyCartItems,
   };
 };

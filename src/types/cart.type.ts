@@ -1,8 +1,10 @@
 import type { BaseColumns, BaseJsonDb } from './base.type';
+import type { GameProduct } from './game-product.type';
 
 export type CartItem = {
   gameProductId: string | number;
   quantity: number;
+  gameProduct?: GameProduct;
 };
 
 export type Cart = Omit<BaseColumns, 'isActive'> & {

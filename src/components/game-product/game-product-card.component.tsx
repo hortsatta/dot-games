@@ -13,7 +13,8 @@ import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'article'> & {
   gameProduct: GameProduct;
-  loading?: boolean;
+  cartLoading?: boolean;
+  wishListLoading?: boolean;
   onAddToCart?: () => void;
   onAddToWishList?: () => void;
 };
@@ -21,6 +22,8 @@ type Props = ComponentProps<'article'> & {
 const GameProductCard = memo(function GameProductCard({
   className,
   gameProduct,
+  cartLoading,
+  wishListLoading,
   onAddToCart,
   onAddToWishList,
 }: Props) {
@@ -81,6 +84,8 @@ const GameProductCard = memo(function GameProductCard({
           </div>
           <GameProductCardInfo
             gameProduct={gameProduct}
+            cartLoading={cartLoading}
+            wishListLoading={wishListLoading}
             onAddToCart={onAddToCart}
             onAddToWishList={onAddToWishList}
           />

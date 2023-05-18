@@ -8,6 +8,8 @@ import BaseTag from '../base/base-tag.component';
 import BaseDivider from '../base/base-divider.component';
 import BaseTypography from '../base/base-typography.component';
 import BaseIconButton from '../base/base-icon-button.component';
+import BaseIcon from '../base/base-icon.component';
+import BaseFieldTitle from '../base/base-field-title.component';
 
 import rateStarPng from '#/assets/images/rate-star.png';
 import rateStarHalfPng from '#/assets/images/rate-star-half.png';
@@ -17,20 +19,21 @@ import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'div'> & {
   gameProduct: GameProduct;
-  loading?: boolean;
+  cartLoading?: boolean;
+  wishListLoading?: boolean;
   onAddToCart?: () => void;
   onAddToWishList?: () => void;
 };
 
 const ROW_CLASSNAME = 'flex justify-between items-end min-h-[26px]';
-const ROW_TITLE_CLASSNAME =
-  '!text-red-300/70 text-xs font-medium uppercase leading-none';
 const ROW_VALUE_CLASSNAME = 'text-sm leading-none';
 const addWishListIconProps = { className: 'fill-deep-purple-400' };
 
 const GameProductCardInfo = memo(function GameProductCardInfo({
   className,
   gameProduct,
+  cartLoading,
+  wishListLoading,
   onAddToCart,
   onAddToWishList,
 }: Props) {
@@ -153,34 +156,41 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
         <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
           <BaseDivider className='!my-2 opacity-50' />
           <div className={ROW_CLASSNAME}>
-            <BaseTypography className={ROW_TITLE_CLASSNAME} variant='h5'>
-              Genres
-            </BaseTypography>
+            <BaseFieldTitle variant='h5'>Genres</BaseFieldTitle>
             <BaseTypography className={ROW_VALUE_CLASSNAME} variant='paragraph'>
               {genres}
             </BaseTypography>
           </div>
           <BaseDivider className='!mt-0.5 !mb-2 opacity-50' />
           <div className={ROW_CLASSNAME}>
-            <BaseTypography className={ROW_TITLE_CLASSNAME} variant='h5'>
-              Release Date
-            </BaseTypography>
+            <BaseFieldTitle variant='h5'>Release Date</BaseFieldTitle>
             <BaseTypography className={ROW_VALUE_CLASSNAME} variant='paragraph'>
               {releaseDate}
             </BaseTypography>
           </div>
           <BaseDivider className='!mt-0.5 !mb-2 opacity-50' />
           <div className={ROW_CLASSNAME}>
-            <BaseTypography className={ROW_TITLE_CLASSNAME} variant='h5'>
-              Website
-            </BaseTypography>
-            <Link href={website} className='hover:underline'>
+            <BaseFieldTitle variant='h5'>Website</BaseFieldTitle>
+            <Link
+              href={website}
+              className='group/link flex justify-center items-end'
+            >
               <BaseTypography
-                className={ROW_VALUE_CLASSNAME}
+                className={cx(
+                  'group-hover/link:!text-blue-300 mb-[1px] mr-1 uppercase font-medium !text-blue-500 !text-[12px]',
+                  ROW_VALUE_CLASSNAME,
+                )}
                 variant='paragraph'
               >
-                {website}
+                Official Site
               </BaseTypography>
+              <BaseIcon
+                name='arrow-square-out'
+                className='group-hover/link:!fill-blue-300 fill-blue-500'
+                width={18}
+                height={18}
+                weight='fill'
+              />
             </Link>
           </div>
           <BaseDivider className='!mt-0.5 !mb-0 opacity-50' />
@@ -191,6 +201,8 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
               <BaseIconButton
                 name='flying-saucer'
                 className='mr-2 max-w-none w-14'
+                loading={cartLoading}
+                disabled={wishListLoading}
                 onClick={onAddToCart}
               />
               <BaseIconButton
@@ -198,6 +210,8 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                 className='max-w-none w-14'
                 variant='outlined'
                 color='deep-purple'
+                loading={wishListLoading}
+                disabled={cartLoading}
                 iconProps={addWishListIconProps}
                 onClick={onAddToWishList}
               />

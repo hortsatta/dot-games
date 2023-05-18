@@ -13,6 +13,8 @@ const CARD_GAP = 16;
 
 type Props = ComponentProps<'div'> & {
   gameProducts: GameProduct[];
+  cartLoading?: boolean;
+  wishListLoading?: boolean;
   onAddToCart?: (gameProduct: GameProduct) => void;
   onAddToWishList?: (gameProduct: GameProduct) => void;
 };
@@ -20,6 +22,8 @@ type Props = ComponentProps<'div'> & {
 const GameProductList = memo(function GameProductList({
   className,
   gameProducts,
+  cartLoading,
+  wishListLoading,
   onAddToCart,
   onAddToWishList,
   ...moreProps
@@ -82,6 +86,8 @@ const GameProductList = memo(function GameProductList({
             <GameProductCard
               key={gp.id}
               gameProduct={gp}
+              cartLoading={cartLoading}
+              wishListLoading={wishListLoading}
               onAddToCart={() => onAddToCart && onAddToCart(gp)}
               onAddToWishList={() => onAddToWishList && onAddToWishList(gp)}
             />

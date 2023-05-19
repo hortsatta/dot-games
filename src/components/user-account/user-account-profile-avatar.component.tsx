@@ -94,7 +94,7 @@ const UserAccountProfileAvatar = memo(function UserAccountProfileAvatar({
             </div>
           </BaseButton>
         </MenuHandler>
-        <BaseMenuList>
+        <BaseMenuList className='!z-[9999]'>
           <BaseMenuItem
             className='flex justify-start items-center'
             iconName='skull'

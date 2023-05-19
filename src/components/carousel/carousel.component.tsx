@@ -20,7 +20,7 @@ import type { CartItem } from '#/types/cart.type';
 
 type Props = ComponentProps<'div'> & {
   items: CarouselItemType[];
-  wishListGameProductIds: number[];
+  wishListGameProductIds?: number[];
   itemOffsetLength?: number;
   autoplay?: boolean;
   autoplaySpeed?: number;
@@ -35,7 +35,7 @@ const getNumber = (value: string) => Number(value.replace(/[^0-9.]/g, ''));
 const Carousel = memo(function Carousel({
   className,
   items,
-  wishListGameProductIds,
+  wishListGameProductIds = [],
   itemOffsetLength = 2,
   autoplay = true,
   autoplaySpeed = 6000,
@@ -197,7 +197,6 @@ const Carousel = memo(function Carousel({
       }
 
       const content = item.content as CarouselGameProductContent;
-
       return wishListGameProductIds.some((id) => id === content.gameProduct.id);
     },
     [wishListGameProductIds],

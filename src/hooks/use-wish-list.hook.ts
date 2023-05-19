@@ -13,6 +13,7 @@ import type { GameProduct } from '#/types/game-product.type';
 import type { WishListGameProduct } from '#/types/wish-list.type';
 
 type Result = {
+  initialLoading: boolean;
   loading: boolean;
   wishListGameProducts: WishListGameProduct[];
   toggleGameProduct: (gameProductId: number) => Promise<boolean>;
@@ -26,7 +27,8 @@ export const useWishList = (loadGameProducts?: boolean): Result => {
   const setWishList = useBoundStore((state) => state.setWishList);
   const [gameProducts, setGameProducts] = useState<GameProduct[]>([]);
   const { timeoutFn: delayedSetWishList } = useTimeout(setWishList);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const wishListGameProducts = useMemo(() => {
     if (!wishList || !currentUserId) {
@@ -52,7 +54,7 @@ export const useWishList = (loadGameProducts?: boolean): Result => {
 
   useEffect(() => {
     if (!wishList || !loadGameProducts) {
-      setLoading(false);
+      setInitialLoading(false);
       return;
     }
 
@@ -62,7 +64,7 @@ export const useWishList = (loadGameProducts?: boolean): Result => {
         wishList.gameProductIds.map((id) => Number(id)),
       );
 
-      setLoading(false);
+      setInitialLoading(false);
       !!gps.length && setGameProducts(gps);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,7 +129,7 @@ export const useWishList = (loadGameProducts?: boolean): Result => {
     }
 
     try {
-      setLoading(true);
+      setInitialLoading(true);
 
       await updateWishListGameProducts(supabase, currentUserId, []);
       await delayedSetWishList({ ...wishList, gameProductIds: [] });
@@ -136,12 +138,13 @@ export const useWishList = (loadGameProducts?: boolean): Result => {
     } catch (error) {
       throw error;
     } finally {
-      setLoading(false);
+      setInitialLoading(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wishList, currentUserId]);
 
   return {
+    initialLoading,
     loading,
     wishListGameProducts,
     toggleGameProduct,

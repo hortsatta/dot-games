@@ -14,17 +14,19 @@ const CARD_GAP = 16;
 
 type Props = ComponentProps<'div'> & {
   gameProducts: GameProduct[];
+  wishListGameProductIds?: number[];
   disabled?: boolean;
   onAddToCart?: (cartItem: CartItem) => Promise<number>;
-  onAddToWishList?: (gameProduct: GameProduct) => void;
+  onToggleToWishList?: (gameProductId: number) => void;
 };
 
 const GameProductNewReleasesList = memo(function GameProductNewReleasesList({
   className,
   gameProducts,
+  wishListGameProductIds = [],
   disabled,
   onAddToCart,
-  onAddToWishList,
+  onToggleToWishList,
   ...moreProps
 }: Props) {
   const scrollableNodeRef = useRef<any>(null);
@@ -46,6 +48,12 @@ const GameProductNewReleasesList = memo(function GameProductNewReleasesList({
         behavior: 'smooth',
       });
   }, []);
+
+  const handleIsWishListed = useCallback(
+    (gameProduct: GameProduct) =>
+      wishListGameProductIds.some((id) => id === gameProduct.id),
+    [wishListGameProductIds],
+  );
 
   return (
     <div className={className} {...moreProps}>
@@ -85,9 +93,10 @@ const GameProductNewReleasesList = memo(function GameProductNewReleasesList({
             <GameProductCard
               key={gp.id}
               gameProduct={gp}
+              isWishListed={handleIsWishListed(gp)}
               disabled={disabled}
               onAddToCart={onAddToCart}
-              onAddToWishList={() => onAddToWishList && onAddToWishList(gp)}
+              onToggleToWishList={onToggleToWishList}
             />
           ))}
         </div>

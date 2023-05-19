@@ -19,11 +19,12 @@ import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'div'> & {
   gameProduct: GameProduct;
+  isWishListed?: boolean;
   cartLoading?: boolean;
   wishListLoading?: boolean;
   disabled?: boolean;
   onAddToCart?: () => void;
-  onAddToWishList?: () => void;
+  onToggleToWishList?: () => void;
 };
 
 const ROW_CLASSNAME = 'flex justify-between items-end min-h-[26px]';
@@ -33,11 +34,12 @@ const addWishListIconProps = { className: 'fill-deep-purple-400' };
 const GameProductCardInfo = memo(function GameProductCardInfo({
   className,
   gameProduct,
+  isWishListed,
   cartLoading,
   disabled,
   wishListLoading,
   onAddToCart,
-  onAddToWishList,
+  onToggleToWishList,
 }: Props) {
   const platforms = useMemo(
     () =>
@@ -199,7 +201,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
           <div className='my-1.5 h-6 w-full bg-line-pattern opacity-50' />
           <BaseDivider className='!mt-0 !mb-2 opacity-50' />
           <div className='flex justify-between items-center'>
-            <div>
+            <div className='flex items-center'>
               <BaseIconButton
                 name='flying-saucer'
                 className='mr-2 max-w-none w-14'
@@ -207,16 +209,28 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                 disabled={!cartLoading && disabled}
                 onClick={onAddToCart}
               />
-              <BaseIconButton
-                name='brain'
-                className='max-w-none w-14'
-                variant='outlined'
-                color='deep-purple'
-                loading={wishListLoading}
-                disabled={!wishListLoading && disabled}
-                iconProps={addWishListIconProps}
-                onClick={onAddToWishList}
-              />
+              <div className='relative'>
+                <BaseIconButton
+                  name='brain'
+                  className='max-w-none w-14'
+                  variant='outlined'
+                  color='deep-purple'
+                  loading={wishListLoading}
+                  disabled={!wishListLoading && disabled}
+                  iconProps={addWishListIconProps}
+                  onClick={onToggleToWishList}
+                />
+                {isWishListed && (
+                  <div className='absolute -top-1.5 -right-1 p-1 bg-green-500 rounded-full'>
+                    <BaseIcon
+                      name='check-fat'
+                      width={12}
+                      height={12}
+                      weight='fill'
+                    />
+                  </div>
+                )}
+              </div>
             </div>
             {!!esrbRating && (
               <Image

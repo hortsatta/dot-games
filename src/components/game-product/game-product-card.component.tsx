@@ -17,19 +17,22 @@ import type { CartItem } from '#/types/cart.type';
 
 type Props = ComponentProps<'article'> & {
   gameProduct: GameProduct;
+  isWishListed?: boolean;
   disabled?: boolean;
   onAddToCart?: (cartItem: CartItem) => Promise<number>;
-  onAddToWishList?: () => void;
+  onToggleToWishList?: (gameProductId: number) => void;
 };
 
 const GameProductCard = memo(function GameProductCard({
   className,
   gameProduct,
+  isWishListed,
   disabled,
   onAddToCart,
-  onAddToWishList,
+  onToggleToWishList,
 }: Props) {
   const [cartLoading, setCartLoading] = useState(false);
+  const [wishListLoading, setWishListLoading] = useState(false);
 
   const backdropSrc = useMemo(
     () => gameProduct.games[0].bgImage,
@@ -78,6 +81,17 @@ const GameProductCard = memo(function GameProductCard({
     }
   }, [gameProduct, onAddToCart]);
 
+  const handleToggleToWishList = useCallback(async () => {
+    try {
+      setWishListLoading(true);
+      onToggleToWishList && (await onToggleToWishList(gameProduct.id));
+    } catch (error) {
+      toast.error('Cannot add item to wish list, please try again.');
+    } finally {
+      setWishListLoading(false);
+    }
+  }, [gameProduct, onToggleToWishList]);
+
   return (
     <div className='group relative w-fit p-0.5'>
       <article
@@ -103,11 +117,12 @@ const GameProductCard = memo(function GameProductCard({
           </div>
           <GameProductCardInfo
             gameProduct={gameProduct}
+            isWishListed={isWishListed}
             cartLoading={cartLoading}
-            // wishListLoading={wishListLoading}
+            wishListLoading={wishListLoading}
             disabled={disabled}
             onAddToCart={handleAddToCart}
-            onAddToWishList={onAddToWishList}
+            onToggleToWishList={handleToggleToWishList}
           />
         </div>
         <div className='absolute top-0 left-0 w-full h-full bg-backdrop'>

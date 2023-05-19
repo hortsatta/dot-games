@@ -1,6 +1,9 @@
-import { memo, useMemo } from 'react';
+'use client';
+
+import { memo, useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 import { cx } from 'classix';
 
 import BaseTypography from '../base/base-typography.component';
@@ -10,23 +13,24 @@ import gpBorderPng from '#/assets/images/gp-border.png';
 
 import type { ComponentProps } from 'react';
 import type { GameProduct } from '#/types/game-product.type';
+import type { CartItem } from '#/types/cart.type';
 
 type Props = ComponentProps<'article'> & {
   gameProduct: GameProduct;
-  cartLoading?: boolean;
-  wishListLoading?: boolean;
-  onAddToCart?: () => void;
+  disabled?: boolean;
+  onAddToCart?: (cartItem: CartItem) => Promise<number>;
   onAddToWishList?: () => void;
 };
 
 const GameProductCard = memo(function GameProductCard({
   className,
   gameProduct,
-  cartLoading,
-  wishListLoading,
+  disabled,
   onAddToCart,
   onAddToWishList,
 }: Props) {
+  const [cartLoading, setCartLoading] = useState(false);
+
   const backdropSrc = useMemo(
     () => gameProduct.games[0].bgImage,
     [gameProduct],
@@ -59,6 +63,21 @@ const GameProductCard = memo(function GameProductCard({
     [gameProduct, backdropSrc],
   );
 
+  const handleAddToCart = useCallback(async () => {
+    try {
+      setCartLoading(true);
+      onAddToCart &&
+        (await onAddToCart({
+          gameProductId: gameProduct.id,
+          quantity: 1,
+        }));
+    } catch (error) {
+      toast.error('Cannot add item to cart, please try again.');
+    } finally {
+      setCartLoading(false);
+    }
+  }, [gameProduct, onAddToCart]);
+
   return (
     <div className='group relative w-fit p-0.5'>
       <article
@@ -85,8 +104,9 @@ const GameProductCard = memo(function GameProductCard({
           <GameProductCardInfo
             gameProduct={gameProduct}
             cartLoading={cartLoading}
-            wishListLoading={wishListLoading}
-            onAddToCart={onAddToCart}
+            // wishListLoading={wishListLoading}
+            disabled={disabled}
+            onAddToCart={handleAddToCart}
             onAddToWishList={onAddToWishList}
           />
         </div>

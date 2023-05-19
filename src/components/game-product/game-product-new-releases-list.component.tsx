@@ -7,23 +7,22 @@ import GameProductCard from './game-product-card.component';
 
 import type { ComponentProps } from 'react';
 import type { GameProduct } from '#/types/game-product.type';
+import type { CartItem } from '#/types/cart.type';
 
 const CARD_WIDTH = 344;
 const CARD_GAP = 16;
 
 type Props = ComponentProps<'div'> & {
   gameProducts: GameProduct[];
-  cartLoading?: boolean;
-  wishListLoading?: boolean;
-  onAddToCart?: (gameProduct: GameProduct) => void;
+  disabled?: boolean;
+  onAddToCart?: (cartItem: CartItem) => Promise<number>;
   onAddToWishList?: (gameProduct: GameProduct) => void;
 };
 
-const GameProductList = memo(function GameProductList({
+const GameProductNewReleasesList = memo(function GameProductNewReleasesList({
   className,
   gameProducts,
-  cartLoading,
-  wishListLoading,
+  disabled,
   onAddToCart,
   onAddToWishList,
   ...moreProps
@@ -86,9 +85,8 @@ const GameProductList = memo(function GameProductList({
             <GameProductCard
               key={gp.id}
               gameProduct={gp}
-              cartLoading={cartLoading}
-              wishListLoading={wishListLoading}
-              onAddToCart={() => onAddToCart && onAddToCart(gp)}
+              disabled={disabled}
+              onAddToCart={onAddToCart}
               onAddToWishList={() => onAddToWishList && onAddToWishList(gp)}
             />
           ))}
@@ -98,4 +96,4 @@ const GameProductList = memo(function GameProductList({
   );
 });
 
-export default GameProductList;
+export default GameProductNewReleasesList;

@@ -21,6 +21,7 @@ type Props = ComponentProps<'div'> & {
   gameProduct: GameProduct;
   cartLoading?: boolean;
   wishListLoading?: boolean;
+  disabled?: boolean;
   onAddToCart?: () => void;
   onAddToWishList?: () => void;
 };
@@ -33,6 +34,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
   className,
   gameProduct,
   cartLoading,
+  disabled,
   wishListLoading,
   onAddToCart,
   onAddToWishList,
@@ -202,7 +204,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                 name='flying-saucer'
                 className='mr-2 max-w-none w-14'
                 loading={cartLoading}
-                disabled={wishListLoading}
+                disabled={!cartLoading && disabled}
                 onClick={onAddToCart}
               />
               <BaseIconButton
@@ -211,7 +213,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                 variant='outlined'
                 color='deep-purple'
                 loading={wishListLoading}
-                disabled={cartLoading}
+                disabled={!wishListLoading && disabled}
                 iconProps={addWishListIconProps}
                 onClick={onAddToWishList}
               />

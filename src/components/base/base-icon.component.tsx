@@ -8,6 +8,7 @@ import {
   CaretLeft,
   CaretRight,
   CheckCircle,
+  CheckFat,
   DoorOpen,
   FlyingSaucer,
   GameController,
@@ -36,6 +37,7 @@ export type IconName =
   | 'caret-left'
   | 'caret-right'
   | 'check-circle'
+  | 'check-fat'
   | 'door-open'
   | 'flying-saucer'
   | 'game-controller'
@@ -73,6 +75,8 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return CaretRight;
       case 'check-circle':
         return CheckCircle;
+      case 'check-fat':
+        return CheckFat;
       case 'door-open':
         return DoorOpen;
       case 'flying-saucer':

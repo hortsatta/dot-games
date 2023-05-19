@@ -157,7 +157,7 @@ const CartList = memo(function CartList({
               onClick={handleEmpty}
               fullWidth
             >
-              Clear All Items
+              Empty Cart
             </BaseButton>
           </div>
         </div>

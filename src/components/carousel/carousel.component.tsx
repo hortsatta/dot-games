@@ -12,19 +12,22 @@ import CarouselItem from './carousel-item.component';
 import carouselEndGradientPng from '#/assets/images/carousel-end-gradient.png';
 
 import type { ComponentProps } from 'react';
-import type { CarouselItem as CarouselItemType } from '#/types/carousel.type';
+import type {
+  CarouselGameProductContent,
+  CarouselItem as CarouselItemType,
+} from '#/types/carousel.type';
 import type { CartItem } from '#/types/cart.type';
-import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'div'> & {
   items: CarouselItemType[];
+  wishListGameProductIds: number[];
   itemOffsetLength?: number;
   autoplay?: boolean;
   autoplaySpeed?: number;
   itemClassName?: string;
   disabled?: boolean;
-  onAddToCart?: (cartItem: CartItem) => Promise<boolean>;
-  onAddToWishList?: (gameProduct: GameProduct) => void;
+  onAddToCart?: (cartItem: CartItem) => Promise<number>;
+  onToggleToWishList?: (gameProductId: number) => void;
 };
 
 const getNumber = (value: string) => Number(value.replace(/[^0-9.]/g, ''));
@@ -32,13 +35,14 @@ const getNumber = (value: string) => Number(value.replace(/[^0-9.]/g, ''));
 const Carousel = memo(function Carousel({
   className,
   items,
+  wishListGameProductIds,
   itemOffsetLength = 2,
   autoplay = true,
   autoplaySpeed = 6000,
   itemClassName,
   disabled,
   onAddToCart,
-  onAddToWishList,
+  onToggleToWishList,
   ...moreProps
 }: Props) {
   const { seconds: autoplaySeconds, ...autoplayActions } = useStopwatch({
@@ -186,6 +190,19 @@ const Carousel = memo(function Carousel({
     [autoplay, autoplayActions, currentIndex],
   );
 
+  const handleIsWishListed = useCallback(
+    (item: CarouselItemType) => {
+      if (item.content.type === 'image') {
+        return;
+      }
+
+      const content = item.content as CarouselGameProductContent;
+
+      return wishListGameProductIds.some((id) => id === content.gameProduct.id);
+    },
+    [wishListGameProductIds],
+  );
+
   return (
     <div
       className={cx(
@@ -227,9 +244,10 @@ const Carousel = memo(function Carousel({
                 itemClassName,
               )}
               item={item}
+              isWishListed={handleIsWishListed(item)}
               disabled={disabled}
               onAddToCart={onAddToCart}
-              // onAddToWishList={() => handleAddToWishList(item)}
+              onToggleToWishList={onToggleToWishList}
               onMouseEnter={() => handleItemMouseEnter(item.index)}
               onMouseLeave={() => handleItemMouseLeave(item.index)}
               onClick={() => goToSlide(item.index)}

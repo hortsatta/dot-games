@@ -16,28 +16,32 @@ import CarouselGameProductPrice from './carousel-game-product-price.component';
 import type { ComponentProps } from 'react';
 import type { CarouselItem as CarouselItemType } from '#/types/carousel.type';
 import type { CartItem } from '#/types/cart.type';
-import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'div'> & {
   item: CarouselItemType;
+  isWishListed?: boolean;
   disabled?: boolean;
-  onAddToCart?: (cartItem: CartItem) => Promise<boolean>;
+  onAddToCart?: (cartItem: CartItem) => Promise<number>;
+  onToggleToWishList?: (gameProductId: number) => void;
 };
 
 type ContentProps = {
   content: CarouselItemType['content'];
+  isWishListed?: boolean;
   disabled?: boolean;
-  onAddToCart?: (cartItem: CartItem) => Promise<boolean>;
-  onAddToWishList?: (gameProduct: GameProduct) => void;
+  onAddToCart?: (cartItem: CartItem) => Promise<number>;
+  onToggleToWishList?: (gameProductId: number) => void;
 };
 
 const Content = memo(function Content({
   content,
+  isWishListed,
   disabled,
   onAddToCart,
-  onAddToWishList,
+  onToggleToWishList,
 }: ContentProps) {
-  const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
+  const [wishListLoading, setWishListLoading] = useState(false);
   const isImageType = useMemo(() => content.type === 'image', [content]);
 
   const href = useMemo(
@@ -98,7 +102,7 @@ const Content = memo(function Content({
     }
 
     try {
-      setLoading(true);
+      setCartLoading(true);
       onAddToCart &&
         (await onAddToCart({
           gameProductId: content.gameProduct.id,
@@ -107,9 +111,24 @@ const Content = memo(function Content({
     } catch (error) {
       toast.error('Cannot add item to cart, please try again.');
     } finally {
-      setLoading(false);
+      setCartLoading(false);
     }
   }, [content, onAddToCart]);
+
+  const handleToggleToWishList = useCallback(async () => {
+    if (content.type !== 'game') {
+      return;
+    }
+
+    try {
+      setWishListLoading(true);
+      onToggleToWishList && (await onToggleToWishList(content.gameProduct.id));
+    } catch (error) {
+      toast.error('Cannot add item to wish list, please try again.');
+    } finally {
+      setWishListLoading(false);
+    }
+  }, [content, onToggleToWishList]);
 
   return (
     <div
@@ -149,8 +168,8 @@ const Content = memo(function Content({
                 aria-label='buy now'
                 className='p-0 flex justify-center items-center flex-1 shrink-0 basis-[150px] text-base leading-none rounded-r-none'
                 size='lg'
-                loading={loading}
-                disabled={!loading && disabled}
+                loading={cartLoading}
+                disabled={!cartLoading && disabled}
                 onClick={handleAddToCart}
               >
                 <BaseIcon
@@ -161,15 +180,28 @@ const Content = memo(function Content({
                 />
                 Buy Now
               </BaseButton>
-              <BaseIconButton
-                aria-label='add to wish list'
-                name='brain'
-                className='shrink-0 rounded-l-none'
-                color='deep-purple'
-                size='lg'
-                // loading={wishListLoading}
-                disabled={disabled}
-              />
+              <div className='relative shrink-0'>
+                <BaseIconButton
+                  aria-label='add to wish list'
+                  name='brain'
+                  className='rounded-l-none'
+                  color='deep-purple'
+                  size='lg'
+                  loading={wishListLoading}
+                  disabled={!wishListLoading && disabled}
+                  onClick={handleToggleToWishList}
+                />
+                {isWishListed && (
+                  <div className='absolute -top-1.5 -right-1 p-1 bg-green-500 rounded-full'>
+                    <BaseIcon
+                      name='check-fat'
+                      width={12}
+                      height={12}
+                      weight='fill'
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -180,7 +212,15 @@ const Content = memo(function Content({
 
 const CarouselItem = memo(
   forwardRef<HTMLDivElement, Props>(function CarouselItem(
-    { className, item: { content }, disabled, onAddToCart, ...moreProps },
+    {
+      className,
+      item: { content },
+      isWishListed,
+      disabled,
+      onAddToCart,
+      onToggleToWishList,
+      ...moreProps
+    },
     ref,
   ) {
     const src = useMemo(
@@ -216,9 +256,10 @@ const CarouselItem = memo(
           </div>
           <Content
             content={content}
+            isWishListed={isWishListed}
             disabled={disabled}
             onAddToCart={onAddToCart}
-            // onAddToWishList={onAddToWishList}
+            onToggleToWishList={onToggleToWishList}
           />
         </div>
       </div>

@@ -41,15 +41,6 @@ const plusOneAnimate = {
 
 const CoreCartNav = memo(function CoreCartNav({ to, ...moreProps }: Props) {
   const [newItems, setNewItems] = useState<string[]>([]);
-  const unsub = useBoundStore.subscribe(
-    (state) => state.cart?.cartItems,
-    (cartItems, previouseCartItems) =>
-      handleCartItems(cartItems, previouseCartItems),
-  );
-
-  useEffect(() => {
-    () => unsub;
-  }, [unsub]);
 
   const handleCartItems = useCallback(
     async (cartItems?: CartItem[], previouseCartItems?: CartItem[]) => {
@@ -76,6 +67,16 @@ const CoreCartNav = memo(function CoreCartNav({ to, ...moreProps }: Props) {
     },
     [newItems],
   );
+
+  const unsub = useBoundStore.subscribe(
+    (state) => state.cart?.cartItems,
+    (cartItems, previouseCartItems) =>
+      handleCartItems(cartItems, previouseCartItems),
+  );
+
+  useEffect(() => {
+    () => unsub;
+  }, [unsub]);
 
   const removeAnimation = useCallback(
     (key: string) => {

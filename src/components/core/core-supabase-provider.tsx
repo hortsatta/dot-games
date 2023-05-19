@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 import { getCartByUserId } from '#/api/cart.api';
+import { getWishListByUserId } from '#/api/wish-list.api';
 import { useBoundStore } from '#/hooks/use-store.hook';
 
 import type { ReactNode } from 'react';
@@ -21,6 +22,7 @@ const Context = createContext<
 const CoreSupabaseProvider = ({ children }: Props) => {
   const setCurrentUserId = useBoundStore((state) => state.setCurrentUserId);
   const setCart = useBoundStore((state) => state.setCart);
+  const setWishList = useBoundStore((state) => state.setWishList);
   const [supabase] = useState(() =>
     createBrowserSupabaseClient({
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -36,11 +38,17 @@ const CoreSupabaseProvider = ({ children }: Props) => {
       setCurrentUserId(currentUserId);
 
       if (!!currentUserId) {
+        // Get and set user's existing cart and wish list
         const cart = await getCartByUserId(supabase, currentUserId);
-        setCart(
-          cart
+        const wishList = await getWishListByUserId(supabase, currentUserId);
+
+        setCart(cart ? { cartItems: cart.cartItems } : undefined);
+        setWishList(
+          wishList
             ? {
-                cartItems: cart.cartItems,
+                gameProductIds: wishList.gameProducts.map(
+                  (gp) => gp.gameProductId,
+                ),
               }
             : undefined,
         );

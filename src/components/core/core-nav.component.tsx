@@ -13,6 +13,8 @@ import type { IconName } from '../base/base-icon.component';
 const CoreNav = memo(function CoreNav() {
   return (
     <nav className='flex justify-center items-center h-full'>
+      <CoreCartNav to='/cart' />
+      <CoreWishListNav to='/wish-list' />
       {mainMenuJson.map(({ to, icon }) => (
         <BaseNavItem key={to} to={to}>
           <BaseIcon
@@ -23,8 +25,6 @@ const CoreNav = memo(function CoreNav() {
           />
         </BaseNavItem>
       ))}
-      <CoreWishListNav to='/wish-list' />
-      <CoreCartNav to='/cart' />
       <CoreSearchNav to='/search' />
     </nav>
   );

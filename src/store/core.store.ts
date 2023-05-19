@@ -1,5 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { CartSlice } from './cart.store';
+import type { WishListSlice } from './wish-list.store';
 
 export type CoreSlice = {
   isDarkMode: boolean;
@@ -9,7 +10,7 @@ export type CoreSlice = {
 };
 
 export const createCoreSlice: StateCreator<
-  CoreSlice & CartSlice,
+  CoreSlice & CartSlice & WishListSlice,
   [],
   [],
   CoreSlice

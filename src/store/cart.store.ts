@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { CartItem } from '#/types/cart.type';
 import type { CoreSlice } from './core.store';
+import type { CartItem } from '#/types/cart.type';
+import type { WishListSlice } from './wish-list.store';
 
 type CartStoreState = {
   cartItems: CartItem[];
@@ -9,17 +10,15 @@ type CartStoreState = {
 
 export type CartSlice = {
   cart?: CartStoreState;
-  cartItems: () => CartItem[] | null;
   setCart: (cart?: CartStoreState) => void;
 };
 
 export const createCartSlice: StateCreator<
-  CoreSlice & CartSlice,
+  CoreSlice & CartSlice & WishListSlice,
   [],
   [],
   CartSlice
-> = (set, get) => ({
+> = (set) => ({
   cart: undefined,
-  cartItems: () => get().cart?.cartItems || null,
   setCart: (cart?: CartStoreState) => set({ cart }),
 });

@@ -1,12 +1,13 @@
 'use client';
 
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Dialog } from '@material-tailwind/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cx } from 'classix';
 
+import { useBoundStore } from '#/hooks/use-store.hook';
 import BaseButton from '../base/base-button.component';
 import BaseIcon from '../base/base-icon.component';
 import AuthSignInForm from './auth-sign-in-form.component';
@@ -33,6 +34,8 @@ const formAnimate = {
 
 const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
   const router = useRouter();
+  const showLogin = useBoundStore((state) => state.showLogin);
+  const setShowLogin = useBoundStore((state) => state.setShowLogin);
   const [isSignIn, setIsSignIn] = useState(true);
   const [open, setOpen] = useState(false);
 
@@ -59,6 +62,16 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
     },
     [router],
   );
+
+  useEffect(() => {
+    if (!showLogin) {
+      return;
+    }
+
+    handleOpen();
+    setShowLogin(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showLogin, handleOpen]);
 
   return (
     <>

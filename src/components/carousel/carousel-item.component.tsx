@@ -142,7 +142,7 @@ const Content = memo(function Content({
       ) : (
         <div className='relative flex justify-between items-end w-full'>
           <div className='relative flex-1 pr-8'>
-            <Link href={href}>
+            <Link href={href} prefetch={false}>
               <BaseTypography
                 className='mb-3 text-4xl font-bold leading-tight hover:underline !text-white'
                 variant='h4'

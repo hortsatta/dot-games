@@ -6,7 +6,6 @@ import type { Database } from '#/types/database.type';
 import type { Game, GameDb } from '#/types/game.type';
 import type { GameProduct, GameProductDb } from '#/types/game-product.type';
 import type { Genre } from '#/types/genre.type';
-import type { BaseOrderBy } from '#/types/base.type';
 
 async function getRawgGamesByGames(
   supabase: SupabaseClient<Database>,
@@ -85,6 +84,60 @@ async function getRawgGamesByGames(
   );
 
   return games || [];
+}
+
+export async function getGameProductsBySlug(
+  supabase: SupabaseClient<Database>,
+  slug: string,
+): Promise<GameProduct[]> {
+  try {
+    // Set filter and fetch main game
+    const slugFilter = `slug.eq.${slug},custom_slug.eq.${slug}`;
+    const { data: gameData } = await supabase
+      .from('game')
+      .select()
+      .is('is_active', true)
+      .or(slugFilter)
+      .single();
+
+    const { data: gameProductData } = await supabase
+      .from('game_product')
+      .select()
+      .is('is_active', true)
+      .filter('game_ids', 'cs', `{"${gameData?.id}"}`);
+
+    const rawgGames = await getRawgGamesByGames(
+      supabase,
+      gameData ? [gameData] : [],
+    );
+
+    const gameProducts = gameProductData?.map(({ game_ids, ...moreGp }) => {
+      const discount =
+        moreGp.discount > 0 ? Math.min(Math.max(moreGp.discount, 0), 100) : 0;
+
+      const finalPrice = Number(
+        !!discount
+          ? (moreGp.price * ((100 - discount) / 100)).toFixed(2)
+          : moreGp.price.toFixed(2),
+      );
+
+      const games = game_ids
+        .map((id: number) => rawgGames.find((g: any) => g.id === id))
+        .filter((g) => !!g) as Game[];
+
+      return camelcaseKeys({
+        ...moreGp,
+        discount,
+        finalPrice,
+        games,
+      });
+    });
+
+    return gameProducts || [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
 }
 
 export async function getGameProductsByIds(

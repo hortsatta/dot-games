@@ -36,8 +36,8 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
   gameProduct,
   isWishListed,
   cartLoading,
-  disabled,
   wishListLoading,
+  disabled,
   onAddToCart,
   onToggleToWishList,
 }: Props) {
@@ -83,6 +83,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
   );
 
   const website = useMemo(() => gameProduct.games[0].website, [gameProduct]);
+
   const esrbRating = useMemo(
     () => gameProduct.games[0].esrbRating,
     [gameProduct],
@@ -175,8 +176,9 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
           <BaseDivider className='!mt-0.5 !mb-2 opacity-50' />
           <div className={ROW_CLASSNAME}>
             <BaseFieldTitle variant='h5'>Website</BaseFieldTitle>
-            <Link
+            <a
               href={website}
+              target='_blank'
               className='group/link flex justify-center items-end'
             >
               <BaseTypography
@@ -195,7 +197,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                 height={18}
                 weight='fill'
               />
-            </Link>
+            </a>
           </div>
           <BaseDivider className='!mt-0.5 !mb-0 opacity-50' />
           <div className='my-1.5 h-6 w-full bg-line-pattern opacity-50' />

@@ -22,6 +22,7 @@ type Result = {
 
 export const useWishList = (loadGameProducts?: boolean): Result => {
   const { supabase } = useSupabase();
+  const setShowLogin = useBoundStore((state) => state.setShowLogin);
   const currentUserId = useBoundStore((state) => state.currentUserId);
   const wishList = useBoundStore((state) => state.wishList);
   const setWishList = useBoundStore((state) => state.setWishList);
@@ -73,6 +74,7 @@ export const useWishList = (loadGameProducts?: boolean): Result => {
   const toggleGameProduct = useCallback(
     async (gameProductId: number) => {
       if (!currentUserId) {
+        setShowLogin(true);
         return false;
       }
 

@@ -7,7 +7,6 @@ import { useCheckout } from '#/hooks/use-checkout.hook';
 import BaseSurface from '#/components/base/base-surface.component';
 import BaseScene from '#/components/base/base-scene.component';
 import BaseSceneTitle from '#/components/base/base-scene-title.component';
-import BaseSpinner from '#/components/base/base-spinner.component';
 import BaseIcon from '#/components/base/base-icon.component';
 import CartList from '#/components/cart/cart-list.component';
 import CartCheckoutSummary from '#/components/cart/cart-checkout-summary.component';
@@ -37,17 +36,7 @@ const CartPage = () => {
   } = useCheckout();
 
   return (
-    <BaseScene className='relative'>
-      <AnimatePresence>
-        {(cartLoading || checkoutLoading) && (
-          <motion.div
-            className='absolute top-0 left-0 w-full min-h-[702px] h-full bg-backdrop/50 z-10'
-            {...animate}
-          >
-            <BaseSpinner className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10' />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <BaseScene className='relative' loading={cartLoading || checkoutLoading}>
       <AnimatePresence>
         {!checkoutCartItems.length ? (
           <div

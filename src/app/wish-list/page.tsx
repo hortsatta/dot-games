@@ -7,7 +7,6 @@ import { useCart } from '#/hooks/use-cart.hook';
 import { useWishList } from '#/hooks/use-wish-list.hook';
 import BaseIcon from '#/components/base/base-icon.component';
 import BaseScene from '#/components/base/base-scene.component';
-import BaseSpinner from '#/components/base/base-spinner.component';
 import BaseSceneTitle from '#/components/base/base-scene-title.component';
 import WishListGameProductGrid from '#/components/wish-list/wish-list-game-product-grid.component';
 
@@ -38,17 +37,7 @@ const WishListPage = () => {
   );
 
   return (
-    <BaseScene className='relative'>
-      <AnimatePresence>
-        {initialLoading && (
-          <motion.div
-            className='absolute top-0 left-0 w-full min-h-[702px] h-full bg-backdrop/50 z-50'
-            {...animate}
-          >
-            <BaseSpinner className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10' />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <BaseScene className='relative' loading={initialLoading}>
       <AnimatePresence>
         {!gameProducts.length ? (
           <div

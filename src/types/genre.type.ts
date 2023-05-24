@@ -3,6 +3,7 @@ import type { BaseColumns } from './base.type';
 export type Genre = BaseColumns & {
   slug: string;
   name: string | null;
+  coverImage?: string;
 };
 
 export type GenreDb = {

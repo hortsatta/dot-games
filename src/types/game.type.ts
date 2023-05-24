@@ -27,6 +27,7 @@ export type Game = BaseColumns & {
   description: string;
   metaScore: number;
   released: string;
+  isReleased: boolean;
   tba: boolean;
   bgImage: string;
   website: string;

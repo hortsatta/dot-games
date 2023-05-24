@@ -252,7 +252,13 @@ const CarouselItem = memo(
       >
         <div className='absolute top-0 bottom-0 left-0 right-0'>
           <div className='absolute top-0 left-0 w-full h-full'>
-            <Image src={src} alt={alt} className='object-cover' fill />
+            <Image
+              src={src}
+              alt={alt}
+              className='object-cover'
+              quality={100}
+              fill
+            />
           </div>
           <Content
             content={content}

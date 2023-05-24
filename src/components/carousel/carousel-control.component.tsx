@@ -34,7 +34,7 @@ const ThumbImage = memo(function ThumbImage({
 
   return (
     <div className='relative w-full h-full'>
-      <Image src={src} alt='' className='object-cover' fill />
+      <Image src={src} alt='' className='object-cover' quality={100} fill />
     </div>
   );
 });
@@ -84,7 +84,7 @@ export const CarouselControl = memo(function CarouselControl({
                 index === currentIndex && 'opacity-100',
               )}
             >
-              <Image src={carouselThumbnailIndicatorPng} alt='' />
+              <Image src={carouselThumbnailIndicatorPng} alt='' quality={100} />
             </div>
             <div
               className={cx(
@@ -110,6 +110,7 @@ export const CarouselControl = memo(function CarouselControl({
             src={carouselDurationTipPng}
             alt=''
             className='inline-block absolute max-w-fit top-[-26px] right-[-35px] w-[70px] h-[53px] animate-glitter'
+            quality={100}
           />
         </div>
       </div>

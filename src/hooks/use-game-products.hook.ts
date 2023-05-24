@@ -6,6 +6,7 @@ import { useSupabase } from '#/components/core/core-supabase-provider';
 import type { GameProduct } from '#/types/game-product.type';
 
 type Result = {
+  initialLoading: boolean;
   gameProducts: GameProduct[] | undefined;
 };
 
@@ -23,5 +24,5 @@ export const useGameProducts = (slug: string): Result => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
-  return { gameProducts };
+  return { initialLoading: gameProducts === undefined, gameProducts };
 };

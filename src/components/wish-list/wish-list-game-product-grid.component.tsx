@@ -11,7 +11,6 @@ import type { GameProduct } from '#/types/game-product.type';
 
 type Props = ComponentProps<'div'> & {
   gameProducts: GameProduct[];
-  initiaLoading?: boolean;
   disabled?: boolean;
   onAddToCart?: (cartItem: CartItem) => Promise<number>;
   onToggleToWishList?: (gameProductId: number) => void;

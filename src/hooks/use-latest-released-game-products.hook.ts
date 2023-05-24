@@ -9,7 +9,7 @@ type Result = {
   gameProducts: GameProduct[] | undefined;
 };
 
-const useLatestReleasedGameProducts = (): Result => {
+export const useLatestReleasedGameProducts = (): Result => {
   const { supabase } = useSupabase();
   const [gameProducts, setGameProducts] = useState<GameProduct[] | undefined>(
     undefined,
@@ -24,5 +24,3 @@ const useLatestReleasedGameProducts = (): Result => {
 
   return { gameProducts };
 };
-
-export default useLatestReleasedGameProducts;

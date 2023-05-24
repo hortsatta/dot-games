@@ -5,6 +5,7 @@ import {
   ArrowSquareOut,
   At,
   Brain,
+  CaretDown,
   CaretLeft,
   CaretRight,
   CheckCircle,
@@ -34,6 +35,7 @@ export type IconName =
   | 'arrow-square-out'
   | 'at'
   | 'brain'
+  | 'caret-down'
   | 'caret-left'
   | 'caret-right'
   | 'check-circle'
@@ -69,6 +71,8 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return ArrowSquareOut;
       case 'brain':
         return Brain;
+      case 'caret-down':
+        return CaretDown;
       case 'caret-left':
         return CaretLeft;
       case 'caret-right':

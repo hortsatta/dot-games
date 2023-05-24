@@ -8,7 +8,7 @@ type Props = ComponentProps<'div'> & {
   src: string;
 };
 
-const GameProductImageBackdrop = memo(function GameProductImageBackdrop({
+const BaseImageBackdrop = memo(function BaseImageBackdrop({
   className,
   src,
   ...moreProps
@@ -34,4 +34,4 @@ const GameProductImageBackdrop = memo(function GameProductImageBackdrop({
   );
 });
 
-export default GameProductImageBackdrop;
+export default BaseImageBackdrop;

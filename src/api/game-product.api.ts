@@ -7,6 +7,12 @@ import type { Game, GameDb } from '#/types/game.type';
 import type { GameProduct, GameProductDb } from '#/types/game-product.type';
 import type { Genre } from '#/types/genre.type';
 
+// Get current date
+const currentDate = new Date();
+currentDate.setHours(0, 0, 0, 0);
+
+const defaultOptions = { limit: 10 };
+
 async function getRawgGamesByGames(
   supabase: SupabaseClient<Database>,
   data: GameDb['Row'][],
@@ -56,6 +62,7 @@ async function getRawgGamesByGames(
         metaScore: +metacritic / 2 / 10,
         metacriticUrl: metacritic_url,
         released,
+        isReleased: new Date(released) <= currentDate,
         tba,
         bgImage: background_image,
         bgImageAdditional: background_image_additional,
@@ -192,18 +199,76 @@ export async function getGameProductsByIds(
   }
 }
 
-const defaultOptions = {
-  limit: 10,
-};
+export async function getGameProductsByGenre(
+  supabase: SupabaseClient<Database>,
+  genreId: number,
+): Promise<GameProduct[]> {
+  try {
+    const { data: gameData } = await supabase
+      .from('game')
+      .select()
+      .is('is_active', true)
+      .filter('genres', 'cs', `{"${genreId}"}`);
+
+    const gameIdsFilter =
+      gameData?.map(({ id }) => `game_ids.cs.{${id}}`) || [];
+
+    const { data: gameProductData } = await supabase
+      .from('game_product')
+      .select()
+      .is('is_active', true)
+      .or(gameIdsFilter.join(','));
+
+    const rawgGames = await getRawgGamesByGames(supabase, gameData || []);
+
+    const gameProducts = gameProductData
+      ?.map(({ game_ids, ...moreGp }) => {
+        const discount =
+          moreGp.discount > 0 ? Math.min(Math.max(moreGp.discount, 0), 100) : 0;
+
+        const finalPrice = Number(
+          !!discount
+            ? (moreGp.price * ((100 - discount) / 100)).toFixed(2)
+            : moreGp.price.toFixed(2),
+        );
+
+        const games = game_ids
+          .map((id: number) => rawgGames.find((g: any) => g.id === id))
+          .filter((g) => !!g) as Game[];
+
+        return camelcaseKeys({
+          ...moreGp,
+          discount,
+          finalPrice,
+          games,
+        });
+      })
+      .sort((a, b) => {
+        const nameA = a.games[0].name.toUpperCase();
+        const nameB = b.games[0].name.toUpperCase();
+
+        if (nameA < nameB) {
+          return -1;
+        }
+
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        return 0;
+      });
+
+    return gameProducts || [];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
 
 export async function getLatestReleasedGameProducts(
   supabase: SupabaseClient<Database>,
   options = defaultOptions,
 ): Promise<GameProduct[]> {
-  // Get current date and set time to 0
-  const currentDate = new Date();
-  currentDate.setHours(0, 0, 0, 0);
-
   const { limit } = options;
 
   try {
@@ -213,6 +278,75 @@ export async function getLatestReleasedGameProducts(
       .is('is_active', true)
       .order('created_at', { ascending: false })
       .limit(100);
+
+    const gameIds = [
+      ...new Set(gameProductData?.map(({ game_ids }) => game_ids).flat()),
+    ];
+
+    const { data: gameData } = await supabase
+      .from('game')
+      .select()
+      .is('is_active', true)
+      .in('id', gameIds);
+
+    const rawgGames = await getRawgGamesByGames(supabase, gameData || []);
+    const latestRawgGames = rawgGames
+      .filter((g) => new Date(g.released) <= currentDate)
+      .sort(
+        (aGame, bGame) => +new Date(bGame.released) - +new Date(aGame.released),
+      )
+      .slice(0, limit - 1);
+
+    let latestGpData: GameProductDb['Row'][] = [];
+    latestRawgGames.forEach((rawgGame) => {
+      const target = gameProductData?.find(
+        (gp) => !!gp.game_ids.find((g) => g === rawgGame.id),
+      );
+      !!target && latestGpData.push(target);
+    });
+
+    const gameProducts = latestGpData.map(({ game_ids, ...moreGp }) => {
+      const discount =
+        moreGp.discount > 0 ? Math.min(Math.max(moreGp.discount, 0), 100) : 0;
+
+      const finalPrice = Number(
+        !!discount
+          ? (moreGp.price * ((100 - discount) / 100)).toFixed(2)
+          : moreGp.price.toFixed(2),
+      );
+
+      const games = game_ids
+        .map((id: number) => rawgGames.find((g: any) => g.id === id))
+        .filter((g) => !!g) as Game[];
+
+      return camelcaseKeys({
+        ...moreGp,
+        discount,
+        finalPrice,
+        games,
+      });
+    });
+
+    return gameProducts;
+  } catch (error) {
+    return [];
+  }
+}
+
+export async function getDiscountedGameProducts(
+  supabase: SupabaseClient<Database>,
+  options = defaultOptions,
+): Promise<GameProduct[]> {
+  const { limit } = options;
+
+  try {
+    const { data: gameProductData } = await supabase
+      .from('game_product')
+      .select()
+      .is('is_active', true)
+      .gt('discount', 0)
+      .order('created_at', { ascending: false })
+      .limit(limit);
 
     const gameIds = [
       ...new Set(gameProductData?.map(({ game_ids }) => game_ids).flat()),

@@ -2,14 +2,11 @@
 
 import { memo, useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { cx } from 'classix';
 
 import BaseTypography from '../base/base-typography.component';
 import GameProductCardInfo from './game-product-card-info.component';
-
-import gpBorderPng from '#/assets/images/gp-border.png';
 
 import type { ComponentProps } from 'react';
 import type { GameProduct } from '#/types/game-product.type';
@@ -30,6 +27,7 @@ const GameProductCard = memo(function GameProductCard({
   disabled,
   onAddToCart,
   onToggleToWishList,
+  ...moreProps
 }: Props) {
   const [cartLoading, setCartLoading] = useState(false);
   const [wishListLoading, setWishListLoading] = useState(false);
@@ -99,15 +97,19 @@ const GameProductCard = memo(function GameProductCard({
           'relative w-[344px] h-[550px] rounded-2xl overflow-hidden z-10 shadow-[0_2px_6px_rgba(0,0,0,0.3)]',
           className,
         )}
+        {...moreProps}
       >
-        <div className='relative flex flex-col justify-end w-full h-full z-10'>
+        <div className='relative flex flex-col justify-end w-full h-full z-10 group-hover:mt-0 mt-[210px] transition-[margin] duration-500'>
           <div className='px-5 pb-2'>
-            <Link href={href} className='hover:underline'>
+            <Link
+              href={href}
+              className='inline-block hover:underline translate-y-6 group-hover:translate-y-0 transition-[transform] duration-300 delay-500'
+            >
               <BaseTypography className='leading-none' variant='h4'>
                 {name}
               </BaseTypography>
             </Link>
-            <div className='h-0 group-hover:!h-6 overflow-hidden transition-[height] duration-300 delay-500'>
+            <div className='opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-500'>
               <span className='text-xs leading-none'>
                 {publisher}
                 <span className='mx-1'> / </span>
@@ -136,12 +138,7 @@ const GameProductCard = memo(function GameProductCard({
           <div className='absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/80 to-transparent to-60% z-[1]' />
         </div>
       </article>
-      <Image
-        src={gpBorderPng}
-        alt=''
-        className='absolute left-0 top-0 object-cover opacity-0 group-hover:!opacity-100 transition-opacity'
-        fill
-      />
+      <div className='group-hover:opacity-100 opacity-0 absolute w-full h-full top-0 left-0 bg-gradient-to-t from-primary to-transparent to-70% transition-opacity rounded-2xl overflow-hidden' />
     </div>
   );
 });

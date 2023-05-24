@@ -1,5 +1,4 @@
 import { memo, useMemo } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import { cx } from 'classix';
@@ -82,6 +81,11 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
     [gameProduct],
   );
 
+  const isReleased = useMemo(
+    () => gameProduct.games[0].isReleased,
+    [gameProduct],
+  );
+
   const website = useMemo(() => gameProduct.games[0].website, [gameProduct]);
 
   const esrbRating = useMemo(
@@ -92,7 +96,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
   return (
     <div
       className={cx(
-        'relative -mb-[210px] w-full h-[276px] border-t border-primary/40 group-hover:!mb-0 transition-[margin] duration-500',
+        'relative w-full h-[276px] border-t border-primary/40',
         className,
       )}
     >
@@ -108,6 +112,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                     className='w-[57px] h-[12px] object-contain'
                     width={57}
                     height={12}
+                    quality={100}
                   />
                   {index < lastPlatformIndex && (
                     <span className='mx-2 leading-none opacity-50'>|</span>
@@ -124,6 +129,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                   className='object-cover w-6 h-6'
                   width={24}
                   height={24}
+                  quality={100}
                 />
               ))}
               {!!metaLastStar &&
@@ -134,6 +140,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                     className='object-cover w-6 h-6'
                     width={24}
                     height={24}
+                    quality={100}
                   />
                 ) : (
                   <Image
@@ -142,6 +149,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                     className='object-cover w-6 h-6'
                     width={24}
                     height={24}
+                    quality={100}
                   />
                 ))}
             </div>
@@ -204,13 +212,15 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
           <BaseDivider className='!mt-0 !mb-2 opacity-50' />
           <div className='flex justify-between items-center'>
             <div className='flex items-center'>
-              <BaseIconButton
-                name='flying-saucer'
-                className='mr-2 max-w-none w-14'
-                loading={cartLoading}
-                disabled={!cartLoading && disabled}
-                onClick={onAddToCart}
-              />
+              {isReleased && (
+                <BaseIconButton
+                  name='flying-saucer'
+                  className='mr-2 max-w-none w-14'
+                  loading={cartLoading}
+                  disabled={!cartLoading && disabled}
+                  onClick={onAddToCart}
+                />
+              )}
               <div className='relative'>
                 <BaseIconButton
                   name='brain'
@@ -240,6 +250,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
                 alt={esrbRating.name}
                 width={30}
                 height={40}
+                quality={100}
               />
             )}
           </div>

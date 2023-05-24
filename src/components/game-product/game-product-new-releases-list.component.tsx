@@ -21,7 +21,6 @@ type Props = ComponentProps<'div'> & {
 };
 
 const GameProductNewReleasesList = memo(function GameProductNewReleasesList({
-  className,
   gameProducts,
   wishListGameProductIds = [],
   disabled,
@@ -56,7 +55,7 @@ const GameProductNewReleasesList = memo(function GameProductNewReleasesList({
   );
 
   return (
-    <div className={className} {...moreProps}>
+    <div {...moreProps}>
       <div className='flex justify-between items-center mb-6'>
         <BaseTypography
           className='text-base font-medium leading-none'

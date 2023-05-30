@@ -1,3 +1,21 @@
+import type { BaseColumns } from './base.type';
+
+export type CountryOption = {
+  code: string;
+  name: string;
+};
+
+export type Address = BaseColumns & {
+  isDefault: boolean;
+  userId: string;
+  fullName: string;
+  phoneNumber: string | null;
+  zipCode: number | null;
+  addressLine: string | null;
+  country: string | null;
+  city: string | null;
+};
+
 export type AddressDb = {
   Row: {
     id: number;

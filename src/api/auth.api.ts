@@ -1,6 +1,9 @@
+import camelcaseKeys from 'camelcase-keys';
+
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthCredentials } from '#/types/auth.type';
 import type { Database } from '#/types/database.type';
+import type { UserAccount } from '#/types/user-account.type';
 import type { FormData as SignUpFormdata } from '#/components/auth/auth-sign-up-form.component';
 
 export async function signIn(
@@ -57,5 +60,35 @@ export async function signOut(supabase: SupabaseClient<Database>) {
     return !error;
   } catch (error) {
     throw error;
+  }
+}
+
+export async function getCurrentUserAccount(
+  supabase: SupabaseClient<Database>,
+): Promise<UserAccount | null> {
+  try {
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
+
+    if (!!sessionError || !sessionData.session) {
+      return null;
+    }
+
+    const { data: userAccountData, error: userAccountError } = await supabase
+      .from('user_account')
+      .select()
+      .eq('user_id', sessionData.session.user.id)
+      .single();
+
+    if (!!userAccountError) {
+      return null;
+    }
+
+    return camelcaseKeys({
+      ...userAccountData,
+      email: sessionData.session.user.email,
+    });
+  } catch (error) {
+    return null;
   }
 }

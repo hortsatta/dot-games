@@ -21,9 +21,9 @@ type Props = ComponentProps<'div'> & {
   userAccount: UserAccount;
 };
 
-const UserAccountProfileAvatar = memo(function UserAccountProfileAvatar({
+const UserAccountNameTag = memo(function UserAccountNameTag({
   className,
-  userAccount: { fullName, displayName, email },
+  userAccount: { fullName, displayName, email, avatarType, avatarImageUrl },
   ...moreProps
 }: Props) {
   const router = useRouter();
@@ -38,6 +38,13 @@ const UserAccountProfileAvatar = memo(function UserAccountProfileAvatar({
 
     return fullName?.trim().split(' ')[0] || email;
   }, [fullName, displayName, email]);
+
+  const avatarSrc = useMemo(() => {
+    const baseUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/main/images/avatars`;
+    return avatarType !== 0
+      ? `${baseUrl}/avatar-${avatarType}.png`
+      : `${baseUrl}/custom/${avatarImageUrl}`;
+  }, [avatarType, avatarImageUrl]);
 
   const handleSignOut = useCallback(async () => {
     const errorMessge = 'Sign in failed. Please try again later';
@@ -75,9 +82,9 @@ const UserAccountProfileAvatar = memo(function UserAccountProfileAvatar({
             loading={isSigningOut}
           >
             <Avatar
-              src='https://pbs.twimg.com/profile_images/1391700002259410946/_2ytp9_Y_400x400.jpg'
+              src={avatarSrc}
               alt='avatar'
-              className='mr-2.5 border border-red-900'
+              className='mr-2.5 bg-surface/50 border border-red-900'
               variant='rounded'
               size='sm'
             />
@@ -118,4 +125,4 @@ const UserAccountProfileAvatar = memo(function UserAccountProfileAvatar({
   );
 });
 
-export default UserAccountProfileAvatar;
+export default UserAccountNameTag;

@@ -5,7 +5,7 @@ import { cx } from 'classix';
 
 import { useCurrentUserAccount } from '#/hooks/use-current-user-account.hook';
 import AuthSignDialog from '../auth/auth-sign-dialog.component';
-import UserAccountProfileAvatar from '../user-account/user-account-profile-avatar.component';
+import UserAccountNameTag from '../user-account/user-account-name-tag.component';
 import CoreLogo from './core-logo.component';
 
 import type { ComponentProps } from 'react';
@@ -32,7 +32,7 @@ const CoreHeader = memo(function CoreHeader({
               {currentUserAccount == null ? (
                 <AuthSignDialog />
               ) : (
-                <UserAccountProfileAvatar userAccount={currentUserAccount} />
+                <UserAccountNameTag userAccount={currentUserAccount} />
               )}
             </div>
             {children}

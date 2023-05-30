@@ -17,13 +17,16 @@ import {
   HandFist,
   Keyhole,
   MagnifyingGlass,
+  MapPinLine,
   Minus,
   NumberCircleOne,
   Password,
+  PencilSimple,
   Plus,
   Radioactive,
   SelectionSlash,
   Skull,
+  Trash,
   UserFocus,
   WarningDiamond,
   X,
@@ -47,13 +50,16 @@ export type IconName =
   | 'hand-fist'
   | 'keyhole'
   | 'magnifying-glass'
+  | 'map-pin-line'
   | 'minus'
   | 'number-circle-one'
   | 'password'
+  | 'pencil-simple'
   | 'plus'
   | 'radioactive'
   | 'selection-slash'
   | 'skull'
+  | 'trash'
   | 'user-focus'
   | 'warning-diamond'
   | 'x';
@@ -95,12 +101,16 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return Keyhole;
       case 'magnifying-glass':
         return MagnifyingGlass;
+      case 'map-pin-line':
+        return MapPinLine;
       case 'minus':
         return Minus;
       case 'number-circle-one':
         return NumberCircleOne;
       case 'password':
         return Password;
+      case 'pencil-simple':
+        return PencilSimple;
       case 'plus':
         return Plus;
       case 'radioactive':
@@ -109,6 +119,8 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return SelectionSlash;
       case 'skull':
         return Skull;
+      case 'trash':
+        return Trash;
       case 'user-focus':
         return UserFocus;
       case 'warning-diamond':

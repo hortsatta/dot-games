@@ -3,12 +3,11 @@
 import { memo, useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Dialog } from '@material-tailwind/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { cx } from 'classix';
 
 import { useBoundStore } from '#/hooks/use-store.hook';
 import BaseButton from '../base/base-button.component';
+import BaseDialog from '../base/base-dialog.component';
 import BaseIcon from '../base/base-icon.component';
 import AuthSignInForm from './auth-sign-in-form.component';
 import AuthSignUpForm from './auth-sign-up-form.component';
@@ -93,12 +92,7 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
           </small>
         </div>
       </BaseButton>
-      <Dialog
-        className={cx('bg-transparent overflow-hidden', className)}
-        size='xs'
-        open={open}
-        handler={handleOpen}
-      >
+      <BaseDialog className={className} open={open} handler={handleOpen}>
         <div className='flex items-center'>
           <AnimatePresence initial={false}>
             {isSignIn ? (
@@ -146,7 +140,7 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
             )}
           </AnimatePresence>
         </div>
-      </Dialog>
+      </BaseDialog>
     </>
   );
 });

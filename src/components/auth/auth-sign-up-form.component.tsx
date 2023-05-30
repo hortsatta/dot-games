@@ -109,7 +109,7 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
           );
         }
       } catch (error) {
-        toast.error('Sign un failed. Please try again later');
+        toast.error('Sign up failed. Please try again later');
       }
     },
     [delayedSignUp],
@@ -125,9 +125,9 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
             placeholder='Email'
             iconName='at'
             errorMessage={errors['email']?.message}
+            disabled={isComplete}
             fullWidth
             autoFocus
-            disabled={isComplete}
           />
           <div className='relative'>
             <BaseInput
@@ -137,8 +137,8 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
               placeholder='Password'
               iconName='keyhole'
               errorMessage={errors['password']?.message}
-              fullWidth
               disabled={isComplete}
+              fullWidth
             />
             <div className='absolute right-0 top-0 h-11'>
               <BaseIconButton
@@ -156,8 +156,8 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
             placeholder='Confirm Password'
             iconName='keyhole'
             errorMessage={errors['confirmPassword']?.message}
-            fullWidth
             disabled={isComplete}
+            fullWidth
           />
           <BaseDivider />
           <BaseInput
@@ -165,16 +165,16 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
             type='text'
             label='Name'
             errorMessage={errors['fullName']?.message}
-            fullWidth
             disabled={isComplete}
+            fullWidth
           />
           <BaseInput
             {...register('displayName')}
             type='text'
             label='Display Name'
             errorMessage={errors['displayName']?.message}
-            fullWidth
             disabled={isComplete}
+            fullWidth
           />
         </div>
         <BaseTypography

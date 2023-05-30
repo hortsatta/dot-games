@@ -1,8 +1,8 @@
 import { memo, useCallback, useMemo, useState } from 'react';
-import { Dialog } from '@material-tailwind/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import SimpleBar from 'simplebar-react';
 
+import BaseDialog from '../base/base-dialog.component';
 import BaseTypography from '../base/base-typography.component';
 import BaseFieldTitle from '../base/base-field-title.component';
 import BaseButton from '../base/base-button.component';
@@ -162,9 +162,7 @@ const CartList = memo(function CartList({
           </div>
         </div>
       </div>
-      <Dialog
-        className='bg-transparent overflow-hidden'
-        size='xs'
+      <BaseDialog
         open={openConfirm}
         handler={() => setOpenConfirm(!openConfirm)}
       >
@@ -187,7 +185,7 @@ const CartList = memo(function CartList({
             <BaseButton onClick={handleRemoveConfirm}>Confirm</BaseButton>
           </div>
         </BaseSurface>
-      </Dialog>
+      </BaseDialog>
     </>
   );
 });

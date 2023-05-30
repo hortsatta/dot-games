@@ -17,6 +17,7 @@ export const theme = {
       border: 'rgba(255,0,0,0.2)',
     },
     maxWidth: {
+      compact: '1200px',
       main: '1440px',
       full: '1920px',
     },

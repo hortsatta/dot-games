@@ -65,7 +65,11 @@ export const useCart = (): Result => {
           await updateCartItems(supabase, currentUserId, newCartItems);
         }
 
-        await delayedSetCart({ ...cart, cartItems: newCartItems });
+        await delayedSetCart({
+          ...cart,
+          cartItems: newCartItems,
+          piClientSecret: undefined,
+        });
 
         return targetItemQuantity;
       } catch (error) {
@@ -104,7 +108,11 @@ export const useCart = (): Result => {
           await updateCartItems(supabase, currentUserId, filteredCartItems);
         }
 
-        await delayedSetCart({ ...cart, cartItems: filteredCartItems });
+        await delayedSetCart({
+          ...cart,
+          cartItems: filteredCartItems,
+          piClientSecret: undefined,
+        });
 
         return targetItemQuantity;
       } catch (error) {
@@ -131,7 +139,11 @@ export const useCart = (): Result => {
           await updateCartItems(supabase, currentUserId, filteredCartItems);
         }
 
-        await delayedSetCart({ ...cart, cartItems: filteredCartItems });
+        await delayedSetCart({
+          ...cart,
+          cartItems: filteredCartItems,
+          piClientSecret: undefined,
+        });
 
         return true;
       } catch (error) {
@@ -152,7 +164,11 @@ export const useCart = (): Result => {
         await updateCartItems(supabase, currentUserId, []);
       }
 
-      await delayedSetCart({ ...cart, cartItems: [] });
+      await delayedSetCart({
+        ...cart,
+        cartItems: [],
+        piClientSecret: undefined,
+      });
 
       return true;
     } catch (error) {

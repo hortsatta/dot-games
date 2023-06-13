@@ -61,8 +61,8 @@ const UserAccountAddressUpsertForm = memo(
     address,
     isComplete,
     disabled,
+    onRemove,
     onSubmit = () => new Promise((resolve) => resolve()),
-    onRemove = () => new Promise((resolve) => resolve()),
     ...moreProps
   }: Props) {
     const defaultValues: FormData = useMemo(() => {
@@ -134,7 +134,7 @@ const UserAccountAddressUpsertForm = memo(
           className='text-lg font-medium text-center'
           variant='h4'
         >
-          Update Account
+          Update Address
         </BaseTypography>
         <form className='px-8 pt-4 pb-6' onSubmit={handleSubmit(submitForm)}>
           <div className='pb-4'>
@@ -201,7 +201,7 @@ const UserAccountAddressUpsertForm = memo(
             />
           </div>
           <div className='flex items-start'>
-            {!!address && (
+            {!!address && !!onRemove && (
               <Menu placement='top-start'>
                 <MenuHandler>
                   <BaseIconButton

@@ -48,7 +48,7 @@ export async function createCart(
       throw error;
     }
 
-    const { payment_intent, cart_items, ...moreData } = data;
+    const { payment_intent_id, cart_items, ...moreData } = data;
 
     return camelcaseKeys({
       ...moreData,
@@ -87,6 +87,28 @@ export async function updateCartItems(
           camelcaseKeys(item),
       ) || []
     );
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function clearCartById(
+  supabase: SupabaseClient<Database>,
+  id: number,
+): Promise<boolean> {
+  try {
+    const { error } = await supabase
+      .from('cart')
+      .update({ cart_items: null, payment_intent_id: null })
+      .eq('id', id)
+      .select('id')
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return true;
   } catch (error) {
     throw error;
   }

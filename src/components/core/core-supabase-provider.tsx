@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 
 import { getCartByUserId } from '#/api/cart.api';
 import { getWishListByUserId } from '#/api/wish-list.api';
@@ -24,7 +24,7 @@ const CoreSupabaseProvider = ({ children }: Props) => {
   const setCart = useBoundStore((state) => state.setCart);
   const setWishList = useBoundStore((state) => state.setWishList);
   const [supabase] = useState(() =>
-    createBrowserSupabaseClient({
+    createPagesBrowserClient({
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
       supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     }),
@@ -42,7 +42,7 @@ const CoreSupabaseProvider = ({ children }: Props) => {
         const cart = await getCartByUserId(supabase, currentUserId);
         const wishList = await getWishListByUserId(supabase, currentUserId);
 
-        setCart(cart ? { cartItems: cart.cartItems } : undefined);
+        setCart(cart ? { id: cart.id, cartItems: cart.cartItems } : undefined);
         setWishList(
           wishList
             ? {

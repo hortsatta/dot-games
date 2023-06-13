@@ -2,6 +2,7 @@
 
 import { useAddress } from '#/hooks/use-address.hook';
 import { useCurrentUserAccount } from '#/hooks/use-current-user-account.hook';
+import BaseSpinner from '#/components/base/base-spinner.component';
 import BaseScene from '#/components/base/base-scene.component';
 import BaseSceneTitle from '#/components/base/base-scene-title.component';
 import UserAccountAvatarSelector from '#/components/user-account/user-account-avatar-selector.component';
@@ -9,8 +10,11 @@ import UserAccountUpdateForm from '#/components/user-account/user-account-update
 import UserAccountAddressList from '#/components/user-account/user-account-address-list.component';
 
 const AccountPage = () => {
-  const { initialLoading, currentUserAccount } = useCurrentUserAccount();
+  const { initialLoading: userAccountInitalLoading, currentUserAccount } =
+    useCurrentUserAccount();
+
   const {
+    initialLoading: addressInitialLoading,
     loading,
     addresses,
     countries,
@@ -23,7 +27,7 @@ const AccountPage = () => {
   return (
     <BaseScene
       className='max-w-compact mx-auto w-full'
-      loading={initialLoading}
+      loading={userAccountInitalLoading}
     >
       {!!currentUserAccount && (
         <div className='py-8'>
@@ -39,10 +43,14 @@ const AccountPage = () => {
           </div>
           <div>
             <BaseSceneTitle className='mb-3'>Address List</BaseSceneTitle>
-            {!!addresses && !!countries && (
+            {addressInitialLoading ? (
+              <div className='w-full flex justify-center'>
+                <BaseSpinner className='my-4 w-10 h-10' />
+              </div>
+            ) : (
               <UserAccountAddressList
-                countries={countries}
-                addresses={addresses}
+                countries={countries || []}
+                addresses={addresses || []}
                 userAccount={currentUserAccount}
                 disabled={loading}
                 onAddAddress={addAddress}

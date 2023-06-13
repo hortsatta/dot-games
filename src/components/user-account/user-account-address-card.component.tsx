@@ -15,6 +15,8 @@ import type { Address } from '#/types/address.type';
 type Props = Omit<ComponentProps<typeof Card>, 'children'> & {
   address: Address;
   disabled?: boolean;
+  defaultIconHidden?: boolean;
+  isSelected?: boolean;
   onEdit?: () => void;
   onRemove?: () => void;
   onSetDefault?: (address: Address) => Promise<boolean>;
@@ -30,12 +32,13 @@ const UserAccountAddressCard = memo(function UserAccountAddressCard({
   className,
   address,
   disabled,
+  defaultIconHidden,
+  isSelected,
   onEdit,
   onSetDefault,
   ...moreProps
 }: Props) {
   const [loading, setLoading] = useState(false);
-
   const fullName = useMemo(() => address.fullName, [address]);
   const phoneNumber = useMemo(() => address.phoneNumber, [address]);
   const addressLine = useMemo(() => address.addressLine, [address]);
@@ -55,12 +58,20 @@ const UserAccountAddressCard = memo(function UserAccountAddressCard({
 
   return (
     <Card
-      className={cx('relative w-[300px] bg-surface', className)}
+      className={cx('relative px-6 w-[300px] bg-surface', className)}
       {...moreProps}
     >
-      <CardBody className='pt-9 pb-4'>
+      <CardBody className='px-0 pt-9 pb-4'>
         <div className='absolute top-2 right-2 flex items-center'>
-          {address.isDefault && (
+          {isSelected && (
+            <BaseIcon
+              name='check-circle'
+              className='mx-2 fill-green-500'
+              width={24}
+              height={24}
+            />
+          )}
+          {address.isDefault && !defaultIconHidden && (
             <BaseIcon
               name='check-circle'
               className='mx-2 fill-green-500'

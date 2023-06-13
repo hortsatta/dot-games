@@ -19,8 +19,8 @@ type Result = {
   loading: boolean;
   countries: CountryOption[] | undefined;
   addresses: Address[] | undefined;
-  addAddress: (address: FormData) => Promise<boolean>;
-  updateAddress: (address: Address) => Promise<boolean>;
+  addAddress: (address: FormData) => Promise<Address | null>;
+  updateAddress: (address: Address) => Promise<Address | null>;
   removeAddress: (id: number) => Promise<boolean>;
   setDefaultAddress: (address: Address) => Promise<boolean>;
 };
@@ -55,11 +55,11 @@ export const useAddress = (): Result => {
     async (address: FormData) => {
       setLoading(true);
       try {
-        await addAddressDb(supabase, address);
+        const newAddress = await addAddressDb(supabase, address);
         await fetchAddresses();
-        return true;
+        return newAddress;
       } catch (error) {
-        return false;
+        return null;
       } finally {
         setLoading(false);
       }
@@ -72,11 +72,11 @@ export const useAddress = (): Result => {
     async (address: Address) => {
       setLoading(true);
       try {
-        await updateAddressDb(supabase, address);
+        const updatedAddress = await updateAddressDb(supabase, address);
         await fetchAddresses();
-        return true;
+        return updatedAddress;
       } catch (error) {
-        return false;
+        return null;
       } finally {
         setLoading(false);
       }

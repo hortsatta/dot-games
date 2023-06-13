@@ -33,6 +33,7 @@ const CartPage = () => {
     shippingFee,
     subTotalAmount,
     totalAmount,
+    doCheckout,
   } = useCheckout();
 
   return (
@@ -77,6 +78,7 @@ const CartPage = () => {
                     shippingFee={shippingFee}
                     subTotalAmount={subTotalAmount}
                     totalAmount={totalAmount}
+                    onSubmit={doCheckout}
                   />
                 </BaseSurface>
               </div>

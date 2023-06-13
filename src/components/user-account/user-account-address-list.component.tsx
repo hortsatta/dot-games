@@ -24,8 +24,8 @@ type Props = ComponentProps<'div'> & {
   countries: CountryOption[];
   addresses: Address[];
   disabled?: boolean;
-  onAddAddress?: (data: FormData) => Promise<boolean>;
-  onUpdateAddress?: (address: Address) => Promise<boolean>;
+  onAddAddress?: (data: FormData) => Promise<Address | null>;
+  onUpdateAddress?: (data: Address) => Promise<Address | null>;
   onRemoveAddress?: (id: number) => Promise<boolean>;
   onSetDefaultAddress?: (address: Address) => Promise<boolean>;
 };
@@ -51,8 +51,8 @@ const UserAccountAddressList = memo(function UserAccountAddressList({
   countries,
   addresses,
   disabled,
-  onAddAddress = () => new Promise((resolve) => resolve(false)),
-  onUpdateAddress = () => new Promise((resolve) => resolve(false)),
+  onAddAddress = () => new Promise((resolve) => resolve(null)),
+  onUpdateAddress = () => new Promise((resolve) => resolve(null)),
   onRemoveAddress,
   onSetDefaultAddress,
 }: Props) {
@@ -122,7 +122,7 @@ const UserAccountAddressList = memo(function UserAccountAddressList({
   const handleUpsertSubmit = useCallback(
     async (data: FormData) => {
       setLoading(true);
-      let result = false;
+      let result = null;
 
       try {
         if (!data.id) {

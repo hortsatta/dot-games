@@ -12,7 +12,8 @@ type Props = ComponentProps<'div'> & {
   subTotalAmount: number;
   shippingFee: number;
   totalAmount: number;
-  onCheckout?: () => void;
+  submitButtonLabel?: string;
+  onSubmit?: () => void;
 };
 
 const FIELD_CLASSNAME = 'flex flex-col items-end mb-4';
@@ -26,14 +27,13 @@ const CartCheckoutSummary = memo(function CartCheckoutSummary({
   shippingFee,
   subTotalAmount,
   totalAmount,
+  submitButtonLabel = 'Checkout',
+  onSubmit,
   ...moreProps
 }: Props) {
   return (
     <div
-      className={cx(
-        'flex-1 min-h-full flex flex-col justify-between',
-        className,
-      )}
+      className={cx('flex-1 flex flex-col justify-between', className)}
       {...moreProps}
     >
       <div>
@@ -77,8 +77,13 @@ const CartCheckoutSummary = memo(function CartCheckoutSummary({
           <BaseFieldTitle>Total</BaseFieldTitle>
         </div>
       </div>
-      <BaseButton className='min-h-[72px]' size='lg' fullWidth>
-        Checkout
+      <BaseButton
+        className='min-h-[72px]'
+        size='lg'
+        onClick={onSubmit}
+        fullWidth
+      >
+        {submitButtonLabel}
       </BaseButton>
     </div>
   );

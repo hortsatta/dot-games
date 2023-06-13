@@ -10,7 +10,7 @@ export type CartItem = {
 export type Cart = Omit<BaseColumns, 'isActive'> & {
   cartItems: CartItem[];
   userId?: string;
-  clientSecret?: string | null;
+  piClientSecret?: string | null;
 };
 
 export type CartDb = {
@@ -18,21 +18,21 @@ export type CartDb = {
     id: number;
     created_at: string;
     user_id: string;
-    payment_intent: string | null;
+    payment_intent_id: string | null;
     cart_items: BaseJsonDb | null;
   };
   Insert: {
     id?: number;
     created_at?: string;
     user_id?: string;
-    payment_intent?: string | null;
+    payment_intent_id?: string | null;
     cart_items?: BaseJsonDb | null;
   };
   Update: {
     id?: number;
     created_at?: string;
     user_id?: string;
-    payment_intent?: string | null;
+    payment_intent_id?: string | null;
     cart_items?: BaseJsonDb | null;
   };
 };

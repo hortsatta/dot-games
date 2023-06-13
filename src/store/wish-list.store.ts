@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { CoreSlice } from './core.store';
-import { CartSlice } from './cart.store';
+import type { CartSlice } from './cart.store';
+import type { OrderSlice } from './order.store';
 
 type WishListStoreState = { gameProductIds: number[] };
 
@@ -10,7 +11,7 @@ export type WishListSlice = {
 };
 
 export const createWishListSlice: StateCreator<
-  CoreSlice & CartSlice & WishListSlice,
+  CoreSlice & CartSlice & WishListSlice & OrderSlice,
   [],
   [],
   WishListSlice

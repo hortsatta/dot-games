@@ -42,6 +42,7 @@ const AuthSignInForm = memo(function AuthSignInForm({
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
+    setValue,
   } = useForm({
     shouldFocusError: false,
     defaultValues,
@@ -72,6 +73,12 @@ const AuthSignInForm = memo(function AuthSignInForm({
     },
     [onComplete, delayedSignIn],
   );
+
+  // Populate fields with a sample user
+  const populateFieldsWithSampleUser = useCallback(() => {
+    setValue('email', process.env.NEXT_PUBLIC_SAMPLE_USER_EMAIL || '');
+    setValue('password', process.env.NEXT_PUBLIC_SAMPLE_USER_PASSWORD || '');
+  }, [setValue]);
 
   return (
     <BaseSurface className={cx('pt-4', className)} {...moreProps}>
@@ -110,7 +117,7 @@ const AuthSignInForm = memo(function AuthSignInForm({
           Sign In
         </BaseButton>
       </form>
-      <div className='pb-4 flex justify-center'>
+      <div className='px-4 pb-4 flex flex-col justify-center'>
         <BaseButton
           className='normal-case text-sm dark:text-current-dark'
           variant='text'
@@ -120,6 +127,13 @@ const AuthSignInForm = memo(function AuthSignInForm({
             I don&apos;t have an account.{' '}
             <span className='text-primary font-medium'>Sign up</span>
           </span>
+        </BaseButton>
+        <BaseButton
+          className='normal-case text-sm text-secondary font-normal'
+          variant='text'
+          onClick={populateFieldsWithSampleUser}
+        >
+          Sign in as a sample user
         </BaseButton>
       </div>
     </BaseSurface>

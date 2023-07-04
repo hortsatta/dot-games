@@ -195,15 +195,17 @@ const CheckoutShippingAddress = memo(function CheckoutShippingAddress({
             onClick={handleEdit}
             fullWidth
           >
-            Edit Current Address
+            {!!addresses.length ? 'Edit Current Address' : 'New Address'}
           </BaseButton>
-          <BaseButton
-            variant='outlined'
-            onClick={handleOpenAddressSelect}
-            fullWidth
-          >
-            Change Address
-          </BaseButton>
+          {!!addresses.length && (
+            <BaseButton
+              variant='outlined'
+              onClick={handleOpenAddressSelect}
+              fullWidth
+            >
+              Change Address
+            </BaseButton>
+          )}
         </div>
       </div>
       <BaseDialog

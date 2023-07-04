@@ -4,7 +4,6 @@ import BaseNavItem from '../base/base-nav-item.component';
 import BaseIcon from '../base/base-icon.component';
 import CoreWishListNav from './core-wish-list-nav.component';
 import CoreCartNav from './core-cart-nav.component';
-import CoreSearchNav from './core-search-nav.component';
 
 import mainMenuJson from '#/main-menu.json';
 
@@ -15,8 +14,8 @@ const CoreNav = memo(function CoreNav() {
     <nav className='flex justify-center items-center h-full'>
       <CoreCartNav to='/cart' />
       <CoreWishListNav to='/wish-list' />
-      {mainMenuJson.map(({ to, icon }) => (
-        <BaseNavItem key={to} to={to}>
+      {mainMenuJson.map(({ to, icon, isExternal }) => (
+        <BaseNavItem key={to} to={to} isExternal={isExternal}>
           <BaseIcon
             name={icon as IconName}
             className='dark:fill-current-dark/100'
@@ -25,7 +24,7 @@ const CoreNav = memo(function CoreNav() {
           />
         </BaseNavItem>
       ))}
-      <CoreSearchNav to='/search' />
+      {/* <CoreSearchNav to='/search' /> */}
     </nav>
   );
 });

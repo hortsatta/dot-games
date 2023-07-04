@@ -13,6 +13,7 @@ import {
   DoorOpen,
   FlyingSaucer,
   GameController,
+  GithubLogo,
   HandEye,
   HandFist,
   Keyhole,
@@ -46,6 +47,7 @@ export type IconName =
   | 'door-open'
   | 'flying-saucer'
   | 'game-controller'
+  | 'github-logo'
   | 'hand-eye'
   | 'hand-fist'
   | 'keyhole'
@@ -93,6 +95,8 @@ const BaseIcon = memo(function BaseIcon({ name, ...moreProps }: Props) {
         return FlyingSaucer;
       case 'game-controller':
         return GameController;
+      case 'github-logo':
+        return GithubLogo;
       case 'hand-eye':
         return HandEye;
       case 'hand-fist':

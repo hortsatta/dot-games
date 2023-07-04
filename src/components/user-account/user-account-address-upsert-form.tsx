@@ -134,7 +134,7 @@ const UserAccountAddressUpsertForm = memo(
           className='text-lg font-medium text-center'
           variant='h4'
         >
-          Update Address
+          {!!address ? 'Update Address' : 'New Address'}
         </BaseTypography>
         <form className='px-8 pt-4 pb-6' onSubmit={handleSubmit(submitForm)}>
           <div className='pb-4'>

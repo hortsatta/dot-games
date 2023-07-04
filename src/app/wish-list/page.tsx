@@ -1,8 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+import { useBoundStore } from '#/hooks/use-store.hook';
+import { useCurrentUserAccount } from '#/hooks/use-current-user-account.hook';
 import { useCart } from '#/hooks/use-cart.hook';
 import { useWishList } from '#/hooks/use-wish-list.hook';
 import BaseIcon from '#/components/base/base-icon.component';
@@ -19,9 +21,12 @@ const animate = {
 };
 
 const WishListPage = () => {
+  const setShowLogin = useBoundStore((state) => state.setShowLogin);
+  const { initialLoading: userAccountInitialLoading, currentUserAccount } =
+    useCurrentUserAccount();
   const { loading: cartLoading, addCartItem } = useCart();
   const {
-    initialLoading,
+    initialLoading: wishListInitialLoading,
     loading: wishListLoading,
     wishListGameProducts,
     toggleGameProduct,
@@ -36,41 +41,68 @@ const WishListPage = () => {
     [wishListGameProducts],
   );
 
+  const signIn = useCallback(() => {
+    setShowLogin(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <BaseScene className='relative' loading={initialLoading}>
-      <AnimatePresence>
-        {!gameProducts.length ? (
-          <div
-            key='empty'
-            className='absolute top-[72px] p-8 pt-16 w-full flex flex-col items-center'
-          >
-            <BaseIcon
-              name='selection-slash'
-              className='mb-4 fill-current-dark/50'
-              width={56}
-              height={56}
-            />
-            <span className='dark:text-current-dark/50'>
-              Your wish list is empty! There is nothing to show.
-            </span>
-          </div>
-        ) : (
-          <motion.div
-            key='not-empty'
-            className='mx-auto max-w-main py-8 w-full'
-            {...animate}
-          >
-            <BaseSceneTitle>Wish List</BaseSceneTitle>
-            <WishListGameProductGrid
-              gameProducts={gameProducts}
-              disabled={initialLoading || cartLoading || wishListLoading}
-              onAddToCart={addCartItem}
-              onToggleToWishList={toggleGameProduct}
-              onEmpty={emptyWishList}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <BaseScene
+      className='relative'
+      loading={wishListInitialLoading || userAccountInitialLoading}
+    >
+      {!currentUserAccount ? (
+        <div className='p-8 pt-16 w-full flex flex-col items-center'>
+          <BaseIcon
+            name='user-focus'
+            className='mb-4 fill-current-dark/80'
+            width={56}
+            height={56}
+          />
+          <span>
+            <a className='underline cursor-pointer' onClick={signIn}>
+              Sign in
+            </a>{' '}
+            to view your wish list
+          </span>
+        </div>
+      ) : (
+        <AnimatePresence>
+          {!gameProducts.length ? (
+            <div
+              key='empty'
+              className='absolute top-[72px] p-8 pt-16 w-full flex flex-col items-center'
+            >
+              <BaseIcon
+                name='selection-slash'
+                className='mb-4 fill-current-dark/50'
+                width={56}
+                height={56}
+              />
+              <span className='dark:text-current-dark/50'>
+                Your wish list is empty! There is nothing to show.
+              </span>
+            </div>
+          ) : (
+            <motion.div
+              key='not-empty'
+              className='mx-auto max-w-main py-8 w-full'
+              {...animate}
+            >
+              <BaseSceneTitle>Wish List</BaseSceneTitle>
+              <WishListGameProductGrid
+                gameProducts={gameProducts}
+                disabled={
+                  wishListInitialLoading || cartLoading || wishListLoading
+                }
+                onAddToCart={addCartItem}
+                onToggleToWishList={toggleGameProduct}
+                onEmpty={emptyWishList}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </BaseScene>
   );
 };

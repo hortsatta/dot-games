@@ -41,6 +41,8 @@ const SHIPPING_FEE = 0;
 export const useCheckout = (): Result => {
   const router = useRouter();
   const { supabase } = useSupabase();
+  const currentUserId = useBoundStore((state) => state.currentUserId);
+  const setShowLogin = useBoundStore((state) => state.setShowLogin);
   const cart = useBoundStore((state) => state.cart);
   const setCart = useBoundStore((state) => state.setCart);
   const setClientSecret = useBoundStore((state) => state.setClientSecret);
@@ -103,13 +105,19 @@ export const useCheckout = (): Result => {
       !!gps.length && setGameProducts(gps);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cart]);
 
   const changeShippingAddress = useCallback((address: Address) => {
     setShippingAddress(address);
   }, []);
 
   const doCheckout = useCallback(async () => {
+    // Show login dialog if no current user
+    if (!currentUserId) {
+      setShowLogin('/cart');
+      return;
+    }
+
     try {
       setLoading(true);
       const clientSecret = await createPaymentIntent(
@@ -128,7 +136,7 @@ export const useCheckout = (): Result => {
       throw error;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
+  }, [cart, currentUserId]);
 
   const placeOrder = useCallback(async () => {
     try {

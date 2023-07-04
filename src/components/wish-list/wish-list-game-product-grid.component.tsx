@@ -35,7 +35,7 @@ const WishListGameProductGrid = memo(function WishListGameProductGrid({
 }: Props) {
   return (
     <div className={cx('w-full', className)} {...moreProps}>
-      <div className='grid grid-cols-4 gap-4 w-full mb-6'>
+      <div className='flex flex-wrap gap-4 w-full mb-6'>
         <AnimatePresence>
           {gameProducts.map((gp) => (
             <motion.div key={gp.id} {...animate}>

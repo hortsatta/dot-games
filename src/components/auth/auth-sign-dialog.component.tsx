@@ -37,13 +37,21 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
   const setShowLogin = useBoundStore((state) => state.setShowLogin);
   const [isSignIn, setIsSignIn] = useState(true);
   const [open, setOpen] = useState(false);
+  const [isSignUpComplete, setIsSignUpComplete] = useState(false);
+  const [signUpCompletePath, setSignUpCompletePath] = useState<string | null>(
+    null,
+  );
 
   const handleOpen = useCallback(() => {
+    if (isSignUpComplete) {
+      return;
+    }
+
     setOpen(!open);
     if (open) {
       setIsSignIn(true);
     }
-  }, [open]);
+  }, [open, isSignUpComplete]);
 
   const handleToggleSignIn = useCallback(() => setIsSignIn(true), []);
 
@@ -54,17 +62,24 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
     router.refresh();
   }, [router]);
 
-  const handleSignUpSubmit = useCallback(
-    (path: string) => {
-      router.push(path);
-      router.refresh();
-    },
-    [router],
-  );
+  const handleSignUpSubmit = useCallback(() => {
+    setIsSignUpComplete(true);
+
+    if (!signUpCompletePath) {
+      return;
+    }
+
+    router.push(signUpCompletePath);
+    window.location.reload();
+  }, [router, signUpCompletePath]);
 
   useEffect(() => {
     if (!showLogin) {
       return;
+    }
+
+    if (typeof showLogin === 'string') {
+      setSignUpCompletePath(showLogin);
     }
 
     handleOpen();
@@ -75,7 +90,7 @@ const AuthSignDialog = memo(function AuthSignDialog({ className }: Props) {
   return (
     <>
       <BaseButton
-        className='ml-5 px-2 h-full flex items-center dark:text-current-dark/100 text-lg'
+        className='ml-5 px-2 h-full flex items-center dark:text-current-dark/100 text-lg z-10'
         variant='icon'
         onClick={handleOpen}
       >

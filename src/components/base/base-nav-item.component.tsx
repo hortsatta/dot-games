@@ -15,6 +15,7 @@ import type { ComponentProps } from 'react';
 
 type Props = ComponentProps<typeof BaseButton> & {
   to: string;
+  isExternal?: boolean;
 };
 
 const indicatorAnimate = {
@@ -120,7 +121,12 @@ const NavIndicator = memo(function NavIndicator() {
   );
 });
 
-const BaseNavItem = memo(function NavItem({ to, ...moreProps }: Props) {
+const BaseNavItem = memo(function NavItem({
+  to,
+  isExternal,
+  children,
+  ...moreProps
+}: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const isActive = useMemo(() => pathname === to, [pathname, to]);
@@ -128,16 +134,28 @@ const BaseNavItem = memo(function NavItem({ to, ...moreProps }: Props) {
 
   return (
     <div className='relative h-full'>
-      <BaseButton
-        className={cx(
-          'group relative h-full hover:!bg-transparent hover:opacity-100 z-[2]',
-          isActive && 'opacity-100',
-        )}
-        variant='icon'
-        ripple={false}
-        onClick={handleClick}
-        {...moreProps}
-      />
+      {!isExternal ? (
+        <BaseButton
+          className={cx(
+            'group relative h-full hover:!bg-transparent hover:opacity-100 z-[2]',
+            isActive && 'opacity-100',
+          )}
+          variant='icon'
+          ripple={false}
+          onClick={handleClick}
+          {...moreProps}
+        >
+          {children}
+        </BaseButton>
+      ) : (
+        <a
+          href={to}
+          className='flex justify-center items-center relative py-3 px-6 h-full hover:!bg-transparent opacity-80 hover:!opacity-100 z-[2]'
+          target='_blank'
+        >
+          {children}
+        </a>
+      )}
       <AnimatePresence>
         {isActive && (
           <motion.div

@@ -24,6 +24,9 @@ type Props = ComponentProps<'form'> & {
   disabled?: boolean;
 };
 
+const expirationYear =
+  Number(new Date().toLocaleDateString('en', { year: '2-digit' })) + 11;
+
 const paymentElementOptions: StripePaymentElementOptions = {
   layout: {
     type: 'tabs',
@@ -148,6 +151,12 @@ const CheckoutForm = memo(function CheckoutForm({
       >
         Pay Now
       </BaseButton>
+      <div className='mt-10 flex flex-col text-current-dark opacity-70'>
+        <small>Use the provided sample card to make a successful pay.</small>
+        <small>Card No.: 4242 4242 4242 4242</small>
+        <small>Expiration: 12/{expirationYear}</small>
+        <small>CVC: Use any three-digit</small>
+      </div>
     </form>
   );
 });

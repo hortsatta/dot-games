@@ -1,4 +1,7 @@
-import { memo } from 'react';
+'use client';
+
+import { memo, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { ButtonGroup } from '@material-tailwind/react';
 import { cx } from 'classix';
 import { motion } from 'framer-motion';
@@ -8,10 +11,6 @@ import BaseButton from '../base/base-button.component';
 import BaseTypography from '../base/base-typography.component';
 
 import type { HTMLMotionProps } from 'framer-motion';
-
-type Props = HTMLMotionProps<'div'> & {
-  onNavigate?: (path: string) => void;
-};
 
 const containerAnimateVariant = {
   hidden: { x: -100, opacity: 0.5 },
@@ -33,9 +32,20 @@ const itemAnimateVariant = {
 
 const AuthSignUpComplete = memo(function AuthSignUpComplete({
   className,
-  onNavigate,
   ...moreProps
-}: Props) {
+}: HTMLMotionProps<'div'>) {
+  const router = useRouter();
+
+  const handleHomeNavigate = useCallback(() => {
+    router.push('/');
+    router.refresh();
+  }, [router]);
+
+  const handleAccountNavigate = useCallback(() => {
+    router.push('/account');
+    router.refresh();
+  }, [router]);
+
   return (
     <motion.div
       className={cx('flex flex-col items-center justify-start', className)}
@@ -71,12 +81,8 @@ const AuthSignUpComplete = memo(function AuthSignUpComplete({
       </motion.div>
       <motion.div className='w-full' variants={itemAnimateVariant}>
         <ButtonGroup variant='outlined' size='lg' fullWidth>
-          <BaseButton onClick={() => onNavigate && onNavigate('/')}>
-            Back to Home
-          </BaseButton>
-          <BaseButton onClick={() => onNavigate && onNavigate('/account')}>
-            Go to Account
-          </BaseButton>
+          <BaseButton onClick={handleHomeNavigate}>Back to Home</BaseButton>
+          <BaseButton onClick={handleAccountNavigate}>Go to Account</BaseButton>
         </ButtonGroup>
       </motion.div>
     </motion.div>

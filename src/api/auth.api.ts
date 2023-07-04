@@ -44,11 +44,15 @@ export async function signUp(
     }
 
     const user_id = authData.user.id;
-    const { error } = await supabase
+    const { data } = await supabase
       .from('user_account')
-      .insert({ user_id, display_name, full_name, avatar_type: 1 });
+      .insert({ user_id, display_name, full_name, avatar_type: 1 })
+      .select('user_id')
+      .single();
 
-    return !error;
+    const userId = data?.user_id;
+
+    return userId;
   } catch (error) {
     throw error;
   }

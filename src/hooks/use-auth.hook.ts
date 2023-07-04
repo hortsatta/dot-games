@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useSupabase } from '#/components/core/core-supabase-provider';
 import { useBoundStore } from './use-store.hook';
 
+import { createCart } from '#/api/cart.api';
 import {
   signIn as authSignIn,
   signUp as authSignUp,
@@ -19,6 +20,7 @@ type Result = {
 
 export const useAuth = (): Result => {
   const { supabase } = useSupabase();
+  const cart = useBoundStore((state) => state.cart);
   const setCart = useBoundStore((state) => state.setCart);
 
   const signIn = useCallback(
@@ -29,13 +31,29 @@ export const useAuth = (): Result => {
   );
 
   const signUp = useCallback(
-    ({
+    async ({
       email,
       password,
       fullName,
       displayName,
-    }: Omit<SignUpFormdata, 'confirmPassword'>) =>
-      authSignUp(supabase, { email, password, fullName, displayName }),
+    }: Omit<SignUpFormdata, 'confirmPassword'>) => {
+      try {
+        const userId = await authSignUp(supabase, {
+          email,
+          password,
+          fullName,
+          displayName,
+        });
+
+        if (!!cart?.cartItems.length && !!userId) {
+          await createCart(supabase, userId.trim(), cart.cartItems);
+        }
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [authSignUp],
   );

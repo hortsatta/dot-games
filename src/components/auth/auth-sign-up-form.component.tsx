@@ -28,7 +28,7 @@ export type FormData = AuthCredentials & {
 };
 
 type Props = ComponentProps<'div'> & {
-  onComplete?: (path: string) => void;
+  onComplete?: () => void;
   onToggleSignIn?: () => void;
 };
 
@@ -82,15 +82,14 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
   const { timeoutFn: delayedSignUp } = useTimeout(signUp, 1500);
   const [isPasswordReveal, setIsPasswordReveal] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [completePath, setCompletePath] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isComplete || !completePath) {
+    if (!isComplete) {
       return;
     }
 
-    onComplete && onComplete(completePath);
-  }, [isComplete, completePath, onComplete]);
+    onComplete && onComplete();
+  }, [isComplete, onComplete]);
 
   const toggleIsPasswordReveal = useCallback(() => {
     setIsPasswordReveal(!isPasswordReveal);
@@ -192,9 +191,7 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
         <AnimatePresence>
           {isComplete && (
             <motion.div {...authCompleteAnimate}>
-              <AuthSignUpComplete
-                onNavigate={(path: string) => setCompletePath(path)}
-              />
+              <AuthSignUpComplete />
             </motion.div>
           )}
         </AnimatePresence>

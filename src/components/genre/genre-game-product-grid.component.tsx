@@ -32,7 +32,7 @@ const GenreGameProductGrid = memo(function GenreGameProductGrid({
 
   return (
     <div
-      className={cx('grid grid-cols-4 gap-4 w-full mb-6', className)}
+      className={cx('flex flex-wrap gap-4 w-full mb-6', className)}
       {...moreProps}
     >
       {gameProducts.map((gp) => (

@@ -1,6 +1,6 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { createRouteHandlerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { headers, cookies } from 'next/headers';
 import Stripe from 'stripe';
 
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
@@ -14,7 +14,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 
 export async function POST(request: Request) {
   const currentDateSeconds = new Date().getTime() / 1000;
-  const supabase = createRouteHandlerClient<Database>({ cookies });
+  const supabase = createRouteHandlerSupabaseClient<Database>({
+    headers,
+    cookies,
+  });
   const { data: authData } = await supabase.auth.getSession();
   const { cartItems, cartId } = await request.json();
 

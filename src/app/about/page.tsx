@@ -9,9 +9,10 @@ const AboutPage = () => {
     <BaseScene>
       <div className='pt-12 max-w-[700px] w-full mx-auto'>
         <BaseTypography>
-          <strong className='font-bold'>dotGames</strong> is an e-commerce
-          website prototype for playstation exclusive video game products. It is
-          written in Typescript and uses the React library and Nextjs framework.
+          <strong className='font-bold'>dotGames</strong> is a prototype
+          e-commerce website for a shop that exclusively sells playstation video
+          game products. It is written in Typescript and uses the React library
+          and Nextjs framework.
         </BaseTypography>
         <div className='mt-8 w-full flex justify-center'>
           <a

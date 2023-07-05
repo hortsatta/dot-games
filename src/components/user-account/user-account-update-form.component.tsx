@@ -24,7 +24,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import type { UserAccount } from '#/types/user-account.type';
 
 const WRAPPER_CLASSNAME = 'mb-4';
-const VALUE_CLASSNAME = 'text-xl leading-none';
+const VALUE_CLASSNAME = 'leading-none';
 const DIVIDER_CLASSNAME = '!my-1 opacity-50';
 const labelProps = { className: 'opacity-50', variant: 'small' };
 const editIconProps = { className: 'fill-primary' };

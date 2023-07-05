@@ -134,7 +134,7 @@ export const useAddress = (): Result => {
     (async () => {
       await fetchAddresses();
     })();
-  }, [currentUserId, fetchAddresses]);
+  }, [fetchAddresses]);
 
   return {
     initialLoading: addresses === undefined || countries === undefined,

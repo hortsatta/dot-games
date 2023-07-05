@@ -1,3 +1,4 @@
+import { siteMetadata } from '#/config/site-metadata.config';
 import { mainFont } from '#/config/fonts.config';
 import CoreHtml from '#/components/core/core-html.component';
 import CoreHeader from '#/components/core/core-header.component';
@@ -14,6 +15,8 @@ import type { ReactNode } from 'react';
 type Props = {
   children: ReactNode;
 };
+
+export const metadata = siteMetadata;
 
 const RootLayout = ({ children }: Props) => (
   <CoreHtml lang='en' className={mainFont.variable}>

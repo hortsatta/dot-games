@@ -10,6 +10,7 @@ import { useWishList } from '#/hooks/use-wish-list.hook';
 import BaseIcon from '#/components/base/base-icon.component';
 import BaseScene from '#/components/base/base-scene.component';
 import BaseSceneTitle from '#/components/base/base-scene-title.component';
+import AuthSignInCard from '#/components/auth/auth-sign-in-card.component';
 import WishListGameProductGrid from '#/components/wish-list/wish-list-game-product-grid.component';
 
 import type { GameProduct } from '#/types/game-product.type';
@@ -41,7 +42,7 @@ const WishListPage = () => {
     [wishListGameProducts],
   );
 
-  const signIn = useCallback(() => {
+  const handleSignIn = useCallback(() => {
     setShowLogin(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,20 +53,11 @@ const WishListPage = () => {
       loading={wishListInitialLoading || userAccountInitialLoading}
     >
       {!currentUserAccount ? (
-        <div className='p-8 pt-16 w-full flex flex-col items-center'>
-          <BaseIcon
-            name='user-focus'
-            className='mb-4 fill-current-dark/80'
-            width={56}
-            height={56}
-          />
-          <span>
-            <a className='underline cursor-pointer' onClick={signIn}>
-              Sign in
-            </a>{' '}
-            to view your wish list
-          </span>
-        </div>
+        <AuthSignInCard
+          className='p-8 pt-16'
+          labelAppend='to view your wish list'
+          onSignIn={handleSignIn}
+        />
       ) : (
         <AnimatePresence>
           {!gameProducts.length ? (

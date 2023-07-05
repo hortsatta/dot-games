@@ -1,15 +1,21 @@
 'use client';
 
+import { useCallback } from 'react';
+
+import { useBoundStore } from '#/hooks/use-store.hook';
 import { useAddress } from '#/hooks/use-address.hook';
 import { useCurrentUserAccount } from '#/hooks/use-current-user-account.hook';
 import BaseSpinner from '#/components/base/base-spinner.component';
 import BaseScene from '#/components/base/base-scene.component';
 import BaseSceneTitle from '#/components/base/base-scene-title.component';
+import AuthSignInCard from '#/components/auth/auth-sign-in-card.component';
 import UserAccountAvatarSelector from '#/components/user-account/user-account-avatar-selector.component';
 import UserAccountUpdateForm from '#/components/user-account/user-account-update-form.component';
 import UserAccountAddressList from '#/components/user-account/user-account-address-list.component';
 
 const AccountPage = () => {
+  const setShowLogin = useBoundStore((state) => state.setShowLogin);
+
   const { initialLoading: userAccountInitalLoading, currentUserAccount } =
     useCurrentUserAccount();
 
@@ -24,12 +30,23 @@ const AccountPage = () => {
     setDefaultAddress,
   } = useAddress();
 
+  const handleSignIn = useCallback(() => {
+    setShowLogin(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <BaseScene
       className='max-w-compact mx-auto w-full'
       loading={userAccountInitalLoading}
     >
-      {!!currentUserAccount && (
+      {!currentUserAccount ? (
+        <AuthSignInCard
+          className='p-8 pt-16'
+          labelAppend='to view your wish list'
+          onSignIn={handleSignIn}
+        />
+      ) : (
         <div className='py-8'>
           <div className='pb-8'>
             <BaseSceneTitle>User Account</BaseSceneTitle>

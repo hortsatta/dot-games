@@ -4,6 +4,7 @@ import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import SimpleBar from 'simplebar-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
+import { Tooltip } from '@material-tailwind/react';
 
 import { useTimeout } from '#/hooks/use-timeout.hook';
 import BaseIcon from '../base/base-icon.component';
@@ -214,12 +215,14 @@ const UserAccountAddressList = memo(function UserAccountAddressList({
               <div className='flex items-center'>
                 <BaseIconButton
                   name='caret-left'
+                  aria-label='previous item'
                   className='mr-2 w-7 h-7'
                   onClick={scrollToLeft}
                   {...iconButtonScrollProps}
                 />
                 <BaseIconButton
                   name='caret-right'
+                  aria-label='next item'
                   className='w-7 h-7'
                   onClick={scrollToRight}
                   {...iconButtonScrollProps}
@@ -244,13 +247,16 @@ const UserAccountAddressList = memo(function UserAccountAddressList({
             </SimpleBar>
           </div>
         </div>
-        <BaseIconButton
-          name='plus'
-          className='max-w-none max-h-none w-[65px] h-[65px] rounded-full'
-          variant='outlined'
-          iconProps={iconCardProps}
-          onClick={handleAddNew}
-        />
+        <Tooltip content='add new address'>
+          <BaseIconButton
+            name='plus'
+            aria-label='add new address'
+            className='max-w-none max-h-none w-[65px] h-[65px] rounded-full'
+            variant='outlined'
+            iconProps={iconCardProps}
+            onClick={handleAddNew}
+          />
+        </Tooltip>
       </div>
       <BaseDialog
         className='overflow-visible'

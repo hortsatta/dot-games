@@ -66,6 +66,7 @@ const GameProductDiscountedList = memo(function GameProductDiscountedList({
         <div className='flex items-center'>
           <BaseIconButton
             name='caret-left'
+            aria-label='previous item'
             className='mr-2.5'
             color='white'
             variant='outlined'
@@ -75,6 +76,7 @@ const GameProductDiscountedList = memo(function GameProductDiscountedList({
           />
           <BaseIconButton
             name='caret-right'
+            aria-label='next item'
             color='white'
             variant='outlined'
             size='sm'

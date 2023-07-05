@@ -12,10 +12,10 @@ import type { IconName } from '../base/base-icon.component';
 const CoreNav = memo(function CoreNav() {
   return (
     <nav className='flex justify-center items-center h-full'>
-      <CoreCartNav to='/cart' />
-      <CoreWishListNav to='/wish-list' />
-      {mainMenuJson.map(({ to, icon, isExternal }) => (
-        <BaseNavItem key={to} to={to} isExternal={isExternal}>
+      <CoreCartNav to='/cart' tooltip='Cart' />
+      <CoreWishListNav to='/wish-list' tooltip='Wish List' />
+      {mainMenuJson.map(({ to, icon, isExternal, label }) => (
+        <BaseNavItem key={to} to={to} isExternal={isExternal} tooltip={label}>
           <BaseIcon
             name={icon as IconName}
             className='dark:fill-current-dark/100'
@@ -24,7 +24,7 @@ const CoreNav = memo(function CoreNav() {
           />
         </BaseNavItem>
       ))}
-      {/* <CoreSearchNav to='/search' /> */}
+      {/* <CoreSearchNav to='/search' tooltip='Search' /> */}
     </nav>
   );
 });

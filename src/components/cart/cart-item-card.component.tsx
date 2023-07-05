@@ -97,6 +97,7 @@ const CartItemCard = memo(function CartItemCard({
       <div className='pl-2 pr-4'>
         <BaseIconButton
           name='x'
+          aria-label='remove item'
           disabled={loading}
           onClick={handleRemove}
           {...removeIconButton}
@@ -133,6 +134,7 @@ const CartItemCard = memo(function CartItemCard({
       <div className='mr-4 flex justify-center items-center text-center'>
         <BaseIconButton
           name='minus'
+          aria-label='subtract 1'
           disabled={loading}
           onClick={handleSubtract}
           {...qtyIconButton}
@@ -140,6 +142,7 @@ const CartItemCard = memo(function CartItemCard({
         <span className='mx-2 w-10 text-xl'>{quantity}</span>
         <BaseIconButton
           name='plus'
+          aria-label='add 1'
           disabled={loading}
           onClick={handleAdd}
           {...qtyIconButton}

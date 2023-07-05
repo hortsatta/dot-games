@@ -48,6 +48,7 @@ const GenreList = memo(function GenreList({ genres, ...moreProps }: Props) {
         <div className='flex items-center'>
           <BaseIconButton
             name='caret-left'
+            aria-label='previous item'
             className='mr-2.5'
             color='white'
             variant='outlined'
@@ -57,6 +58,7 @@ const GenreList = memo(function GenreList({ genres, ...moreProps }: Props) {
           />
           <BaseIconButton
             name='caret-right'
+            aria-label='next item'
             color='white'
             variant='outlined'
             size='sm'

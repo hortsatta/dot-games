@@ -141,6 +141,9 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
             />
             <div className='absolute right-0 top-0 h-11'>
               <BaseIconButton
+                aria-label={
+                  isPasswordReveal ? 'hide password' : 'show password'
+                }
                 className='p-2 h-full max-h-none'
                 name={isPasswordReveal ? 'hand-eye' : 'hand-fist'}
                 variant='text'

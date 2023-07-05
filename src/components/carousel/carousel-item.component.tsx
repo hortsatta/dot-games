@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import striptags from 'striptags';
 import toast from 'react-hot-toast';
+import { Tooltip } from '@material-tailwind/react';
 import { cx } from 'classix';
 
 import BaseTypography from '../base/base-typography.component';
@@ -181,16 +182,18 @@ const Content = memo(function Content({
                 Buy Now
               </BaseButton>
               <div className='relative shrink-0'>
-                <BaseIconButton
-                  aria-label='add to wish list'
-                  name='brain'
-                  className='rounded-l-none'
-                  color='deep-purple'
-                  size='lg'
-                  loading={wishListLoading}
-                  disabled={!wishListLoading && disabled}
-                  onClick={handleToggleToWishList}
-                />
+                <Tooltip content='add to wish list'>
+                  <BaseIconButton
+                    aria-label='add to wish list'
+                    name='brain'
+                    className='rounded-l-none'
+                    color='deep-purple'
+                    size='lg'
+                    loading={wishListLoading}
+                    disabled={!wishListLoading && disabled}
+                    onClick={handleToggleToWishList}
+                  />
+                </Tooltip>
                 {isWishListed && (
                   <div className='absolute -top-1.5 -right-1 p-1 bg-green-500 rounded-full'>
                     <BaseIcon

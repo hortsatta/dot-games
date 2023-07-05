@@ -82,12 +82,14 @@ const CheckoutShippingAddressSelector = memo(
         <div className='w-full flex justify-end items-center'>
           <BaseIconButton
             name='caret-left'
+            aria-label='previous item'
             className='mr-2 w-7 h-7'
             onClick={scrollToLeft}
             {...iconButtonScrollProps}
           />
           <BaseIconButton
             name='caret-right'
+            aria-label='next item'
             className='w-7 h-7'
             onClick={scrollToRight}
             {...iconButtonScrollProps}

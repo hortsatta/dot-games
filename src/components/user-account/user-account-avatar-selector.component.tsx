@@ -2,7 +2,7 @@
 
 import { memo, useCallback, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { Avatar, Card, CardBody, Dialog } from '@material-tailwind/react';
+import { Avatar, Card, CardBody, Tooltip } from '@material-tailwind/react';
 import { toast } from 'react-hot-toast';
 import { cx } from 'classix';
 
@@ -103,12 +103,15 @@ const UserAccountAvatarSelector = memo(function UserAccountAvatarSelector({
       >
         <CardBody className='flex justify-center items-center p-4 w-full h-full'>
           <div className='absolute top-2 right-2'>
-            <BaseIconButton
-              name='pencil-simple'
-              variant='text'
-              iconProps={editIconProps}
-              onClick={handleOpen}
-            />
+            <Tooltip content='edit'>
+              <BaseIconButton
+                name='pencil-simple'
+                aria-label='edit address'
+                variant='text'
+                iconProps={editIconProps}
+                onClick={handleOpen}
+              />
+            </Tooltip>
           </div>
           <div className='w-full flex flex-col items-center'>
             <Avatar

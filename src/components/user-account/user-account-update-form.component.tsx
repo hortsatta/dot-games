@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useCallback, useMemo, useState } from 'react';
-import { Card, CardBody } from '@material-tailwind/react';
+import { Card, CardBody, Tooltip } from '@material-tailwind/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
@@ -123,12 +123,15 @@ const UserAccountUpdateForm = memo(function UserAccountUpdateForm({
       >
         <CardBody className='pt-8 pb-4'>
           <div className='absolute top-2 right-2'>
-            <BaseIconButton
-              name='pencil-simple'
-              variant='text'
-              iconProps={editIconProps}
-              onClick={handleOpen}
-            />
+            <Tooltip content='edit'>
+              <BaseIconButton
+                name='pencil-simple'
+                aria-label='edit address'
+                variant='text'
+                iconProps={editIconProps}
+                onClick={handleOpen}
+              />
+            </Tooltip>
           </div>
           <div className={WRAPPER_CLASSNAME}>
             <BaseTypography className={cx(VALUE_CLASSNAME, 'pr-6')}>

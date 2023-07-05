@@ -7,9 +7,9 @@ import type { ComponentProps } from 'react';
 
 type Props = Omit<ComponentProps<typeof BaseNavItem>, 'children'>;
 
-const CoreSearchNav = memo(function CoreCartNav({ to }: Props) {
+const CoreSearchNav = memo(function CoreCartNav({ to, ...moreProps }: Props) {
   return (
-    <BaseNavItem to={to}>
+    <BaseNavItem to={to} {...moreProps}>
       <BaseIcon
         name='magnifying-glass'
         className='dark:fill-current-dark/100'

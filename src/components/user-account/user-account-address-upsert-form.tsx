@@ -206,6 +206,7 @@ const UserAccountAddressUpsertForm = memo(
                 <MenuHandler>
                   <BaseIconButton
                     name='trash'
+                    aria-label='delete address'
                     className='mr-2 shrink-0 !w-[40px]'
                     variant='outlined'
                     loading={isSubmitting}

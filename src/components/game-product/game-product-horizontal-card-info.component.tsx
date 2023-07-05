@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import striptags from 'striptags';
+import { Tooltip } from '@material-tailwind/react';
 import { cx } from 'classix';
 
 import BaseDivider from '../base/base-divider.component';
@@ -143,25 +144,31 @@ const GameProductHorizontalCardInfo = memo(
             <div className='flex justify-between items-center pt-4'>
               <div className='flex items-center'>
                 {isReleased && (
-                  <BaseIconButton
-                    name='flying-saucer'
-                    className='mr-2 max-w-none w-14'
-                    loading={cartLoading}
-                    disabled={!cartLoading && disabled}
-                    onClick={onAddToCart}
-                  />
+                  <Tooltip content='add to cart'>
+                    <BaseIconButton
+                      name='flying-saucer'
+                      aria-label='add to cart'
+                      className='mr-2 max-w-none w-14'
+                      loading={cartLoading}
+                      disabled={!cartLoading && disabled}
+                      onClick={onAddToCart}
+                    />
+                  </Tooltip>
                 )}
                 <div className='relative'>
-                  <BaseIconButton
-                    name='brain'
-                    className='max-w-none w-14'
-                    variant='outlined'
-                    color='deep-purple'
-                    loading={wishListLoading}
-                    disabled={!wishListLoading && disabled}
-                    iconProps={addWishListIconProps}
-                    onClick={onToggleToWishList}
-                  />
+                  <Tooltip content='add to wish list'>
+                    <BaseIconButton
+                      name='brain'
+                      aria-label='add to wish list'
+                      className='max-w-none w-14'
+                      variant='outlined'
+                      color='deep-purple'
+                      loading={wishListLoading}
+                      disabled={!wishListLoading && disabled}
+                      iconProps={addWishListIconProps}
+                      onClick={onToggleToWishList}
+                    />
+                  </Tooltip>
                   {isWishListed && (
                     <div className='absolute -top-1.5 -right-1 p-1 bg-green-500 rounded-full'>
                       <BaseIcon

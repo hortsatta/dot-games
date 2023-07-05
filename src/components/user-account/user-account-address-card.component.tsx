@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useCallback, useMemo, useState } from 'react';
-import { Card, CardBody } from '@material-tailwind/react';
+import { Card, CardBody, Tooltip } from '@material-tailwind/react';
 import { cx } from 'classix';
 
 import BaseDivider from '../base/base-divider.component';
@@ -80,23 +80,29 @@ const UserAccountAddressCard = memo(function UserAccountAddressCard({
             />
           )}
           {!!onSetDefault && !address.isDefault && (
-            <BaseIconButton
-              name='map-pin-line'
-              variant='text'
-              loading={loading}
-              disabled={!loading && disabled}
-              iconProps={iconProps}
-              onClick={handleSetDefaultAddress}
-            />
+            <Tooltip content='set as default'>
+              <BaseIconButton
+                name='map-pin-line'
+                aria-label='set as default address'
+                variant='text'
+                loading={loading}
+                disabled={!loading && disabled}
+                iconProps={iconProps}
+                onClick={handleSetDefaultAddress}
+              />
+            </Tooltip>
           )}
           {!!onEdit && (
-            <BaseIconButton
-              name='pencil-simple'
-              variant='text'
-              disabled={disabled}
-              iconProps={iconProps}
-              onClick={onEdit}
-            />
+            <Tooltip content='edit'>
+              <BaseIconButton
+                name='pencil-simple'
+                aria-label='edit address'
+                variant='text'
+                disabled={disabled}
+                iconProps={iconProps}
+                onClick={onEdit}
+              />
+            </Tooltip>
           )}
         </div>
         <div className={WRAPPER_CLASSNAME}>

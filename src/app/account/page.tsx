@@ -2,6 +2,7 @@
 
 import { useCallback } from 'react';
 
+import { useOrders } from '#/hooks/use-order.hook';
 import { useBoundStore } from '#/hooks/use-store.hook';
 import { useAddress } from '#/hooks/use-address.hook';
 import { useCurrentUserAccount } from '#/hooks/use-current-user-account.hook';
@@ -12,6 +13,7 @@ import AuthSignInCard from '#/components/auth/auth-sign-in-card.component';
 import UserAccountAvatarSelector from '#/components/user-account/user-account-avatar-selector.component';
 import UserAccountUpdateForm from '#/components/user-account/user-account-update-form.component';
 import UserAccountAddressList from '#/components/user-account/user-account-address-list.component';
+import OrderList from '#/components/order/order-list.component';
 
 const AccountPage = () => {
   const setShowLogin = useBoundStore((state) => state.setShowLogin);
@@ -29,6 +31,8 @@ const AccountPage = () => {
     removeAddress,
     setDefaultAddress,
   } = useAddress();
+
+  const { initialLoading: ordersInitialLoading, orders } = useOrders();
 
   const handleSignIn = useCallback(() => {
     setShowLogin(true);
@@ -49,7 +53,7 @@ const AccountPage = () => {
       ) : (
         <div className='py-8'>
           <div className='pb-8'>
-            <BaseSceneTitle>User Account</BaseSceneTitle>
+            <BaseSceneTitle className='mb-3'>User Account</BaseSceneTitle>
             <div className='flex items-center'>
               <UserAccountAvatarSelector
                 className='mr-4'
@@ -58,7 +62,7 @@ const AccountPage = () => {
               <UserAccountUpdateForm userAccount={currentUserAccount} />
             </div>
           </div>
-          <div>
+          <div className='pb-4'>
             <BaseSceneTitle className='mb-3'>Address List</BaseSceneTitle>
             {addressInitialLoading ? (
               <div className='w-full flex justify-center'>
@@ -75,6 +79,16 @@ const AccountPage = () => {
                 onRemoveAddress={removeAddress}
                 onSetDefaultAddress={setDefaultAddress}
               />
+            )}
+          </div>
+          <div>
+            <BaseSceneTitle className='mb-3'>Your Orders</BaseSceneTitle>
+            {ordersInitialLoading ? (
+              <div className='w-full flex justify-center'>
+                <BaseSpinner className='my-4 w-10 h-10' />
+              </div>
+            ) : (
+              <OrderList orders={orders} />
             )}
           </div>
         </div>

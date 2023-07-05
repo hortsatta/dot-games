@@ -2,7 +2,7 @@ import camelcaseKeys from 'camelcase-keys';
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '#/types/database.type';
-import type { Order } from '#/types/order.type';
+import type { Order, OrderSummary } from '#/types/order.type';
 
 export async function getOrderById(
   supabase: SupabaseClient<Database>,
@@ -27,12 +27,12 @@ export async function getOrderById(
 
 export async function getOrdersByUserId(
   supabase: SupabaseClient<Database>,
-  userId: number,
-): Promise<Order[]> {
+  userId: string,
+): Promise<OrderSummary[]> {
   try {
     const { data, error } = await supabase
       .from('order')
-      .select()
+      .select('id,date,order_items,total_amount,status')
       .eq('user_id', userId)
       .order('date', { ascending: false });
 
@@ -40,7 +40,16 @@ export async function getOrdersByUserId(
       return [];
     }
 
-    return data.map((item) => camelcaseKeys(item)) as Order[];
+    const orders = data.map(({ order_items, ...moreData }) => {
+      const itemCount =
+        order_items?.reduce(
+          (total: number, current: any) => total + current.quantity,
+          0,
+        ) || 0;
+      return camelcaseKeys({ itemCount, ...moreData });
+    }) as OrderSummary[];
+
+    return orders;
   } catch (error) {
     return [];
   }

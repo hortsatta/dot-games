@@ -22,6 +22,14 @@ export type Order = Omit<BaseColumns, 'isActive'> & {
   status?: number;
 };
 
+export type OrderSummary = {
+  id: number;
+  itemCount: number;
+  totalAmount: number;
+  date?: string;
+  status?: number;
+};
+
 export type OrderDb = {
   Row: {
     id: number;

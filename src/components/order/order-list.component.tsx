@@ -64,7 +64,7 @@ const OrderList = memo(function OrderList({
                     const isLast = index === orders.length - 1;
                     const className = isLast
                       ? 'py-4 px-6'
-                      : 'py-4 px-6 border-b border-blue-gray-50';
+                      : 'py-4 px-6 border-b border-current-dark/10';
 
                     return (
                       <tr key={id}>

@@ -1,4 +1,20 @@
 [
-  { "label": "Home", "to": "/", "icon": "game-controller" },
-  { "label": "User Account", "to": "/account", "icon": "skull" }
+  {
+    "label": "Home",
+    "to": "/",
+    "icon": "game-controller",
+    "isExternal": false
+  },
+  {
+    "label": "User Account",
+    "to": "/account",
+    "icon": "skull",
+    "isExternal": false
+  },
+  {
+    "label": "Github",
+    "to": "/about",
+    "icon": "github-logo",
+    "isExternal": false
+  }
 ]

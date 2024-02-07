@@ -209,7 +209,7 @@ const GameProductCardInfo = memo(function GameProductCardInfo({
             </a>
           </div>
           <BaseDivider className='!mt-0.5 !mb-0 opacity-50' />
-          <div className='my-1.5 h-6 w-full bg-line-pattern opacity-50' />
+          <div className='my-1.5 h-6 w-full bg-line-pattern opacity-50 bg-contain' />
           <BaseDivider className='!mt-0 !mb-2 opacity-50' />
           <div className='flex justify-between items-center'>
             <div className='flex items-center'>

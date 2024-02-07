@@ -4,7 +4,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
-import { cx } from 'classix';
+import cx from 'classix';
 import { toast } from 'react-hot-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -73,7 +73,6 @@ const AuthSignUpForm = memo(function AuthSignUpForm({
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm({
-    shouldFocusError: false,
     defaultValues,
     resolver: zodResolver(schema),
   });

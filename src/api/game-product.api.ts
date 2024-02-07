@@ -67,18 +67,20 @@ async function getRawgGamesByGames(
         bgImage: background_image,
         bgImageAdditional: background_image_additional,
         website,
-        parentPlatforms: parent_platforms
-          .map(({ platform }: any) => platform.slug)
-          .filter((p: string) => p !== 'mac' && p !== 'linux'),
-        platforms: platforms.map(({ platform }: any) => ({
+        parentPlatforms: parent_platforms?.length
+          ? parent_platforms
+              .map(({ platform }: any) => platform.slug)
+              .filter((p: string) => p !== 'mac' && p !== 'linux')
+          : [],
+        platforms: platforms?.map(({ platform }: any) => ({
           slug: platform.slug,
           name: platform.name,
         })),
-        developers: developers.map(({ slug, name }: any) => ({
+        developers: developers?.map(({ slug, name }: any) => ({
           slug,
           name,
         })),
-        publishers: publishers.map(({ slug, name }: any) => ({
+        publishers: publishers?.map(({ slug, name }: any) => ({
           slug,
           name,
         })),
@@ -329,6 +331,7 @@ export async function getLatestReleasedGameProducts(
 
     return gameProducts;
   } catch (error) {
+    console.log('data', error);
     return [];
   }
 }
